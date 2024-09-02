@@ -1,0 +1,37 @@
+build/
+build-debug/
+build-release/
+build-sanitize-addr/
+build-sanitize-thread/
+build-cov/
+build-cublas/
+out/
+tmp/
+
+compile_commands.json
+CMakeSettings.json
+.vs/
+.vscode/
+.clangd
+
+.exrc
+.cache
+.DS_Store
+
+*.dot
+*.sw?
+
+__pycache__/
+
+# Model files
+*.pth
+*.bin
+*.gguf
+
+# AMD Compiler optimization for C/C++ or AOCC
+aocc-compiler-4.1.0/
+aocc-compiler-4.1.0_module
+setenv_AOCC.sh
+
+# ImageNet1k dataset
+tests/dataset

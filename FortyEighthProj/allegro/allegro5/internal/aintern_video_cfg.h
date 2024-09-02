@@ -1,0 +1,3 @@
+//#cmakedefine ALLEGRO_CFG_VIDEO_HAVE_OGV
+
+#undef ALLEGRO_CFG_VIDEO_HAVE_OGV

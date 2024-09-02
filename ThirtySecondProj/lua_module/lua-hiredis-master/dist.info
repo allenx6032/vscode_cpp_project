@@ -1,0 +1,14 @@
+--- This file is part of LuaDist project
+
+name = "redis"
+version = "0.2.1"
+
+desc = "Lua binding for hiredis (Redis-client library to the Redis database)."
+author = "Alexander Gladysh"
+license = "MIT"
+url = "https://github.com/agladysh/lua-hiredis"
+maintainer = "David Manura"
+
+depends = {
+        "lua ~> 5.1"
+}

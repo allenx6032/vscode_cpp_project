@@ -1,0 +1,22 @@
+#pragma once
+
+#include "guilite/api.h"
+#include "guilite/display.h"
+#include "guilite/image.h"
+#include "guilite/resource.h"
+#include "guilite/theme.h"
+#include "guilite/wnd.h"
+#include "guilite/word.h"
+
+#include "guilite/button.h"
+#include "guilite/dialog.h"
+#include "guilite/edit.h"
+#include "guilite/keyboard.h"
+#include "guilite/label.h"
+#include "guilite/list_box.h"
+#include "guilite/slide_group.h"
+#include "guilite/spinbox.h"
+#include "guilite/table.h"
+#include "guilite/wave_buffer.h"
+#include "guilite/wave_ctrl.h"
+#include "guilite/widgets.h"

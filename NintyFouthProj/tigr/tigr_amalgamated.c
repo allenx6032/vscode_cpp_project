@@ -1,0 +1,20 @@
+
+#include "tigr.h"
+
+#include "tigr_internal.h"
+#include "tigr_upscale_gl_vs.h"
+#include "tigr_upscale_gl_fs.h"
+
+#include "tigr_bitmaps.c.h"
+#include "tigr_loadpng.c.h"
+#include "tigr_savepng.c.h"
+#include "tigr_inflate.c.h"
+#include "tigr_print.c.h"
+#include "tigr_win.c.h"
+#include "tigr_osx.c.h"
+#include "tigr_ios.c.h"
+#include "tigr_android.h"
+#include "tigr_linux.c.h"
+#include "tigr_android.c.h"
+#include "tigr_gl.c.h"
+#include "tigr_utils.c.h"

@@ -1,0 +1,16 @@
+TODO:
+-----
+
+ -- hiredis.unwrap_reply should pass everything through without looking
+    if it is called with more than one argument,
+    so this would not lose an error:
+        hiredis.unwrap_reply(conn.command())
+ -- Document current API.
+ -- Run splint all over it.
+ -- Run under valgrind
+ -- Bind whole API.
+ -- Write better tests.
+ -- Add a luajit.ffi binding.
+ -- Do not leak reply object if Lua throws error during handling.
+ -- Double-check all Lua data stack manipulations.
+ -- Call luaL_checkstack() where appropriate.

@@ -1,0 +1,18 @@
+20240729 13:43:24.882/DEBUG OpenGL version: 4.6.0 NVIDIA 552.22
+20240729 13:43:24.882/DEBUG GL_VENDOR: NVIDIA Corporation
+20240729 13:43:24.882/DEBUG GL_RENDERER: NVIDIA GeForce GTX 1060 5GB/PCIe/SSE2
+20240729 13:43:24.882/DEBUG GLSL version: 4.60 NVIDIA
+20240729 13:43:24.882/ERROR FontManager::loadFont font file not exist! name: fzltxh_gbk.ttf
+20240729 13:43:24.882/ERROR FontManager::loadFont font file not exist! name: fzltxh_gbk.ttf
+20240729 13:43:24.882/ERROR AssetManager::loadAssetData read data failed!
+20240729 13:43:24.882/ERROR Shader::compileShader loadAssetData failed!
+20240729 13:43:24.882/ERROR Program load shader failed: "shader/texture.vs"
+20240729 13:43:24.882/ERROR SpriteBatch initialize load Program failed
+20240729 13:43:24.883/INFO SceneManager::addScene: Adding scene
+20240729 13:43:24.883/INFO Scene 4717074700793020416 is now Active
+20240729 13:43:24.883/ERROR AssetManager::loadAssetData read data failed!
+20240729 13:43:24.883/ERROR Texture2D::load loadAssetData failed!
+20240729 13:43:24.883/ERROR TextureManager::loadTexture texture load failed! path: image/bg.png
+20240729 13:43:24.883/ERROR UIImage::setTexture error: texture(image/bg.png) load failed!
+20240729 13:43:24.883/ERROR UIFactory::createImage error: texture(image/bg.png) load failed!
+20240729 13:43:24.883/WARN UIFactory::createImage: create image failed!

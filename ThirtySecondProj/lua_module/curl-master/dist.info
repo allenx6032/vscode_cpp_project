@@ -1,0 +1,13 @@
+name="curl"
+version="7.21.5"
+
+desc="Curl is a command line tool for transferring data specified with URL syntax and provides libcurl interface for other applications"
+url="http://curl.haxx.se/"
+author="Daniel Stenberg"
+maintainer="David Manura, Peter Drahos"
+license="MIT"
+
+depends = {
+	"zlib >= 1.2",
+	"openssl >= 1.0.0",
+}

@@ -1,0 +1,773 @@
+﻿// stdafx.h : include file for standard system include files,
+// or project specific include files that are used frequently, but
+// are changed infrequently
+//
+
+#pragma once
+
+#ifdef WIN32
+
+// Modify the following defines if you have to target a platform prior to the ones specified below.
+// Refer to MSDN for the latest info on corresponding values for different platforms.
+#ifndef WINVER				// Allow use of features specific to Windows XP or later.
+#define WINVER 0x0603		// Change this to the appropriate value to target other versions of Windows.
+#endif
+
+#ifndef _WIN32_WINNT		// Allow use of features specific to Windows XP or later.                   
+#define _WIN32_WINNT 0x0603	// Change this to the appropriate value to target other versions of Windows.
+#endif						
+
+#ifndef _WIN32_WINDOWS		// Allow use of features specific to Windows 98 or later.
+#define _WIN32_WINDOWS 0x0510 // Change this to the appropriate value to target Windows Me or later.
+#endif
+
+#ifndef _WIN32_IE			// Allow use of features specific to IE 6.0 or later.
+#define _WIN32_IE 0x0A00	// Change this to the appropriate value to target other versions of IE.
+#endif
+
+#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+// Windows Header Files:
+
+#include <Winsock2.h>
+#include <Ws2tcpip.h>
+#include <mswsock.h>
+#include <windows.h>
+
+#endif
+
+// TODO: reference additional headers your program requires here
+#pragma warning(disable: 4996)
+#pragma warning(disable: 4311)
+#pragma warning(disable: 4312)
+#pragma warning(disable: 4244)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4819)
+#pragma warning(disable: 4313)
+#pragma warning(disable: 4251)
+
+#include <string>
+#include <exception>
+#include <assert.h>
+
+#ifdef __linux
+#include <sys/epoll.h>
+#endif
+#ifdef __APPLE__
+#include <sys/types.h>
+#include <sys/event.h>
+#include <sys/time.h>
+#endif
+#if defined(__linux) || defined(__APPLE__)
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#endif
+
+#include <iostream>
+#include "lua_kit.h"
+
+#include <algorithm>
+#include <assert.h>
+#include "socket_mgr.h"
+#include "socket_helper.h"
+#include "socket_stream.h"
+#include "socket_router.h"
+#include "fmt/core.h"
+
+#ifdef __linux
+static const int s_send_flag = MSG_NOSIGNAL;
+#endif
+
+#if defined(WIN32) || defined(__APPLE__)
+static const int s_send_flag = 0;
+#endif
+
+#ifdef WIN32
+socket_stream::socket_stream(socket_mgr* mgr, LPFN_CONNECTEX connect_func, eproto_type proto_type, elink_type link_type) :
+	m_link_type(link_type) {
+	mgr->increase_count();
+	m_proto_type = proto_type;
+	m_mgr = mgr;
+	m_connect_func = connect_func;
+	m_ip[0] = 0;
+
+	reset_dispatch_pkg(true);
+}
+#endif
+
+socket_stream::socket_stream(socket_mgr* mgr, eproto_type proto_type, elink_type link_type) :
+	m_link_type(link_type) {
+	mgr->increase_count();
+	m_proto_type = proto_type;
+	m_mgr = mgr;
+	m_ip[0] = 0;
+
+	reset_dispatch_pkg(true);
+}
+
+socket_stream::~socket_stream() {
+	if (m_socket != INVALID_SOCKET) {
+		m_mgr->unwatch(m_socket);
+		closesocket(m_socket);
+		m_socket = INVALID_SOCKET;
+	}
+	if (m_addr != nullptr) {
+		freeaddrinfo(m_addr);
+		m_addr = nullptr;
+	}
+	m_mgr->decrease_count();
+}
+
+bool socket_stream::get_remote_ip(std::string& ip) {
+	ip = m_ip;
+	return true;
+}
+
+bool socket_stream::accept_socket(socket_t fd, const char ip[]) {
+#ifdef WIN32
+	if (!wsa_recv_empty(fd, m_recv_ovl))
+		return false;
+	m_ovl_ref++;
+#endif
+
+	memcpy(m_ip, ip, INET6_ADDRSTRLEN);
+
+	m_socket = fd;
+	m_link_status = elink_status::link_connected;
+	m_last_recv_time = steady_ms();
+	return true;
+}
+
+void socket_stream::connect(const char node_name[], const char service_name[], int timeout) {
+	m_node_name = node_name;
+	m_service_name = service_name;
+	m_connecting_time = steady_ms() + timeout;
+}
+
+void socket_stream::close() {
+	if (m_socket == INVALID_SOCKET) {
+		m_link_status = elink_status::link_closed;
+		return;
+	}
+	shutdown(m_socket, SD_RECEIVE);
+	m_link_status = elink_status::link_colsing;
+}
+
+bool socket_stream::update(int64_t now,bool check_timeout) {
+	switch (m_link_status) {
+	case elink_status::link_closed: {
+#ifdef WIN32
+		if (m_ovl_ref > 0) return true;
+#endif
+		if (m_socket != INVALID_SOCKET) {
+			m_mgr->unwatch(m_socket);
+			closesocket(m_socket);
+			m_socket = INVALID_SOCKET;
+		}
+		return false;
+	}
+	case elink_status::link_colsing: {
+#ifdef WIN32
+		if (m_ovl_ref > 1) return true;
+#endif
+		if (m_send_buffer.empty()) {
+			m_link_status = elink_status::link_closed;
+		}
+		return true;
+	}
+	case elink_status::link_init: {
+		if (now > m_connecting_time) {
+			on_connect(false, "timeout");
+			return true;
+		}
+		try_connect();
+		return true;
+	}
+	default: {
+		if (check_timeout) {
+			if (m_timeout > 0 && now - m_last_recv_time > m_timeout) {
+				on_error(fmt::format("timeout:{}", m_timeout).c_str());
+				return true;
+			}
+			// 限流检测
+			if (eproto_type::proto_pb == m_proto_type) {
+				if (check_flow_ctrl(now)) {
+					on_error(fmt::format("trigger package:{} or bytes:{},escape_time:{} flowctrl line,will be closed", m_fc_package, m_fc_bytes, now - m_last_fc_time).c_str());
+					return true;
+				}
+			}
+		}
+		dispatch_package(true);
+	}
+	}
+	return true;
+}
+
+#ifdef WIN32
+static bool bind_any(socket_t s) {
+	struct sockaddr_in6 v6addr;
+
+	memset(&v6addr, 0, sizeof(v6addr));
+	v6addr.sin6_family = AF_INET6;
+	v6addr.sin6_addr = in6addr_any;
+	v6addr.sin6_port = 0;
+	auto ret = ::bind(s, (sockaddr*)&v6addr, (int)sizeof(v6addr));
+	if (ret != SOCKET_ERROR)
+		return true;
+
+	struct sockaddr_in v4addr;
+	memset(&v4addr, 0, sizeof(v4addr));
+	v4addr.sin_family = AF_INET;
+	v4addr.sin_addr.s_addr = INADDR_ANY;
+	v4addr.sin_port = 0;
+
+	ret = ::bind(s, (sockaddr*)&v4addr, (int)sizeof(v4addr));
+	return ret != SOCKET_ERROR;
+}
+
+bool socket_stream::do_connect() {
+	if (!bind_any(m_socket)) {
+		on_connect(false, "bind-failed");
+		return false;
+	}
+
+	if (!m_mgr->watch_connecting(m_socket, this)) {
+		on_connect(false, "watch-failed");
+		return false;
+	}
+
+	memset(&m_send_ovl, 0, sizeof(m_send_ovl));
+	auto ret = (*m_connect_func)(m_socket, (SOCKADDR*)m_next->ai_addr, (int)m_next->ai_addrlen, nullptr, 0, nullptr, &m_send_ovl);
+	if (!ret) {
+		m_next = m_next->ai_next;
+		int err = get_socket_error();
+		if (err == ERROR_IO_PENDING) {
+			m_ovl_ref++;
+			return true;
+		}
+		m_link_status = elink_status::link_closed;
+		on_connect(false, "connect-failed");
+		return false;
+	}
+
+	if (!wsa_recv_empty(m_socket, m_recv_ovl)) {
+		on_connect(false, "connect-failed");
+		return false;
+	}
+
+	m_ovl_ref++;
+	on_connect(true, "ok");
+	return true;
+}
+#endif
+
+#if defined(__linux) || defined(__APPLE__)
+bool socket_stream::do_connect() {
+	while (true) {
+		auto ret = ::connect(m_socket, m_next->ai_addr, (int)m_next->ai_addrlen);
+		if (ret != SOCKET_ERROR) {
+			on_connect(true, "ok");
+			break;
+		}
+
+		int err = get_socket_error();
+		if (err == EINTR)
+			continue;
+
+		m_next = m_next->ai_next;
+		if (err != EINPROGRESS)
+			return false;
+
+		if (!m_mgr->watch_connecting(m_socket, this)) {
+			on_connect(false, "watch-failed");
+			return false;
+		}
+		break;
+	}
+	return true;
+}
+#endif
+
+void socket_stream::try_connect() {
+	if (m_addr == nullptr) {
+		addrinfo hints;
+		struct addrinfo* addr = nullptr;
+
+		memset(&hints, 0, sizeof hints);
+		hints.ai_family = AF_UNSPEC; // use AF_INET6 to force IPv6
+		hints.ai_socktype = SOCK_STREAM;
+
+		int ret = getaddrinfo(m_node_name.c_str(), m_service_name.c_str(), &hints, &addr);
+		if (ret != 0 || addr == nullptr) {
+			on_connect(false, "addr-error");
+			return;
+		}
+		m_addr = addr;
+		m_next = addr;
+	}
+
+	// socket connecting
+	if (m_socket != INVALID_SOCKET)
+		return;
+
+	while (m_next != nullptr && m_link_status == elink_status::link_init) {
+		if (m_next->ai_family != AF_INET && m_next->ai_family != AF_INET6) {
+			m_next = m_next->ai_next;
+			continue;
+		}
+		m_socket = socket(m_next->ai_family, m_next->ai_socktype, m_next->ai_protocol);
+		if (m_socket == INVALID_SOCKET) {
+			m_next = m_next->ai_next;
+			continue;
+		}
+		init_socket_option(m_socket);
+		get_ip_string(m_ip, sizeof(m_ip), m_next->ai_addr, m_next->ai_addrlen);
+
+		if (do_connect())
+			return;
+
+		if (m_socket != INVALID_SOCKET) {
+			closesocket(m_socket);
+			m_socket = INVALID_SOCKET;
+		}
+	}
+	on_connect(false, "connect-failed");
+}
+
+int socket_stream::send(const void* data, size_t data_len)
+{
+	if (m_link_status != elink_status::link_connected)
+		return 0;
+
+	return stream_send((char*)data, data_len);
+}
+
+int socket_stream::sendv(const sendv_item items[], int count)
+{
+	int send_len = 0;
+	if (m_link_status != elink_status::link_connected)
+		return send_len;
+
+	for (int i = 0; i < count; i++) {
+		auto item = items[i];
+		send_len += stream_send((char*)item.data, item.len);
+	}
+	return send_len;
+}
+
+int socket_stream::stream_send(const char* data, size_t data_len)
+{
+	int total_len = data_len;
+	if (m_link_status != elink_status::link_connected || data_len == 0)
+		return 0;
+
+	if (need_delay_send()) {//延迟发送
+		if (0 == m_send_buffer.push_data((const uint8_t*)data, data_len)) {
+			on_error(fmt::format("send-buffer-full:{},data:{},want:{}", m_send_buffer.capacity(), m_send_buffer.size(), data_len).c_str());
+			return 0;
+		}
+		if (m_send_buffer.size() > IO_BUFFER_SEND) {
+			do_send(UINT_MAX, false);
+		}
+	} else {
+		if (m_send_buffer.empty()) {
+			while (data_len > 0) {
+				int send_len = ::send(m_socket, data, (int)data_len, 0);
+				if (send_len == 0) {
+					on_error("connection-send-lost");
+					return 0;
+				}
+				if (send_len == SOCKET_ERROR) {
+					break;
+				}
+				data += send_len;
+				data_len -= send_len;
+			}
+			if (data_len == 0) {
+				return total_len;
+			}
+		}
+		if (0 == m_send_buffer.push_data((const uint8_t*)data, data_len)) {
+			on_error(fmt::format("send-buffer-full:{},data:{},want:{}", m_send_buffer.capacity(), m_send_buffer.size(), data_len).c_str());
+			return 0;
+		}
+	}
+
+#if WIN32
+	if (!wsa_send_empty(m_socket, m_send_ovl)) {
+		on_error("send-failed");
+		return 0;
+	}
+	m_ovl_ref++;
+#else
+	if (!m_mgr->watch_send(m_socket, this, true)) {
+		on_error("watch-error");
+		return 0;
+	}
+#endif
+	return total_len;
+}
+
+#ifdef WIN32
+void socket_stream::on_complete(WSAOVERLAPPED* ovl)
+{
+	m_ovl_ref--;
+	if (m_link_status == elink_status::link_closed)
+		return;
+
+	if (m_link_status != elink_status::link_init) {
+		if (ovl == &m_recv_ovl) {
+			do_recv(UINT_MAX, false);
+		}
+		else {
+			do_send(UINT_MAX, false);
+		}
+		return;
+	}
+
+	int seconds = 0;
+	socklen_t sock_len = (socklen_t)sizeof(seconds);
+	auto ret = getsockopt(m_socket, SOL_SOCKET, SO_CONNECT_TIME, (char*)&seconds, &sock_len);
+	if (ret == 0 && seconds != 0xffffffff) {
+		if (!wsa_recv_empty(m_socket, m_recv_ovl)) {
+			on_connect(false, "connect-failed");
+			return;
+		}
+		m_ovl_ref++;
+		on_connect(true, "ok");
+		return;
+	}
+
+	// socket连接失败,还可以继续dns解析的下一个地址继续尝试
+	closesocket(m_socket);
+	m_socket = INVALID_SOCKET;
+	if (m_next == nullptr) {
+		on_connect(false, "connect-failed");
+	}
+}
+#endif
+
+#if defined(__linux) || defined(__APPLE__)
+void socket_stream::on_can_send(size_t max_len, bool is_eof) {
+	if (m_link_status == elink_status::link_closed)
+		return;
+
+	if (m_link_status != elink_status::link_init) {
+		do_send(max_len, is_eof);
+		return;
+	}
+
+	int err = 0;
+	socklen_t sock_len = sizeof(err);
+	auto ret = getsockopt(m_socket, SOL_SOCKET, SO_ERROR, (char*)&err, &sock_len);
+	if (ret == 0 && err == 0 && !is_eof) {
+		if (!m_mgr->watch_connected(m_socket, this)) {
+			on_connect(false, "watch-error");
+			return;
+		}
+		on_connect(true, "ok");
+		return;
+	}
+
+	// socket连接失败,还可以继续dns解析的下一个地址继续尝试
+	m_mgr->unwatch(m_socket);
+	closesocket(m_socket);
+	m_socket = INVALID_SOCKET;
+	if (m_next == nullptr) {
+		on_connect(false, "connect-failed");
+	}
+}
+#endif
+
+void socket_stream::do_send(size_t max_len, bool is_eof) {
+	size_t total_send = 0;
+	while (total_send < max_len && (m_link_status != elink_status::link_closed)) {
+		size_t data_len = 0;
+		auto data = m_send_buffer.data(&data_len);
+		if (data_len == 0) {
+			if (!m_mgr->watch_send(m_socket, this, false)) {
+				on_error("do-watch-error");
+				return;
+			}
+			break;
+		}
+
+		size_t try_len = std::min<size_t>(data_len, max_len - total_send);
+		int send_len = ::send(m_socket, (char*)data, (int)try_len, s_send_flag);
+		if (send_len == SOCKET_ERROR) {
+			int err = get_socket_error();
+#ifdef WIN32
+			if (err == WSAEWOULDBLOCK) {
+				if (!wsa_send_empty(m_socket, m_send_ovl)) {
+					on_error("do-send-failed");
+					return;
+				}
+				m_ovl_ref++;
+				break;
+			}
+#endif
+
+#if defined(__linux) || defined(__APPLE__)
+			if (err == EINTR)
+				continue;
+
+			if (err == EAGAIN)
+				break;
+#endif
+			on_error("do-send-failed");
+			return;
+		}
+		if (send_len == 0) {
+			on_error("connection-lost-send-0");
+			return;
+		}
+		total_send += send_len;
+		m_send_buffer.pop_size((size_t)send_len);
+	}
+	if (is_eof || max_len == 0) {
+		on_error("connection-lost");
+	}
+}
+
+void socket_stream::do_recv(size_t max_len, bool is_eof)
+{
+	size_t total_recv = 0;
+	while (total_recv < max_len && m_link_status == elink_status::link_connected) {
+		auto* space = m_recv_buffer.peek_space(SOCKET_RECV_LEN);
+		if (space == nullptr) {
+			on_error(fmt::format("do-recv-buffer-full:{}", m_recv_buffer.size()).c_str());
+			return;
+		}
+		int recv_len = recv(m_socket, (char*)space, SOCKET_RECV_LEN, 0);
+		if (recv_len < 0) {
+			int err = get_socket_error();
+#ifdef WIN32
+			if (err == WSAEWOULDBLOCK) {
+				if (!wsa_recv_empty(m_socket, m_recv_ovl)) {
+					on_error(fmt::format("do-recv-failed:{}", err).c_str());
+					return;
+				}
+				m_ovl_ref++;
+				break;
+			}
+#endif
+#if defined(__linux) || defined(__APPLE__)
+			if (err == EINTR)
+				continue;
+
+			if (err == EAGAIN)
+				break;
+#endif
+			on_error(fmt::format("do-recv-failed:{}", err).c_str());
+			return;
+		}
+		if (recv_len == 0) {
+			on_error("connection-lost-recv-0");
+			return;
+		}
+		total_recv += recv_len;
+		m_recv_buffer.pop_space(recv_len);
+		dispatch_package(false);
+	}
+
+	if (is_eof || max_len == 0) {
+		on_error("connection-lost");
+	}
+}
+
+void socket_stream::dispatch_package(bool reset) {
+	if (reset) {
+		reset_dispatch_pkg(false);
+		if (!m_need_dispatch_pkg)return;
+	} else {
+		if (m_need_dispatch_pkg)return;
+	}
+	m_need_dispatch_pkg = false;
+	while (m_link_status == elink_status::link_connected) {
+		size_t data_len = 0;
+		int32_t package_size = 0;
+		auto* data = m_recv_buffer.data(&data_len);
+		if (data_len == 0) break;
+		switch (m_proto_type) {
+		case eproto_type::proto_rpc: {
+			// 检测握手
+			if (!m_handshake) {
+				auto ret = handshake_rpc(data, data_len);
+				if (ret < 0) {
+					on_error(fmt::format("handshake_rpc fail:{},ip:{}", ret,m_ip).c_str());
+				}
+				return;
+			}
+			size_t header_len = sizeof(router_header);
+			if(!m_recv_buffer.peek_data(header_len))return;
+			router_header* header = (router_header*)data;
+			// 当前包长小于headlen, 关闭连接
+			if (header->len < header_len) {
+				on_error(fmt::format("rpc package-length-err,ip:{}",m_ip).c_str());
+				return;
+			}
+			package_size = header->len;
+			if (data_len < package_size) break;
+			m_package_cb(m_recv_buffer.get_slice(package_size));
+			m_recv_buffer.pop_size(package_size);
+		}break;
+		case eproto_type::proto_pb:
+		case eproto_type::proto_text: {
+			if (m_codec) {
+				//解析数据包头长度
+				slice* slice = m_recv_buffer.get_slice();
+				m_codec->set_slice(slice);
+				package_size = m_codec->load_packet(data_len);
+				//当前包头长度解析失败, 关闭连接
+				if (package_size < 0) {
+					on_error(fmt::format("text package-length-err,ip:{}", m_ip).c_str());
+					return;
+				}
+				// 数据包还没有收完整
+				if (package_size == 0) return;
+				// 数据回调
+				slice->attach(data, package_size);
+				auto ret = m_package_cb(slice);
+				if (ret != 0) {
+					on_error(fmt::format("package process ret:{},ip:{}", ret, m_ip).c_str());
+					return;
+				}
+				// 数据包解析失败
+				if (m_codec->failed()) {
+					on_error(fmt::format("codec decode failed:{}", m_codec->err()).c_str());
+					return;
+				}
+				size_t read_size = m_codec->get_packet_len();
+				// 数据包还没有收完整
+				if (read_size == 0) {
+					std::cout << "read_size:" << package_size << std::endl;
+					return;
+				}
+				// 接收缓冲读游标调整
+				m_recv_buffer.pop_size(read_size);
+				// 限流
+				m_fc_package++;
+				m_fc_bytes += read_size;
+			} else {
+				package_size = data_len;
+				m_package_cb(m_recv_buffer.get_slice(package_size));
+				m_recv_buffer.pop_size(package_size);
+			}
+		}break;
+		default: 
+			on_error(fmt::format("proto-type-not-suppert!:{},ip:{}", (int)m_proto_type,m_ip).c_str());
+			return;
+		}
+		m_last_recv_time = steady_ms();		
+		// 防止单个连接处理太久
+		if ((m_last_recv_time - m_tick_dispatch_time) > max_process_time()) {
+			m_need_dispatch_pkg = true;
+			m_stock_count++;
+			if (m_stock_count > 10) {// 连续积压10次处理不完,断开链接
+				on_error(fmt::format("busy cann't process count:{},data_len:{}",m_stock_count,m_recv_buffer.size()).c_str());
+			}
+			break;
+		}
+	}
+	if (!m_need_dispatch_pkg) {
+		m_stock_count = 0;
+	}
+}
+
+int socket_stream::handshake_rpc(BYTE* data, size_t data_len) {
+	auto s_handshake_verify = m_mgr->get_handshake_verify();
+	if (data_len < s_handshake_verify.length()) {
+		return 1;
+	}
+	for (auto i = 0; i < s_handshake_verify.length(); ++i) {
+		if (data[i] != s_handshake_verify.at(i)) {
+			return -1;
+		}
+	}
+	m_recv_buffer.pop_size(s_handshake_verify.length());
+	m_last_recv_time = steady_ms();
+	m_handshake = true;
+	return 0;
+}
+
+void socket_stream::send_handshake_rpc() {
+	auto s_handshake_verify = m_mgr->get_handshake_verify();
+	if (eproto_type::proto_rpc == m_proto_type) {
+		stream_send(s_handshake_verify.c_str(), s_handshake_verify.length());
+	}
+}
+
+void socket_stream::on_error(const char err[]) {
+	if (m_link_status == elink_status::link_connected) {
+		// kqueue实现下,如果eof时不及时关闭或unwatch,则会触发很多次eof
+		if (m_socket != INVALID_SOCKET) {
+			m_mgr->unwatch(m_socket);
+			closesocket(m_socket);
+			m_socket = INVALID_SOCKET;
+		}
+		m_link_status = elink_status::link_closed;
+		m_error_cb(err);
+	}
+}
+
+void socket_stream::on_connect(bool ok, const char reason[]) {
+	m_next = nullptr;
+	if (m_addr != nullptr) {
+		freeaddrinfo(m_addr);
+		m_addr = nullptr;
+	}
+	if (m_link_status == elink_status::link_init) {
+		if (!ok) {
+			if (m_socket != INVALID_SOCKET) {
+				m_mgr->unwatch(m_socket);
+				closesocket(m_socket);
+				m_socket = INVALID_SOCKET;
+			}
+			m_link_status = elink_status::link_closed;
+		}
+		else {
+			m_link_status = elink_status::link_connected;
+			m_last_recv_time = steady_ms();
+			send_handshake_rpc();
+		}
+		m_connect_cb(ok, reason);
+	}
+}
+
+void socket_stream::reset_dispatch_pkg(bool init) {
+	m_tick_dispatch_time = steady_ms();
+}
+
+bool socket_stream::check_flow_ctrl(int64_t now) {
+	if (m_fc_ctrl_package < 1 || m_fc_ctrl_bytes < 1)return false;
+	auto escape_time = (now - m_last_fc_time)/1000;//秒
+	if (escape_time > 5) {
+		if ((m_fc_package / escape_time) > m_fc_ctrl_package || m_fc_bytes / escape_time > m_fc_ctrl_bytes) {
+			return true;
+		}
+		m_fc_package = 0;
+		m_fc_bytes = 0;
+		m_last_fc_time = now;
+	}	
+	return false;
+}
+
+//客户端延迟包发送
+bool socket_stream::need_delay_send() {
+#ifdef DELAY_SEND
+	if (eproto_type::proto_pb == m_proto_type || eproto_type::proto_rpc == m_proto_type) {
+		return true;
+	}
+#endif // DELAY_SEND
+	return false;
+}
+
+int64_t socket_stream::max_process_time() {
+	if (eproto_type::proto_pb == m_proto_type) {
+		return 10;
+	} else if (eproto_type::proto_text == m_proto_type) {
+		return 100;
+	}
+	return 50 + m_stock_count*20;
+}

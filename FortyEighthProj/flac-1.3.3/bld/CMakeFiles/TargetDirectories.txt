@@ -1,0 +1,7 @@
+D:/VscodiumZone/FortyEighthProj/flac-1.3.3/bld/CMakeFiles/FLAC.dir
+D:/VscodiumZone/FortyEighthProj/flac-1.3.3/bld/CMakeFiles/install/local.dir
+D:/VscodiumZone/FortyEighthProj/flac-1.3.3/bld/CMakeFiles/install.dir
+D:/VscodiumZone/FortyEighthProj/flac-1.3.3/bld/CMakeFiles/edit_cache.dir
+D:/VscodiumZone/FortyEighthProj/flac-1.3.3/bld/CMakeFiles/rebuild_cache.dir
+D:/VscodiumZone/FortyEighthProj/flac-1.3.3/bld/CMakeFiles/list_install_components.dir
+D:/VscodiumZone/FortyEighthProj/flac-1.3.3/bld/CMakeFiles/install/strip.dir

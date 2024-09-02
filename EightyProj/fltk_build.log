@@ -1,0 +1,853 @@
+>------ 已启动生成: 项目: fltkzlib, 配置: Debug Win32 ------
+2>------ 已启动生成: 项目: fltkjpeg, 配置: Debug Win32 ------
+2>  jcapimin.c
+1>  adler32.c
+1>  compress.c
+2>  jcapistd.c
+1>  crc32.c
+1>  deflate.c
+2>  jccoefct.c
+1>  gzclose.c
+2>  jccolor.c
+1>  gzlib.c
+2>  jcdctmgr.c
+1>  gzread.c
+2>  jchuff.c
+1>  gzwrite.c
+2>  jcinit.c
+1>  infback.c
+2>  jcmainct.c
+1>  inffast.c
+2>  jcmarker.c
+1>  inflate.c
+1>  inftrees.c
+2>  jcmaster.c
+1>  trees.c
+2>  jcomapi.c
+1>  uncompr.c
+1>  zutil.c
+2>  jcparam.c
+1>  正在生成代码...
+2>  jaricom.c
+2>  jcarith.c
+2>  jdarith.c
+2>  jcprepct.c
+2>  jcsample.c
+2>  jctrans.c
+1>  zlib.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\lib\fltkzlibd.lib
+3>------ 已启动生成: 项目: fltkpng, 配置: Debug Win32 ------
+2>  jdapimin.c
+2>  jdapistd.c
+2>  正在生成代码...
+3>  png.c
+2>  正在编译...
+2>  jdatadst.c
+2>  jdatasrc.c
+2>  jdcoefct.c
+2>  jdcolor.c
+2>  jddctmgr.c
+2>  jdhuff.c
+3>  pngerror.c
+2>  jdinput.c
+2>  jdmainct.c
+2>  jdmarker.c
+2>  jdmaster.c
+3>  pngget.c
+2>  jdmerge.c
+2>  jdpostct.c
+2>  jdsample.c
+2>  jdtrans.c
+3>  pngmem.c
+2>  jerror.c
+2>  jfdctflt.c
+2>  jfdctfst.c
+3>  pngpread.c
+2>  jfdctint.c
+2>  jidctflt.c
+2>  jidctfst.c
+3>  pngread.c
+2>  正在生成代码...
+2>  正在编译...
+2>  jidctint.c
+2>  jmemmgr.c
+3>  pngrio.c
+2>  jmemnobs.c
+2>  jquant1.c
+2>  jquant2.c
+2>  jutils.c
+3>  pngrtran.c
+2>  正在生成代码...
+3>  pngrutil.c
+2>  jpeg.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\lib\fltkjpegd.lib
+3>  pngset.c
+3>  pngtrans.c
+3>  pngwio.c
+3>  pngwrite.c
+3>  pngwtran.c
+3>  pngwutil.c
+3>  正在生成代码...
+3>  libpng.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\lib\fltkpngd.lib
+4>------ 已启动生成: 项目: fltk, 配置: Debug Win32 ------
+4>  已复制         1 个文件。
+4>  case.c
+4>  fl_call_main.c
+4>  fl_utf.c
+4>  flstring.c
+4>  is_right2left.c
+4>  is_spacing.c
+4>  numericsort.c
+4>  scandir.c
+4>  vsnprintf.c
+4>  正在生成代码...
+4>  filename_absolute.cxx
+4>  filename_expand.cxx
+4>  filename_ext.cxx
+4>  filename_isdir.cxx
+4>  filename_list.cxx
+4>  filename_match.cxx
+4>  filename_setext.cxx
+4>  Fl.cxx
+4>  Fl_abort.cxx
+4>  Fl_add_idle.cxx
+4>  Fl_Adjuster.cxx
+4>  fl_arc.cxx
+4>  fl_arci.cxx
+4>  Fl_arg.cxx
+4>  fl_ask.cxx
+4>  Fl_Bitmap.cxx
+4>  Fl_Box.cxx
+4>  fl_boxtype.cxx
+4>  Fl_Browser.cxx
+4>  Fl_Browser_.cxx
+4>  正在生成代码...
+4>  正在编译...
+4>  Fl_Browser_load.cxx
+4>  Fl_Button.cxx
+4>  Fl_Cairo.cxx
+4>  Fl_Chart.cxx
+4>  Fl_Check_Browser.cxx
+4>  Fl_Check_Button.cxx
+4>  Fl_Choice.cxx
+4>  Fl_Clock.cxx
+4>  fl_color.cxx
+4>  Fl_Color_Chooser.cxx
+4>  Fl_compose.cxx
+4>  Fl_Copy_Surface.cxx
+4>  Fl_Counter.cxx
+4>  fl_cursor.cxx
+4>  fl_curve.cxx
+4>  Fl_Device.cxx
+4>  Fl_Dial.cxx
+4>  fl_diamond_box.cxx
+4>  Fl_display.cxx
+4>  fl_dnd.cxx
+4>  正在生成代码...
+4>  正在编译...
+4>  Fl_Double_Window.cxx
+4>  fl_draw.cxx
+4>  fl_draw_image.cxx
+4>  fl_draw_pixmap.cxx
+4>  fl_engraved_label.cxx
+4>  Fl_File_Browser.cxx
+4>  Fl_File_Chooser.cxx
+4>  Fl_File_Chooser2.cxx
+4>  fl_file_dir.cxx
+4>  Fl_File_Icon.cxx
+4>  Fl_File_Input.cxx
+4>  fl_font.cxx
+4>  Fl_get_key.cxx
+4>  Fl_get_system_colors.cxx
+4>  Fl_grab.cxx
+4>  Fl_Group.cxx
+4>  fl_gtk.cxx
+4>  fl_gleam.cxx
+4>  Fl_Help_View.cxx
+4>  Fl_Image.cxx
+4>  正在生成代码...
+4>  正在编译...
+4>  Fl_Image_Surface.cxx
+4>  Fl_Input.cxx
+4>  Fl_Input_.cxx
+4>  fl_labeltype.cxx
+4>  Fl_Light_Button.cxx
+4>  fl_line_style.cxx
+4>  Fl_lock.cxx
+4>  Fl_Menu.cxx
+4>  Fl_Menu_.cxx
+4>  Fl_Menu_add.cxx
+4>  Fl_Menu_Bar.cxx
+4>  Fl_Menu_Button.cxx
+4>  Fl_Menu_global.cxx
+4>  Fl_Menu_Window.cxx
+4>  Fl_Multi_Label.cxx
+4>  Fl_Native_File_Chooser.cxx
+4>  fl_open_uri.cxx
+4>  fl_oval_box.cxx
+4>  fl_overlay.cxx
+4>  fl_overlay_visual.cxx
+4>  正在生成代码...
+4>  正在编译...
+4>  Fl_Overlay_Window.cxx
+4>  Fl_own_colormap.cxx
+4>  Fl_Pack.cxx
+4>  Fl_Paged_Device.cxx
+4>  Fl_Pixmap.cxx
+4>  fl_plastic.cxx
+4>  Fl_Positioner.cxx
+4>  Fl_PostScript.cxx
+4>D:\VscodiumZone\EightyProj\FLTK-Mirror-master\FL/Fl_PostScript.H : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+4>  Fl_Preferences.cxx
+4>  Fl_Printer.cxx
+4>  Fl_Progress.cxx
+4>  fl_read_image.cxx
+4>  fl_rect.cxx
+4>  Fl_Repeat_Button.cxx
+4>  Fl_Return_Button.cxx
+4>  Fl_Roller.cxx
+4>  fl_round_box.cxx
+4>  Fl_Round_Button.cxx
+4>  fl_rounded_box.cxx
+4>  Fl_Scroll.cxx
+4>  正在生成代码...
+4>  正在编译...
+4>  fl_scroll_area.cxx
+4>  Fl_Scrollbar.cxx
+4>  fl_set_font.cxx
+4>  fl_set_fonts.cxx
+4>  fl_shadow_box.cxx
+4>  Fl_Shared_Image.cxx
+4>  fl_shortcut.cxx
+4>  fl_show_colormap.cxx
+4>  Fl_Single_Window.cxx
+4>  Fl_Slider.cxx
+4>  fl_symbols.cxx
+4>  Fl_Table.cxx
+4>  Fl_Table_Row.cxx
+4>  Fl_Tabs.cxx
+4>  Fl_Text_Buffer.cxx
+4>  Fl_Text_Display.cxx
+4>  Fl_Text_Editor.cxx
+4>  Fl_Tile.cxx
+4>  Fl_Tiled_Image.cxx
+4>  Fl_Tooltip.cxx
+4>  正在生成代码...
+4>  正在编译...
+4>  Fl_Tree.cxx
+4>  Fl_Tree_Item.cxx
+4>  Fl_Tree_Item_Array.cxx
+4>  Fl_Tree_Prefs.cxx
+4>  fl_utf8.cxx
+4>  Fl_Valuator.cxx
+4>  Fl_Value_Input.cxx
+4>  Fl_Value_Output.cxx
+4>  Fl_Value_Slider.cxx
+4>  fl_vertex.cxx
+4>  Fl_visual.cxx
+4>  Fl_Widget.cxx
+4>  Fl_Window.cxx
+4>  Fl_Window_fullscreen.cxx
+4>  Fl_Window_hotspot.cxx
+4>  Fl_Window_iconize.cxx
+4>  Fl_Window_shape.cxx
+4>  Fl_Wizard.cxx
+4>  Fl_x.cxx
+4>  Fl_XBM_Image.cxx
+4>  正在生成代码...
+4>  正在编译...
+4>  Fl_XPM_Image.cxx
+4>  ps_image.cxx
+4>D:\VscodiumZone\EightyProj\FLTK-Mirror-master\FL/Fl_PostScript.H : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+4>  screen_xywh.cxx
+4>  正在生成代码...
+4>  fltk.lib.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\lib\fltkd.lib
+5>------ 已启动生成: 项目: fltkimages, 配置: Debug Win32 ------
+6>------ 已启动生成: 项目: fltkforms, 配置: Debug Win32 ------
+7>------ 已启动生成: 项目: fltkgl, 配置: Debug Win32 ------
+8>------ 已启动生成: 项目: ask, 配置: Debug Win32 ------
+9>------ 已启动生成: 项目: bitmap, 配置: Debug Win32 ------
+10>------ 已启动生成: 项目: boxtype, 配置: Debug Win32 ------
+11>------ 已启动生成: 项目: browser, 配置: Debug Win32 ------
+12>------ 已启动生成: 项目: button, 配置: Debug Win32 ------
+13>------ 已启动生成: 项目: buttons, 配置: Debug Win32 ------
+14>------ 已启动生成: 项目: clock, 配置: Debug Win32 ------
+15>------ 已启动生成: 项目: color_chooser, 配置: Debug Win32 ------
+16>------ 已启动生成: 项目: cursor, 配置: Debug Win32 ------
+5>  Fl_BMP_Image.cxx
+6>  forms_bitmap.cxx
+5>  Fl_File_Icon2.cxx
+6>  forms_compatability.cxx
+5>  Fl_GIF_Image.cxx
+7>  Fl_Gl_Choice.cxx
+8>  ask.cxx
+6>  forms_free.cxx
+9>  bitmap.cxx
+5>  Fl_Help_Dialog.cxx
+7>  Fl_Gl_Device_Plugin.cxx
+6>  forms_fselect.cxx
+11>  browser.cxx
+12>  button.cxx
+14>  clock.cxx
+10>  boxtype.cxx
+13>  buttons.cxx
+5>  fl_images_core.cxx
+7>  Fl_Gl_Overlay.cxx
+15>  color_chooser.cxx
+6>  forms_pixmap.cxx
+16>  cursor.cxx
+5>  Fl_JPEG_Image.cxx
+7>  Fl_Gl_Window.cxx
+5>  Fl_PNG_Image.cxx
+6>  forms_timer.cxx
+5>  Fl_PNM_Image.cxx
+8>  ask.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\askd.exe
+8>  ask.vcxproj -> .\ask_debug\askd.pdb (Full PDB)
+9>  bitmap.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\bitmapd.exe
+9>  bitmap.vcxproj -> .\bitmap_debug\bitmapd.pdb (Full PDB)
+14>  clock.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\clockd.exe
+14>  clock.vcxproj -> .\clock_debug\clockd.pdb (Full PDB)
+12>  button.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\buttond.exe
+12>  button.vcxproj -> .\button_debug\buttond.pdb (Full PDB)
+17>------ 已启动生成: 项目: curve, 配置: Debug Win32 ------
+18>------ 已启动生成: 项目: doublebuffer, 配置: Debug Win32 ------
+19>------ 已启动生成: 项目: fonts, 配置: Debug Win32 ------
+10>  boxtype.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\boxtyped.exe
+10>  boxtype.vcxproj -> .\boxtype_debug\boxtyped.pdb (Full PDB)
+13>  buttons.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\buttonsd.exe
+13>  buttons.vcxproj -> .\buttons_debug\buttonsd.pdb (Full PDB)
+11>  browser.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\browserd.exe
+11>  browser.vcxproj -> .\browser_debug\browserd.pdb (Full PDB)
+20>------ 已启动生成: 项目: hello, 配置: Debug Win32 ------
+5>  正在生成代码...
+7>  freeglut_geometry.cxx
+21>------ 已启动生成: 项目: iconize, 配置: Debug Win32 ------
+22>------ 已启动生成: 项目: image, 配置: Debug Win32 ------
+23>------ 已启动生成: 项目: input, 配置: Debug Win32 ------
+17>  curve.cxx
+18>  doublebuffer.cxx
+5>  fltkimages.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\lib\fltkimagesd.lib
+19>  fonts.cxx
+6>  正在生成代码...
+20>  hello.cxx
+22>  image.cxx
+23>  input.cxx
+21>  iconize.cxx
+15>  color_chooser.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\color_chooserd.exe
+15>  color_chooser.vcxproj -> .\color_chooser_debug\color_chooserd.pdb (Full PDB)
+24>------ 已启动生成: 项目: line_style, 配置: Debug Win32 ------
+7>  freeglut_stroke_mono_roman.cxx
+16>  cursor.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\cursord.exe
+16>  cursor.vcxproj -> .\cursor_debug\cursord.pdb (Full PDB)
+25>------ 已启动生成: 项目: menubar, 配置: Debug Win32 ------
+6>  fltkforms.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\lib\fltkformsd.lib
+24>  line_style.cxx
+25>  menubar.cxx
+25>..\..\test\menubar.cxx : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+7>  freeglut_stroke_roman.cxx
+20>  hello.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\hellod.exe
+20>  hello.vcxproj -> .\hello_debug\hellod.pdb (Full PDB)
+18>  doublebuffer.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\doublebufferd.exe
+18>  doublebuffer.vcxproj -> .\doublebuffer_debug\doublebufferd.pdb (Full PDB)
+19>  fonts.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\fontsd.exe
+19>  fonts.vcxproj -> .\fonts_debug\fontsd.pdb (Full PDB)
+26>------ 已启动生成: 项目: message, 配置: Debug Win32 ------
+27>------ 已启动生成: 项目: minimum, 配置: Debug Win32 ------
+28>------ 已启动生成: 项目: navigation, 配置: Debug Win32 ------
+7>  freeglut_teapot.cxx
+22>  image.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\imaged.exe
+21>  iconize.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\iconized.exe
+22>  image.vcxproj -> .\image_debug\imaged.pdb (Full PDB)
+21>  iconize.vcxproj -> .\iconize_debug\iconized.pdb (Full PDB)
+29>------ 已启动生成: 项目: overlay, 配置: Debug Win32 ------
+17>  curve.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\curved.exe
+30>------ 已启动生成: 项目: pack, 配置: Debug Win32 ------
+17>  curve.vcxproj -> .\curve_debug\curved.pdb (Full PDB)
+31>------ 已启动生成: 项目: pixmap, 配置: Debug Win32 ------
+26>  message.cxx
+27>  minimum.cxx
+28>  navigation.cxx
+29>  overlay.cxx
+31>  pixmap.cxx
+30>  pack.cxx
+24>  line_style.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\line_styled.exe
+24>  line_style.vcxproj -> .\line_style_debug\line_styled.pdb (Full PDB)
+32>------ 已启动生成: 项目: resizebox, 配置: Debug Win32 ------
+7>  gl_draw.cxx
+32>  resizebox.cxx
+25>  menubar.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\menubard.exe
+25>  menubar.vcxproj -> .\menubar_debug\menubard.pdb (Full PDB)
+33>------ 已启动生成: 项目: scroll, 配置: Debug Win32 ------
+33>  scroll.cxx
+23>  input.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\inputd.exe
+23>  input.vcxproj -> .\input_debug\inputd.pdb (Full PDB)
+34>------ 已启动生成: 项目: subwindow, 配置: Debug Win32 ------
+7>  gl_start.cxx
+34>  subwindow.cxx
+27>  minimum.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\minimumd.exe
+27>  minimum.vcxproj -> .\minimum_debug\minimumd.pdb (Full PDB)
+35>------ 已启动生成: 项目: symbols, 配置: Debug Win32 ------
+28>  navigation.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\navigationd.exe
+28>  navigation.vcxproj -> .\navigation_debug\navigationd.pdb (Full PDB)
+36>------ 已启动生成: 项目: threads, 配置: Debug Win32 ------
+35>  symbols.cxx
+36>  threads.cxx
+26>  message.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\messaged.exe
+26>  message.vcxproj -> .\message_debug\messaged.pdb (Full PDB)
+30>  pack.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\packd.exe
+29>  overlay.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\overlayd.exe
+30>  pack.vcxproj -> .\pack_debug\packd.pdb (Full PDB)
+29>  overlay.vcxproj -> .\overlay_debug\overlayd.pdb (Full PDB)
+37>------ 已启动生成: 项目: tile, 配置: Debug Win32 ------
+38>------ 已启动生成: 项目: tiled_image, 配置: Debug Win32 ------
+39>------ 已启动生成: 项目: checkers, 配置: Debug Win32 ------
+7>  glut_compatability.cxx
+37>  tile.cxx
+39>  checkers.cxx
+38>  tiled_image.cxx
+32>  resizebox.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\resizeboxd.exe
+32>  resizebox.vcxproj -> .\resizebox_debug\resizeboxd.pdb (Full PDB)
+40>------ 已启动生成: 项目: adjuster, 配置: Debug Win32 ------
+40>  adjuster.cxx
+7>  glut_font.cxx
+33>  scroll.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\scrolld.exe
+33>  scroll.vcxproj -> .\scroll_debug\scrolld.pdb (Full PDB)
+41>------ 已启动生成: 项目: arc, 配置: Debug Win32 ------
+31>  pixmap.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\pixmapd.exe
+31>  pixmap.vcxproj -> .\pixmap_debug\pixmapd.pdb (Full PDB)
+42>------ 已启动生成: 项目: input_choice, 配置: Debug Win32 ------
+41>  arc.cxx
+42>  input_choice.cxx
+43>------ 已启动生成: 项目: pixmap_browser, 配置: Debug Win32 ------
+35>  symbols.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\symbolsd.exe
+35>  symbols.vcxproj -> .\symbols_debug\symbolsd.pdb (Full PDB)
+44>------ 已启动生成: 项目: file_chooser, 配置: Debug Win32 ------
+7>  正在生成代码...
+45>------ 已启动生成: 项目: colbrowser, 配置: Debug Win32 ------
+44>  file_chooser.cxx
+43>  pixmap_browser.cxx
+45>  colbrowser.cxx
+36>  threads.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\threadsd.exe
+36>  threads.vcxproj -> .\threads_debug\threadsd.pdb (Full PDB)
+46>------ 已启动生成: 项目: forms, 配置: Debug Win32 ------
+37>  tile.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\tiled.exe
+37>  tile.vcxproj -> .\tile_debug\tiled.pdb (Full PDB)
+47>------ 已启动生成: 项目: help, 配置: Debug Win32 ------
+38>  tiled_image.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\tiled_imaged.exe
+34>  subwindow.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\subwindowd.exe
+38>  tiled_image.vcxproj -> .\tiled_image_debug\tiled_imaged.pdb (Full PDB)
+34>  subwindow.vcxproj -> .\subwindow_debug\subwindowd.pdb (Full PDB)
+48>------ 已启动生成: 项目: label, 配置: Debug Win32 ------
+49>------ 已启动生成: 项目: output, 配置: Debug Win32 ------
+46>  forms.cxx
+40>  adjuster.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\adjusterd.exe
+40>  adjuster.vcxproj -> .\adjuster_debug\adjusterd.pdb (Full PDB)
+50>------ 已启动生成: 项目: sudoku, 配置: Debug Win32 ------
+47>  help.cxx
+48>  label.cxx
+49>  output.cxx
+50>  sudoku.cxx
+42>  input_choice.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\input_choiced.exe
+42>  input_choice.vcxproj -> .\input_choice_debug\input_choiced.pdb (Full PDB)
+51>------ 已启动生成: 项目: utf8, 配置: Debug Win32 ------
+39>  checkers.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\checkersd.exe
+39>  checkers.vcxproj -> .\checkers_debug\checkersd.pdb (Full PDB)
+52>------ 已启动生成: 项目: table, 配置: Debug Win32 ------
+51>  utf8.cxx
+7>  fltkgl.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\lib\fltkgld.lib
+52>  table.cxx
+41>  arc.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\arcd.exe
+41>  arc.vcxproj -> .\arc_debug\arcd.pdb (Full PDB)
+53>------ 已启动生成: 项目: blocks, 配置: Debug Win32 ------
+44>  file_chooser.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\file_chooserd.exe
+44>  file_chooser.vcxproj -> .\file_chooser_debug\file_chooserd.pdb (Full PDB)
+43>  pixmap_browser.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\pixmap_browserd.exe
+43>  pixmap_browser.vcxproj -> .\pixmap_browser_debug\pixmap_browserd.pdb (Full PDB)
+53>  blocks.cxx
+47>  help.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\helpd.exe
+47>  help.vcxproj -> .\help_debug\helpd.pdb (Full PDB)
+50>  sudoku.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\sudokud.exe
+50>  sudoku.vcxproj -> .\sudoku_debug\sudokud.pdb (Full PDB)
+51>  utf8.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\utf8d.exe
+51>  utf8.vcxproj -> .\utf8_debug\utf8d.pdb (Full PDB)
+54>------ 已启动生成: 项目: rotated_text, 配置: Debug Win32 ------
+55>------ 已启动生成: 项目: fltkdll, 配置: Debug Win32 ------
+56>------ 已启动生成: 项目: device, 配置: Debug Win32 ------
+57>------ 已启动生成: 项目: native-filechooser, 配置: Debug Win32 ------
+58>------ 已启动生成: 项目: cairo_test, 配置: Debug Win32 ------
+52>  table.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\tabled.exe
+52>  table.vcxproj -> .\table_debug\tabled.pdb (Full PDB)
+54>  rotated_text.cxx
+59>------ 已启动生成: 项目: unittests, 配置: Debug Win32 ------
+57>  native-filechooser.cxx
+56>  device.cxx
+59>  unittests.cxx
+55>  case.c
+53>  blocks.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\blocksd.exe
+53>  blocks.vcxproj -> .\blocks_debug\blocksd.pdb (Full PDB)
+55>  fl_utf.c
+55>  is_right2left.c
+49>  output.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\outputd.exe
+49>  output.vcxproj -> .\output_debug\outputd.pdb (Full PDB)
+55>  is_spacing.c
+55>  正在生成代码...
+45>  colbrowser.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\colbrowserd.exe
+45>  colbrowser.vcxproj -> .\colbrowser_debug\colbrowserd.pdb (Full PDB)
+46>  forms.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\formsd.exe
+46>  forms.vcxproj -> .\forms_debug\formsd.pdb (Full PDB)
+55>  filename_absolute.cxx
+58>  cairo_test.cxx
+48>  label.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\labeld.exe
+48>  label.vcxproj -> .\label_debug\labeld.pdb (Full PDB)
+55>  filename_expand.cxx
+58>cairo_test.obj : warning LNK4075: 忽略“/EDITANDCONTINUE”(由于“/SAFESEH”规范)
+55>  filename_ext.cxx
+56>  device.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\deviced.exe
+56>  device.vcxproj -> .\device_debug\deviced.pdb (Full PDB)
+55>  filename_isdir.cxx
+55>  filename_list.cxx
+55>  filename_match.cxx
+58>  cairo_test.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\cairo_testd.exe
+54>  rotated_text.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\rotated_textd.exe
+58>  cairo_test.vcxproj -> .\cairo_test_debug\cairo_testd.pdb (Full PDB)
+54>  rotated_text.vcxproj -> .\rotated_text_debug\rotated_textd.pdb (Full PDB)
+55>  filename_setext.cxx
+57>  native-filechooser.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\native-filechooserd.exe
+57>  native-filechooser.vcxproj -> .\native-filechooser_debug\native-filechooserd.pdb (Full PDB)
+55>  Fl.cxx
+59>  unittests.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\unittestsd.exe
+59>  unittests.vcxproj -> .\unittests_debug\unittestsd.pdb (Full PDB)
+55>  Fl_abort.cxx
+55>  Fl_add_idle.cxx
+60>------ 已启动生成: 项目: cube, 配置: Debug Win32 ------
+61>------ 已启动生成: 项目: fractals, 配置: Debug Win32 ------
+62>------ 已启动生成: 项目: fullscreen, 配置: Debug Win32 ------
+63>------ 已启动生成: 项目: gl_overlay, 配置: Debug Win32 ------
+64>------ 已启动生成: 项目: glpuzzle, 配置: Debug Win32 ------
+65>------ 已启动生成: 项目: shape, 配置: Debug Win32 ------
+55>  Fl_Adjuster.cxx
+61>  fractals.cxx
+62>  fullscreen.cxx
+60>  cube.cxx
+64>  glpuzzle.cxx
+63>  gl_overlay.cxx
+65>  shape.cxx
+55>  fl_arc.cxx
+61>..\..\test\fractals.cxx(239): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+61>..\..\test\fractals.cxx(240): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+61>..\..\test\fractals.cxx(514): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+61>..\..\test\fractals.cxx(515): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+61>..\..\test\fractals.cxx(518): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+61>..\..\test\fractals.cxx(519): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+61>..\..\test\fractals.cxx(522): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+61>..\..\test\fractals.cxx(526): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+61>..\..\test\fractals.cxx(527): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+61>..\..\test\fractals.cxx(560): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+61>..\..\test\fractals.cxx(562): warning C4838: 从“double”转换到“GLfloat”需要收缩转换
+61>  fracviewer.cxx
+64>..\..\test\glpuzzle.cxx(107): warning C4838: 从“double”转换到“float”需要收缩转换
+64>..\..\test\glpuzzle.cxx(187): warning C4838: 从“double”转换到“float”需要收缩转换
+64>..\..\test\glpuzzle.cxx(217): warning C4838: 从“double”转换到“float”需要收缩转换
+64>..\..\test\glpuzzle.cxx(334): warning C4838: 从“double”转换到“float”需要收缩转换
+64>..\..\test\glpuzzle.cxx(1333): warning C4838: 从“double”转换到“float”需要收缩转换
+64>..\..\test\glpuzzle.cxx(1337): warning C4838: 从“double”转换到“float”需要收缩转换
+55>  fl_arci.cxx
+61>  正在生成代码...
+55>  Fl_arg.cxx
+62>  fullscreen.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\fullscreend.exe
+63>  gl_overlay.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\gl_overlayd.exe
+64>  glpuzzle.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\glpuzzled.exe
+65>  shape.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\shaped.exe
+62>  fullscreen.vcxproj -> .\fullscreen_debug\fullscreend.pdb (Full PDB)
+63>  gl_overlay.vcxproj -> .\gl_overlay_debug\gl_overlayd.pdb (Full PDB)
+64>  glpuzzle.vcxproj -> .\glpuzzle_debug\glpuzzled.pdb (Full PDB)
+65>  shape.vcxproj -> .\shape_debug\shaped.pdb (Full PDB)
+60>  cube.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\cubed.exe
+60>  cube.vcxproj -> .\cube_debug\cubed.pdb (Full PDB)
+55>  fl_ask.cxx
+61>  fractals.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\fractalsd.exe
+61>  fractals.vcxproj -> .\fractals_debug\fractalsd.pdb (Full PDB)
+55>  Fl_Bitmap.cxx
+55>  Fl_BMP_Image.cxx
+55>  Fl_Box.cxx
+55>  fl_boxtype.cxx
+55>  Fl_Browser.cxx
+55>  正在生成代码...
+55>  正在编译...
+55>  Fl_Browser_.cxx
+55>  Fl_Browser_load.cxx
+55>  Fl_Button.cxx
+55>  Fl_Chart.cxx
+55>  Fl_Check_Browser.cxx
+55>  Fl_Check_Button.cxx
+55>  Fl_Choice.cxx
+55>  Fl_Clock.cxx
+55>  fl_color.cxx
+55>  Fl_Color_Chooser.cxx
+55>  Fl_compose.cxx
+55>  Fl_Copy_Surface.cxx
+55>  Fl_Counter.cxx
+55>  fl_cursor.cxx
+55>  fl_curve.cxx
+55>  Fl_Dial.cxx
+55>  fl_diamond_box.cxx
+55>  Fl_display.cxx
+55>  fl_dnd.cxx
+55>  Fl_Double_Window.cxx
+55>  正在生成代码...
+55>  正在编译...
+55>  fl_draw.cxx
+55>  fl_draw_image.cxx
+55>  fl_draw_pixmap.cxx
+55>  fl_engraved_label.cxx
+55>  Fl_File_Browser.cxx
+55>  Fl_File_Chooser.cxx
+55>  Fl_File_Chooser2.cxx
+55>  fl_file_dir.cxx
+55>  Fl_File_Icon.cxx
+55>  Fl_File_Icon2.cxx
+55>  Fl_File_Input.cxx
+55>  fl_font.cxx
+55>  Fl_get_key.cxx
+55>  Fl_get_system_colors.cxx
+55>  Fl_GIF_Image.cxx
+55>  Fl_Gl_Choice.cxx
+55>  Fl_Gl_Overlay.cxx
+55>  Fl_Gl_Window.cxx
+55>  Fl_grab.cxx
+55>  Fl_Group.cxx
+55>  正在生成代码...
+55>  正在编译...
+55>  Fl_Help_Dialog.cxx
+55>  Fl_Help_View.cxx
+55>  Fl_Image.cxx
+55>  Fl_Image_Surface.cxx
+55>  fl_images_core.cxx
+55>  Fl_Input.cxx
+55>  Fl_Input_.cxx
+55>  Fl_JPEG_Image.cxx
+55>  fl_labeltype.cxx
+55>  Fl_Light_Button.cxx
+55>  fl_line_style.cxx
+55>  Fl_lock.cxx
+55>  Fl_Menu.cxx
+55>  Fl_Menu_.cxx
+55>  Fl_Menu_add.cxx
+55>  Fl_Menu_Bar.cxx
+55>  Fl_Menu_Button.cxx
+55>  Fl_Menu_global.cxx
+55>  Fl_Menu_Window.cxx
+55>  Fl_Multi_Label.cxx
+55>  正在生成代码...
+55>  正在编译...
+55>  fl_oval_box.cxx
+55>  fl_overlay.cxx
+55>  fl_overlay_visual.cxx
+55>  Fl_Overlay_Window.cxx
+55>  Fl_own_colormap.cxx
+55>  Fl_Pack.cxx
+55>  Fl_Paged_Device.cxx
+55>  Fl_Pixmap.cxx
+55>  fl_plastic.cxx
+55>  Fl_PNG_Image.cxx
+55>  Fl_PNM_Image.cxx
+55>  Fl_Positioner.cxx
+55>  Fl_PostScript.cxx
+55>D:\VscodiumZone\EightyProj\FLTK-Mirror-master\FL/Fl_PostScript.H : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+55>  Fl_Preferences.cxx
+55>  Fl_Progress.cxx
+55>  fl_rect.cxx
+55>  Fl_Repeat_Button.cxx
+55>  Fl_Return_Button.cxx
+55>  Fl_Roller.cxx
+55>  fl_round_box.cxx
+55>  正在生成代码...
+55>  正在编译...
+55>  Fl_Round_Button.cxx
+55>  fl_rounded_box.cxx
+55>  Fl_Scroll.cxx
+55>  fl_scroll_area.cxx
+55>  Fl_Scrollbar.cxx
+55>  fl_set_font.cxx
+55>  fl_set_fonts.cxx
+55>  fl_shadow_box.cxx
+55>  Fl_Shared_Image.cxx
+55>  fl_shortcut.cxx
+55>  fl_show_colormap.cxx
+55>  Fl_Single_Window.cxx
+55>  Fl_Slider.cxx
+55>  fl_symbols.cxx
+55>  Fl_Table.cxx
+55>  Fl_Table_Row.cxx
+55>  Fl_Tabs.cxx
+55>  Fl_Text_Buffer.cxx
+55>  Fl_Text_Display.cxx
+55>  Fl_Text_Editor.cxx
+55>  正在生成代码...
+55>  正在编译...
+55>  Fl_Tile.cxx
+55>  Fl_Tiled_Image.cxx
+55>  Fl_Tooltip.cxx
+55>  Fl_Tree.cxx
+55>  Fl_Tree_Item.cxx
+55>  Fl_Tree_Item_Array.cxx
+55>  Fl_Tree_Prefs.cxx
+55>  Fl_Valuator.cxx
+55>  Fl_Value_Input.cxx
+55>  Fl_Value_Output.cxx
+55>  Fl_Value_Slider.cxx
+55>  fl_vertex.cxx
+55>  Fl_visual.cxx
+55>  Fl_Widget.cxx
+55>  Fl_Window.cxx
+55>  Fl_Window_fullscreen.cxx
+55>  Fl_Window_hotspot.cxx
+55>  Fl_Window_iconize.cxx
+55>  Fl_Window_shape.cxx
+55>  Fl_Wizard.cxx
+55>  正在生成代码...
+55>  正在编译...
+55>  Fl_x.cxx
+55>  Fl_XBM_Image.cxx
+55>  Fl_XPM_Image.cxx
+55>  forms_bitmap.cxx
+55>  forms_compatability.cxx
+55>  forms_free.cxx
+55>  forms_fselect.cxx
+55>  forms_pixmap.cxx
+55>  forms_timer.cxx
+55>  gl_draw.cxx
+55>  gl_start.cxx
+55>  glut_compatability.cxx
+55>  glut_font.cxx
+55>  screen_xywh.cxx
+55>  正在生成代码...
+55>  Fl_Cairo.cxx
+55>  Fl_Device.cxx
+55>  Fl_Gl_Device_Plugin.cxx
+55>  fl_gtk.cxx
+55>  fl_gleam.cxx
+55>  Fl_Native_File_Chooser.cxx
+55>  fl_open_uri.cxx
+55>  Fl_Printer.cxx
+55>  fl_read_image.cxx
+55>  fl_utf8.cxx
+55>  freeglut_geometry.cxx
+55>  freeglut_stroke_mono_roman.cxx
+55>  freeglut_stroke_roman.cxx
+55>  freeglut_teapot.cxx
+55>  ps_image.cxx
+55>D:\VscodiumZone\EightyProj\FLTK-Mirror-master\FL/Fl_PostScript.H : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+55>  正在生成代码...
+55>  flstring.c
+55>  numericsort.c
+55>  scandir.c
+55>  vsnprintf.c
+55>  正在生成代码...
+55>    正在创建库 ../../test/fltkdlld.lib 和对象 ../../test/fltkdlld.exp
+55>  fltkdll.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\fltkdlld.dll
+55>  fltkdll.vcxproj -> fltkdlld.pdb (Full PDB)
+66>------ 已启动生成: 项目: fluid, 配置: Debug Win32 ------
+67>------ 已启动生成: 项目: editor, 配置: Debug Win32 ------
+67>  editor.cxx
+66>  about_panel.cxx
+66>  align_widget.cxx
+66>  alignment_panel.cxx
+66>  code.cxx
+67>  editor.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\editord.exe
+67>  editor.vcxproj -> .\editor_debug\editord.pdb (Full PDB)
+66>  CodeEditor.cxx
+66>  ExternalCodeEditor_WIN32.cxx
+66>  factory.cxx
+66>  file.cxx
+66>  Fl_Function_Type.cxx
+66>  Fl_Group_Type.cxx
+66>  Fl_Menu_Type.cxx
+66>  Fl_Type.cxx
+66>  Fl_Widget_Type.cxx
+66>  Fl_Window_Type.cxx
+66>  fluid.cxx
+66>  Fluid_Image.cxx
+66>  function_panel.cxx
+66>  template_panel.cxx
+66>  undo.cxx
+66>  widget_panel.cxx
+66>  正在生成代码...
+66>  fluid.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\fluid\fluidd.exe
+66>  fluid.vcxproj -> .\fluid_debug\fluidd.pdb (Full PDB)
+68>------ 已启动生成: 项目: CubeView, 配置: Debug Win32 ------
+69>------ 已启动生成: 项目: fast_slow, 配置: Debug Win32 ------
+70>------ 已启动生成: 项目: inactive, 配置: Debug Win32 ------
+71>------ 已启动生成: 项目: keyboard, 配置: Debug Win32 ------
+72>------ 已启动生成: 项目: mandelbrot, 配置: Debug Win32 ------
+73>------ 已启动生成: 项目: preferences, 配置: Debug Win32 ------
+74>------ 已启动生成: 项目: radio, 配置: Debug Win32 ------
+75>------ 已启动生成: 项目: resize, 配置: Debug Win32 ------
+76>------ 已启动生成: 项目: tabs, 配置: Debug Win32 ------
+77>------ 已启动生成: 项目: valuators, 配置: Debug Win32 ------
+78>------ 已启动生成: 项目: tree, 配置: Debug Win32 ------
+68>  Create .cxx and .h file with fluidd
+68>  Compiling fluid files ...
+70>  Create .cxx and .h file with fluidd
+70>  Compiling fluid files ...
+69>  Create .cxx and .h file with fluidd
+73>  Create .cxx and .h file with fluidd
+69>  Compiling fluid files ...
+73>  Compiling fluid files ...
+71>  Create .cxx and .h file with fluidd
+71>  Compiling fluid files ...
+72>  Create .cxx and .h file with fluidd
+72>  Compiling fluid files ...
+75>  Create .cxx and .h file with fluidd
+75>  Compiling fluid files ...
+76>  Create .cxx and .h file with fluidd
+76>  Compiling fluid files ...
+77>  Create .cxx and .h file with fluidd
+74>  Create .cxx and .h file with fluidd
+78>  Create tree.cxx and tree.h file with fluid
+77>  Compiling fluid files ...
+74>  Compiling fluid files ...
+78>  Compiling fluid files ...
+69>  fast_slow.cxx
+68>  CubeMain.cxx
+70>  inactive.cxx
+72>  mandelbrot.cxx
+76>  tabs.cxx
+74>  radio.cxx
+77>  valuators.cxx
+75>  resize.cxx
+78>  tree.cxx
+73>  preferences.cxx
+71>  keyboard.cxx
+68>  CubeView.cxx
+72>  mandelbrot_ui.cxx
+68>  CubeViewUI.cxx
+71>  keyboard_ui.cxx
+72>  正在生成代码...
+69>  fast_slow.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\fast_slowd.exe
+69>  fast_slow.vcxproj -> .\fast_slow_debug\fast_slowd.pdb (Full PDB)
+76>  tabs.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\tabsd.exe
+76>  tabs.vcxproj -> .\tabs_debug\tabsd.pdb (Full PDB)
+68>  正在生成代码...
+71>  正在生成代码...
+74>  radio.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\radiod.exe
+70>  inactive.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\inactived.exe
+70>  inactive.vcxproj -> .\inactive_debug\inactived.pdb (Full PDB)
+74>  radio.vcxproj -> .\radio_debug\radiod.pdb (Full PDB)
+77>  valuators.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\valuatorsd.exe
+75>  resize.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\resized.exe
+77>  valuators.vcxproj -> .\valuators_debug\valuatorsd.pdb (Full PDB)
+75>  resize.vcxproj -> .\resize_debug\resized.pdb (Full PDB)
+73>  preferences.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\preferencesd.exe
+73>  preferences.vcxproj -> .\preferences_debug\preferencesd.pdb (Full PDB)
+78>  tree.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\treed.exe
+78>  tree.vcxproj -> .\tree_debug\treed.pdb (Full PDB)
+72>  mandelbrot.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\mandelbrotd.exe
+72>  mandelbrot.vcxproj -> .\mandelbrot_debug\mandelbrotd.pdb (Full PDB)
+71>  keyboard.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\keyboardd.exe
+68>  CubeView.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\CubeViewd.exe
+71>  keyboard.vcxproj -> .\keyboard_debug\keyboardd.pdb (Full PDB)
+68>  CubeView.vcxproj -> .\CubeView_debug\CubeViewd.pdb (Full PDB)
+79>------ 已启动生成: 项目: demo, 配置: Debug Win32 ------
+79>  demo.cxx
+79>  demo.vcxproj -> D:\VscodiumZone\EightyProj\FLTK-Mirror-master\ide\VisualC2010\..\..\test\demod.exe
+79>  demo.vcxproj -> .\demo_debug\demod.pdb (Full PDB)
+========== 生成: 成功 79 个，失败 0 个，最新 0 个，跳过 0 个 ==========

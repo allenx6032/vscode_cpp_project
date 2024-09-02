@@ -1,0 +1,6 @@
+Info,  T0: Load models-nonbsd/dwarf.x
+Error, T0: Unable to open file "models-nonbsd/dwarf.x".
+Info,  T0: Load models-nonbsd/dwarf.x
+Error, T0: Unable to open file "models-nonbsd/dwarf.x".
+Info,  T0: Load models/Testwuson.X
+Error, T0: Unable to open file "models/Testwuson.X".

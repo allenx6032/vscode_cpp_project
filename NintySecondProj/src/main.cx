@@ -1,0 +1,8 @@
+#include "delaunay.h"
+#define MAX_POINTS		512*1024
+
+int main()
+{
+	
+	return 0;
+}

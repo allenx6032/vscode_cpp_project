@@ -1,0 +1,9 @@
+main.dSYM
+*.bin
+
+*.o
+*.pt
+.vscode/
+
+build/
+weights/
