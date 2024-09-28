@@ -7,7 +7,7 @@
 CC = gcc
 
 # define any compile-time flags
-CFLAGS	:= -Wall -DLUA_BUILD_AS_DLL -DTARGET_HOST_MS_WINDOWS -DFREEGLUT_EXPORTS -DLUA_COMPAT_5_1 -DLUA_COMPAT_5_2 -g
+CFLAGS	:= -w -DLUA_BUILD_AS_DLL -DTARGET_HOST_MS_WINDOWS -DFREEGLUT_EXPORTS -DLUA_COMPAT_5_1 -DLUA_COMPAT_5_2 -g
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
@@ -32,7 +32,10 @@ SOURCEDIRS	:= $(SRC)
 INCLUDEDIRS	:= $(INCLUDE)
 LIBDIRS		:= $(LIB)
 FIXPATH = $(subst /,\,$1)
-RM			:= del /q /f
+# RM			:= del /q /f /s
+# RM			:=rd /s /q 
+# RM			:= del /Q /F
+RM			:=rm -rf 
 MD	:= mkdir
 else
 MAIN	:= main
@@ -89,9 +92,9 @@ $(MAIN): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	$(RM) $(OUTPUTMAIN)
 	$(RM) $(call FIXPATH,$(OBJECTS))
 	$(RM) $(call FIXPATH,$(DEPS))
+	$(RM) $(OUTPUTMAIN)
 	@echo Cleanup complete!
 
 run: all

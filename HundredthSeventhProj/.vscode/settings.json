@@ -105,6 +105,23 @@
     "moonglfw_compat-5.3.h": "c",
     "moonglfw_vulkan.h": "c",
     "moonglfw_structs.h": "c",
-    "*.rh": "cpp"
+    "*.rh": "cpp",
+    "curl_system.h": "c",
+    "curl_multi.h": "c",
+    "curl_printf.h": "c",
+    "curl_memory.h": "c",
+    "curl_mprintf.h": "c",
+    "curl_strcase.h": "c",
+    "share.h": "c",
+    "curl_threads.h": "c",
+    "curl_connect.h": "c",
+    "curl_multiif.h": "c",
+    "curl_conncache.h": "c",
+    "curl_sigpipe.h": "c",
+    "curl_sockaddr.h": "c",
+    "curl_strerror.h": "c",
+    "curl_version_win32.h": "c",
+    "curl_quic.h": "c",
+    "schannel.h": "c"
   }
 }
