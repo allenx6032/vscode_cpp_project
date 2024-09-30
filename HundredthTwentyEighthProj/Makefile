@@ -1,9 +1,11 @@
+# SHELL=powershell
+SHELL=cmd
 CXX = g++
 CXX = g++
 CC = gcc
 ASMFLAGS	:=               
-CXXFLAGS	:= -std=c++14 -w -O3 -g -static -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT -DLUA_COMPAT_ALL              
-CCFLAGS		:= -std=c11 -w -O3 -g -static -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT -DLUA_COMPAT_ALL                 
+CXXFLAGS	:= -std=c++20 -w -O3 -g -static -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT -DLUA_COMPAT_ALL -DAL_BUILD_LIBRARY -DAL_ALEXT_PROTOTYPES -DIL_NO_EXTLIBS -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB              
+CCFLAGS		:= -std=c11 -w -O3 -g -static -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT -DLUA_COMPAT_ALL -DAL_BUILD_LIBRARY -DAL_ALEXT_PROTOTYPES -DIL_NO_EXTLIBS -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB                
 # FLAG		:= -std=c++11 -m32 -w -O3 -g -static -fprofile-arcs -ftest-coverage -D_WIN32 -DWIN32 -D_DEBUG -DDEBUG -D_WINDOWS -DWINDOWS -D_UNICODE -DUNICODE -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT -DLUA_COMPAT_ALL -DSK_IGNORE_ETC1_SUPPORT                   
 LFLAGS = -lkernel32 -limm32 -lversion -luser32 -lwinspool -lodbc32 -lodbccp32 -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid  -lwinmm -lmingw32 -lMsimg32 -lopengl32 -lglu32 -lgdi32 -lgdiplus -ld3d9 -ldxguid -ld3d11 -lxinput -ldinput8 -ld2d1 -ldwrite -lwindowscodecs -lshlwapi -lWs2_32 -lIphlpapi -lcomctl32 -lpthread -ldsound -lddraw -lm -lbcrypt -lsetupapi -lsecur32
 # LFLAGS = -municode -mwindows -fexec-charset=utf-8 -finput-charset=utf-8 -lkernel32 -limm32 -lversion -luser32 -lwinspool -lodbc32 -lodbccp32 -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid  -lwinmm -lmingw32 -lMsimg32 -lopengl32 -lglu32 -lgdi32 -lgdiplus -ld3d9 -ddxguid -dd3d11 -lshlwapi -lWs2_32 -lIphlpapi -lcomctl32 
@@ -22,8 +24,10 @@ SOURCEDIRS	:= $(SRC)
 INCLUDEDIRS	:= $(INCLUDE)
 LIBDIRS		:= $(LIB)
 FIXPATH = $(subst /,\,$1)
-# RM			:= del /s /q /f
-RM			:= rm  -f
+RM			:= del
+TARGET 		:=  /s /q /f
+# RM			:= rm 
+# TARGET 		:= -f
 MD	:= mkdir
 else
 MAIN	:= main
@@ -31,12 +35,13 @@ SOURCEDIRS	:= $(shell find $(SRC) -type d)
 INCLUDEDIRS	:= $(shell find $(INCLUDE) -type d)
 LIBDIRS		:= $(shell find $(LIB) -type d)
 FIXPATH = $1
-RM = rm -f
+RM = rm 
+TARGET 		:= -f
 MD	:= mkdir -p
 endif
 
-INCLUDES	:= $(patsubst %,-I%, $(INCLUDEDIRS:%/=%))
-LIBS		:= $(patsubst %,-L%, $(LIBDIRS:%/=%))
+INCLUDES	:= $(patsubst %,-I%, $(INCLUDEDIRS:%/=%)) -IC:/FFMPEG/include
+LIBS		:= $(patsubst %,-L%, $(LIBDIRS:%/=%)) -LC:/FFMPEG/lib
 ASMSOURCES		:= $(wildcard $(patsubst %,%/*.s, $(SOURCEDIRS)))
 ASMOBJECTS		:= $(ASMSOURCES:.s=.o)
 
@@ -81,22 +86,28 @@ $(MAIN):  $(CPPOBJECTS) $(CXXOBJECTS) $(CCOBJECTS) $(COBJECTS)
 	$(CC) $(CCFLAGS) $(INCLUDES) -c -MMD $<  -o $@
 .PHONY: clean
 clean:
-	$(RM) $(call FIXPATH,$(ASMOBJECTS))
-	$(RM) $(call FIXPATH,$(CXXOBJECTS))
-	$(RM) $(call FIXPATH,$(CPPOBJECTS))
-	$(RM) $(call FIXPATH,$(CCOBJECTS))
-	$(RM) $(call FIXPATH,$(COBJECTS))
-	$(RM) $(call FIXPATH,$(ASMDEPS))
-	$(RM) $(call FIXPATH,$(CXXDEPS))
-	$(RM) $(call FIXPATH,$(CPPDEPS))
-	$(RM) $(call FIXPATH,$(CCDEPS))
-	$(RM) $(call FIXPATH,$(CDEPS))
-	$(RM) $(OUTPUTMAIN)
+	del $(call FIXPATH,src/*.o)
+	del $(call FIXPATH,src/*.d)
+	del $(OUTPUTMAIN)
 	@echo Cleanup complete!
 run: all
 	./$(OUTPUTMAIN)
 	@echo Executing 'run: all' complete!
 
+
+# $(RM) $(TARGET) $(call FIXPATH,$(ASMOBJECTS))
+# $(RM) $(TARGET) $(call FIXPATH,$(CXXOBJECTS))
+# $(RM) $(TARGET) $(call FIXPATH,$(CPPOBJECTS))
+# $(RM) $(TARGET) $(call FIXPATH,$(CCOBJECTS))
+# $(RM) $(TARGET) $(call FIXPATH,$(COBJECTS))
+# $(RM) $(TARGET) $(call FIXPATH,$(ASMDEPS))
+# $(RM) $(TARGET) $(call FIXPATH,$(CXXDEPS))
+# $(RM) $(TARGET) $(call FIXPATH,$(CPPDEPS))
+# $(RM) $(TARGET) $(call FIXPATH,$(CCDEPS))
+# $(RM) $(TARGET) $(call FIXPATH,$(CDEPS))
+# del $(call FIXPATH,src/*.o)
+# del $(call FIXPATH,src/*.d)
+# del $(OUTPUTMAIN)
 
 # build:
 # 	gcc -std=c99 -Wunused-function -Wall -O2 -g -D_CRT_SECURE_NO_DEPRECATE -DNK_GLFW_GL2_IMPLEMENTATION -DIMGUI_API -DNANOVG_GLEW -DLUA_BUILD_AS_DLL -D_WINDOWS -D_GLFW_USE_CONFIG_H -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DGLEW_STATIC -DLUA_COMPAT_ALL -Iinclude -c src/*.c 
