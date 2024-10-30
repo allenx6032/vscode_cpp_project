@@ -1,0 +1,88 @@
+﻿/*
+ * Copyright [2024] [Shuang Zhu / Sol]
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#include "TA_ConcurrentPipeline.h"
+#include "TA_CommonTools.h"
+#include "TA_ThreadPool.h"
+
+namespace CoreAsync {
+    TA_ConcurrentPipeline::TA_ConcurrentPipeline() : TA_BasicPipeline()
+    {
+        
+    }
+
+    void TA_ConcurrentPipeline::run()
+    {
+        std::size_t sIndex(std::move(startIndex()));
+        std::size_t activitySize = m_pActivityList.size();
+        if(activitySize > 0)
+        {
+            m_resultFetchers.resize(activitySize);
+            for(std::size_t i = sIndex;i < activitySize;++i)
+            {
+                m_resultFetchers[i] = TA_ThreadHolder::get().postActivity(TA_CommonTools::ref<TA_ActivityProxy *>(m_pActivityList, i));
+            }
+            std::size_t idx {0};
+            for(auto &fetcher : m_resultFetchers)
+            {
+                m_resultList[idx] = fetcher();
+                TA_Connection::active(this, &TA_ConcurrentPipeline::activityCompleted, idx, std::forward<TA_Variant>(m_resultList[idx]));
+                idx++;
+            }
+            setState(State::Ready);
+        }  
+    }
+
+    void TA_ConcurrentPipeline::clear()
+    {
+        if(State::Busy == state())
+        {
+            assert(State::Busy != state());
+            TA_CommonTools::debugInfo(META_STRING("Clear pipeline failed!"));
+            return;
+        }
+        m_mutex.lock();
+        for(auto &pActivity : m_pActivityList)
+        {
+            if(pActivity)
+            {
+                delete pActivity;
+                pActivity = nullptr;
+            }
+        }
+        m_pActivityList.clear();
+        m_resultList.clear();
+        m_resultFetchers.clear();
+        m_mutex.unlock();
+        setState(State::Waiting);
+    }
+
+    void TA_ConcurrentPipeline::reset()
+    {
+        if(State::Ready != state())
+        {
+            assert(State::Ready == state());
+            TA_CommonTools::debugInfo(META_STRING("Reset pipeline failed!"));
+            return;
+        }
+        m_mutex.lock();
+        m_resultList.clear();
+        m_resultList.resize(m_pActivityList.size());
+        m_resultFetchers.clear();
+        m_mutex.unlock();
+        setState(State::Waiting);
+    }
+}
