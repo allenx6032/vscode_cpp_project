@@ -2,30 +2,20 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug",
-      "type": "cppdbg",
+      "type": "lldb",
       "request": "launch",
-      "args": [],
-      "stopAtEntry": false,
+      "name": "Debug",
+      "program": "${workspaceFolder}/output/main",
       "cwd": "${workspaceFolder}",
-      "environment": [],
-      "externalConsole": false,
-      "linux": {
-        "MIMode": "gdb",
-        "miDebuggerPath": "gdb",
-        "program": "${workspaceFolder}/output/main"
-      },
-      "osx": {
-        "MIMode": "lldb",
-        "miDebuggerPath": "lldb-mi",
-        "program": "${workspaceFolder}/output/main"
-      },
-      "windows": {
-        "MIMode": "gdb",
-        "miDebuggerPath": "gdb.exe",
-        "program": "${workspaceFolder}/output/main.exe"
-      },
-      "preLaunchTask": "build"
+      "preLaunchTask": "Build"
+    },
+    {
+      "type": "cmake",
+      "request": "launch",
+      "name": "Debug portfile(s)",
+      "cmakeDebugType": "external",
+      "pipeName": "\\\\.\\pipe\\vcpkg_ext_portfile_dbg",
+      "preLaunchTask": "Debug vcpkg commands"
     },
     {
       "name": "C/C++ Runner: Debug Session",
@@ -34,8 +24,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/VscodiumZone/NineProj/src",
-      "program": "d:/VscodiumZone/NineProj/src/build/Debug/outDebug",
+      "cwd": "d:/VscodiumZone/HundredthThirtiethProj/src",
+      "program": "d:/VscodiumZone/HundredthThirtiethProj/src/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
@@ -45,14 +35,6 @@
           "ignoreFailures": true
         }
       ]
-    },
-    {
-      "type": "cmake",
-      "request": "launch",
-      "name": "Debug portfile(s)",
-      "cmakeDebugType": "external",
-      "pipeName": "\\\\.\\pipe\\vcpkg_ext_portfile_dbg",
-      "preLaunchTask": "Debug vcpkg commands"
     }
   ]
 }

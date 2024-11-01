@@ -38,7 +38,9 @@ void recursionFileTraverse(ofstream &outfile,string dir) {
         //判断文件是否为目录
         if (filesystem::is_directory(it->status())) {
             cout << pathname << " is a directory!" << endl;
-            recursionFileTraverse(outfile,pathname);
+            // if(pathname.compare("./.git") != 0)
+            if(pathname.find(".git") == std::string::npos)
+                recursionFileTraverse(outfile,pathname);
             continue;
         }
         outfile << pathname <<endl;
