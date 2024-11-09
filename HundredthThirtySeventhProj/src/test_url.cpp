@@ -10,8 +10,7 @@ void test_url() {
 
     Request request(url.ToString());
     request.set_verify_ssl(false);
-    auto response = request.Perform();
-
+    Response response = request.Perform();
     if (response.ok()) {
         // Header
         printf("------ Headers -------------------------------\n");

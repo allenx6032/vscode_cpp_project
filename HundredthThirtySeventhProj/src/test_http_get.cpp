@@ -1,14 +1,15 @@
 #include "iclient.h"
 
 void test_http_get() {
-    ic::client::Request request("http://httpbin.org/ip");
-    ic::client::Response response = request.Perform();
+    using namespace ic::client;
+    Request request("http://httpbin.org/ip");
+    Response response = request.Perform();
 
     printf("---------------------------------------------\n");
-    printf("%s\n", ic::client::to_string(response.status()));
+    printf("%s\n", to_string(response.status()));
     printf("---------------------------------------------\n");
-    if (response.status() == ic::client::Status::SUCCESS
-        && response.http_status_code() == ic::client::http::StatusCode::HTTP_200_OK)   // equal to response.ok()
+    if (response.status() == Status::SUCCESS
+        && response.http_status_code() == http::StatusCode::HTTP_200_OK)   // equal to response.ok()
     {
         // Header
         printf("------ Headers -------------------------------\n");
