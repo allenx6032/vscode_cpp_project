@@ -33,7 +33,8 @@
 #include "json.hpp"
 #include "tigr.h"
 // #include "SDL.h"
-#include "glad/glad.h"
+// #include "glad/glad.h"
+#include "gl/glew.h"
 #include "wz.h"
 
 #define WINDOW_WIDTH 200
@@ -612,40 +613,40 @@ void reset_progress_bar();
 
 int main() {
 
-//     Tigr* win1 = tigrWindow(200, 150, "Window1", 0);
-//     Tigr* win2 = tigrWindow(200, 150, "Window2", 0);
-//     while (win1 || win2) {
-//         if (win1) {
-//             tigrClear(win1, tigrRGB(0x80, 0x90, 0xa0));
-//             tigrPrint(win1, tfont, 50, 50, tigrRGB(0xff, 0xff, 0xff), "Hello, world #1.");
-//             tigrUpdate(win1);
-//             if (tigrClosed(win1) || tigrKeyDown(win1, TK_ESCAPE)) {
-//                 tigrFree(win1);
-//                 win1 = NULL;
-//             }
-//         }
-//         if (win2) {
-//             if (tigrBeginOpenGL(win2)) {
-//                 glClearColor(1, 0, 1, 1);
-//                 glClear(GL_COLOR_BUFFER_BIT);
-//             }
-//             tigrClear(win2, tigrRGBA(0x00, 0x00, 0x00, 0x00));
-//             tigrPrint(win2, tfont, 50, 50, tigrRGB(0xff, 0xff, 0xff), "Hello, world #2.");
-//             tigrUpdate(win2);
-//             if (tigrClosed(win2) || tigrKeyDown(win2, TK_ESCAPE)) {
-//                 tigrFree(win2);
-//                 win2 = NULL;
-//             }
-//         }
-//     }
-//     if (win1)
-//         tigrFree(win1);
-//     if (win2)
-//         tigrFree(win2);
+    Tigr* win1 = tigrWindow(200, 150, "Window1", 0);
+    Tigr* win2 = tigrWindow(200, 150, "Window2", 0);
+    while (win1 || win2) {
+        if (win1) {
+            tigrClear(win1, tigrRGB(0x80, 0x90, 0xa0));
+            tigrPrint(win1, tfont, 50, 50, tigrRGB(0xff, 0xff, 0xff), "Hello, world #1.");
+            tigrUpdate(win1);
+            if (tigrClosed(win1) || tigrKeyDown(win1, TK_ESCAPE)) {
+                tigrFree(win1);
+                win1 = NULL;
+            }
+        }
+        if (win2) {
+            if (tigrBeginOpenGL(win2)) {
+                glClearColor(1, 0, 1, 1);
+                glClear(GL_COLOR_BUFFER_BIT);
+            }
+            tigrClear(win2, tigrRGBA(0x00, 0x00, 0x00, 0x00));
+            tigrPrint(win2, tfont, 50, 50, tigrRGB(0xff, 0xff, 0xff), "Hello, world #2.");
+            tigrUpdate(win2);
+            if (tigrClosed(win2) || tigrKeyDown(win2, TK_ESCAPE)) {
+                tigrFree(win2);
+                win2 = NULL;
+            }
+        }
+    }
+    if (win1)
+        tigrFree(win1);
+    if (win2)
+        tigrFree(win2);
 
-// #ifdef _WIN32
-//     system("pause");
-// #endif
+#ifdef _WIN32
+    system("pause");
+#endif
 
     //Create the tigr window.
 	Tigr *tigrScreen = tigrWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "WidgetZero Example - Custom Renderer", 0);
