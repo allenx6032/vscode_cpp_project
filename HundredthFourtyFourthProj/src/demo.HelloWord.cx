@@ -1,0 +1,12 @@
+#include <nana_wvl.hpp>
+#include <nana_label.hpp>
+
+int main()
+{
+    using namespace nana::gui;
+    form    fm;
+    label   lb(fm, fm.size());
+    lb.caption(STR("Hello, World"));
+    fm.show();
+    exec();
+}
