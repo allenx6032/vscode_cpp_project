@@ -1,0 +1,8 @@
+#include <nana_wvl.hpp>
+#include <nana_treebox.hpp>
+
+
+int main()
+{
+	// deprecated
+}
