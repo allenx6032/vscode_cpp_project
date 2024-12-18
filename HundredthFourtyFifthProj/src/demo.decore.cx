@@ -1,0 +1,8 @@
+#include <nana_wvl.hpp> 
+int main() 
+{ 
+    nana::form fm(nana::API::make_center(240, 160), 
+    nana::appear::decorate<nana::appear::minimize, nana::appear::maximize>()); 
+    fm.show(); 
+    nana::exec(); 
+} 

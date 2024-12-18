@@ -1,0 +1,14 @@
+#include <nana_wvl.hpp>
+#include <nana_filebox.hpp>
+
+int main()
+{
+    using namespace nana;
+    filebox fb(0, true);
+    fb.add_filter(STR("Text File"), STR("*.text;*.doc"));
+    fb.add_filter(STR("All Files"), STR("*.*"));
+    if(fb())
+    {
+        nana::string file = fb.file();
+    }
+}
