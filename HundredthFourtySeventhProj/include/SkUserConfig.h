@@ -156,7 +156,7 @@
    directories from your include search path when you're not building the GPU
    backend. Defaults to 1 (build the GPU code).
  */
-//#define SK_SUPPORT_GPU 1
+#define SK_SUPPORT_GPU 1
 
 
 /* The PDF generation code uses Path Ops to generate inverse fills and complex

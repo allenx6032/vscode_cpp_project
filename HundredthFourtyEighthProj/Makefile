@@ -4,10 +4,12 @@ CXX = g++
 CXX = g++
 CC = gcc
 ASMFLAGS	:=               
-CXXFLAGS	:= -std=c++14 -w -O3 -g -static -DWIN32 -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT -DLUA_COMPAT_ALL -DAL_BUILD_LIBRARY -DAL_ALEXT_PROTOTYPES -DIL_NO_EXTLIBS -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB               
-CCFLAGS		:= -std=c11 -w -O3 -g -static -DWIN32 -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT -DLUA_COMPAT_ALL -DAL_BUILD_LIBRARY -DAL_ALEXT_PROTOTYPES -DIL_NO_EXTLIBS -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB                 
+CXXFLAGS	:= -std=c++17 -w -O3 -g -static -DWIN32 -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT_5_3 -DLUA_COMPAT_5_2 -DLUA_COMPAT_ALL  -DLUA_COMPAT -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DSOL_NO_LUA_HPP -DLOAD_PNG -DLOAD_JPG -DSWE_WITH_JSON                                                  
+# CXXFLAGS	:= -std=c++17 -w -O3 -g -static -DWIN32 -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT_5_3 -DLUA_COMPAT_5_2 -DLUA_COMPAT_ALL  -DLUA_COMPAT -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DSOL_NO_LUA_HPP -DLOAD_PNG -DLOAD_PNG_DYNAMIC=1 -DLOAD_JPG -DLOAD_JPG_DYNAMIC=1                                                  
+CCFLAGS		:= -std=c11 -w -O3 -g -static -DWIN32 -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT_5_3 -DLUA_COMPAT_5_2 -DLUA_COMPAT_ALL  -DLUA_COMPAT  -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DSOL_NO_LUA_HPP -DLOAD_PNG -DLOAD_JPG -DSWE_WITH_JSON                                                
+# CCFLAGS		:= -std=c11 -w -O3 -g -static -DWIN32 -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT_5_3 -DLUA_COMPAT_5_2 -DLUA_COMPAT_ALL  -DLUA_COMPAT  -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB -DSOL_NO_LUA_HPP -DLOAD_PNG -DLOAD_PNG_DYNAMIC=1 -DLOAD_JPG -DLOAD_JPG_DYNAMIC=1                                                 
 # FLAG		:= -std=c++11 -m32 -w -O3 -g -static -fprofile-arcs -ftest-coverage -D_WIN32 -DWIN32 -D_DEBUG -DDEBUG -D_WINDOWS -DWINDOWS -D_UNICODE -DUNICODE -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT -DLUA_COMPAT_ALL -DSK_IGNORE_ETC1_SUPPORT                   
-LFLAGS = -lkernel32 -limm32 -lversion -luser32 -lwinspool -lodbc32 -lodbccp32 -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid  -lwinmm -lmingw32 -lMsimg32 -lopengl32 -lglu32 -lgdi32 -lgdiplus -ld3d9 -ldxguid -ld3d11 -lxinput -ldinput8 -ld2d1 -ldwrite -lwindowscodecs -lshlwapi -lWs2_32 -lIphlpapi -lcomctl32 -lpthread -ldsound -lddraw -lm -lbcrypt -lsetupapi -lsecur32 -lcrypt32
+LFLAGS = -lkernel32 -limm32 -lversion -luser32 -lwinspool -lodbc32 -lodbccp32 -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid  -lwinmm -lmingw32 -lMsimg32 -lopengl32 -lglu32 -lgdi32 -lgdiplus -ld3d9 -ldxguid -ld3d11 -lxinput -ldinput8 -ld2d1 -ldwrite -lwindowscodecs -lshlwapi -lWs2_32 -lIphlpapi -lcomctl32 -lpthread -ldsound -lddraw -lm -lbcrypt -lsetupapi -lsecur32 -lcrypt32 -lpsapi -luserenv
 # LFLAGS = -municode -mwindows -fexec-charset=utf-8 -finput-charset=utf-8 -lkernel32 -limm32 -lversion -luser32 -lwinspool -lodbc32 -lodbccp32 -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid  -lwinmm -lmingw32 -lMsimg32 -lopengl32 -lglu32 -lgdi32 -lgdiplus -ld3d9 -ddxguid -dd3d11 -lshlwapi -lWs2_32 -lIphlpapi -lcomctl32 
 # LFLAGS = -municode -mwindows -fexec-charset=utf-8 -finput-charset=utf-8 -lkernel32 -limm32 -lversion -luser32 -lwinspool -lodbc32 -lodbccp32 -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid  -lwinmm -lmingw32 -lMsimg32 -lopengl32 -lglu32 -lgdi32 -lgdiplus -ld3d9 -ddxguid -dd3d11 -lshlwapi -lWs2_32 -lIphlpapi -lcomctl32 
 # LFLAGS = -Wl,--subsystem,console -municode -mconsole -fexec-charset=gbk -finput-charset=gbk -lkernel32 -limm32 -lversion -luser32 -lwinspool -lodbc32 -lodbccp32 -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid  -lwinmm -lmingw32 -lMsimg32 -lopengl32 -lglu32 -lgdi32 -lgdiplus -ld3d9 -ddxguid -dd3d11 -lshlwapi -lWs2_32 -lIphlpapi 
@@ -21,6 +23,15 @@ LIB		:= lib
 ifeq ($(OS),Windows_NT)
 MAIN	:= main.exe
 SOURCEDIRS	:= $(SRC)
+# SOURCEDIRS  += $(SRC)/engine
+# SOURCEDIRS  += $(SRC)/engine/AssetStore
+# SOURCEDIRS  += $(SRC)/engine/Components
+# SOURCEDIRS  += $(SRC)/engine/ECS
+# SOURCEDIRS  += $(SRC)/engine/EventBus
+# SOURCEDIRS  += $(SRC)/engine/Events
+# SOURCEDIRS  += $(SRC)/engine/Game
+# SOURCEDIRS  += $(SRC)/engine/Logger
+# SOURCEDIRS  += $(SRC)/engine/Systems
 INCLUDEDIRS	:= $(INCLUDE)
 LIBDIRS		:= $(LIB)
 FIXPATH = $(subst /,\,$1)
@@ -32,8 +43,17 @@ MD	:= mkdir
 else
 MAIN	:= main
 SOURCEDIRS	:= $(shell find $(SRC) -type d)
-INCLUDEDIRS	:= $(shell find $(INCLUDE) -type d)
-LIBDIRS		:= $(shell find $(LIB) -type d)
+# SOURCEDIRS  += $(shell find $(SRC)/engine -type d)
+# SOURCEDIRS  += $(shell find $(SRC)/engine/AssetStore -type d)
+# SOURCEDIRS  += $(shell find $(SRC)/engine/Components -type d)
+# SOURCEDIRS  += $(shell find $(SRC)/engine/ECS -type d)
+# SOURCEDIRS  += $(shell find $(SRC)/engine/EventBus -type d)
+# SOURCEDIRS  += $(shell find $(SRC)/engine/Events -type d)
+# SOURCEDIRS  += $(shell find $(SRC)/engine/Game -type d)
+# SOURCEDIRS  += $(shell find $(SRC)/engine/Logger -type d)
+# SOURCEDIRS  += $(shell find $(SRC)/engine/Systems -type d)
+# INCLUDEDIRS	:= $(shell find $(INCLUDE) -type d)
+# LIBDIRS		:= $(shell find $(LIB) -type d)
 FIXPATH = $1
 RM = rm 
 TARGET 		:= -f
