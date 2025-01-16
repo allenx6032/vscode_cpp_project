@@ -1,0 +1,32 @@
+Reading checkpoint: file_size=60816028 bytes (58.00 MB)
+Config: vocab_size=32000, dim=288, n_layers=6
+Allocating token_embedding_table: 9216000 elements (36864000 bytes)
+Allocated token_embedding_table at 00000198040FB040
+Successfully read token_embedding_table in chunks
+Allocated wq at 0000019806433040
+Allocated wk at 000001980662E040
+Allocated wv at 0000019806829040
+Allocated wo at 0000019806A2E040
+Allocating w1: layer_size=221184, total bytes=5308416
+Warning: Large allocation of 5308416 bytes requested
+Total memory allocated: 5308416 bytes
+Checkpoint loaded successfully
+
+Starting build_tokenizer
+Tokenizer path: tok512.bin
+Size of float: 4
+Size of float: 4
+Vocab size: 32000
+About to allocate vocab arrays:
+  - vocab array: 256000 bytes
+  - vocab_scores: 128000 bytes
+Allocated initial vocab arrays successfully
+First 32 bytes of file:
+07 00 00 00 00 00 00 00 
+05 00 00 00 3c 75 6e 6b 
+3e 00 00 00 00 05 00 00 
+00 0a 3c 73 3e 0a 00 00 
+Tokenizer file size: 6227 bytes
+Opened tokenizer file successfully
+Read max_token_length: 7
+failed to read vocab score at index 512

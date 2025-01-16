@@ -1,0 +1,48 @@
+{
+    "models": {
+        "00effdb27c1baad499ed93bcf543ba05": "../models/gazebo/gazebo.obj"
+    },
+    "prefabs": {
+        "01020db52291b2f4fb1fdb5963bf7809": {
+            "90760": {
+                "name": "Gazebo",
+                "model": "00effdb27c1baad499ed93bcf543ba05",
+                "mgroup_name": "root_group",
+                "transform": {
+                    "position": [ 0.0, 0.0, 0.0 ],
+                    "rotation": [ 0, 0, 0, 1 ],
+                    "scale": [ 1, 1, 1 ]
+                }
+            }
+        }
+    },
+    "scenes": {
+        "f28ca6d8313c4ca4c85e9008c63194d8": {
+            "objects": {
+                "90760": {
+                    "name": "Gazebo_01",
+                    "prefab": "01020db52291b2f4fb1fdb5963bf7809",
+                    "transform": {
+                        "position": [ 0.0, -0.6, 0.0 ],
+                        "rotation": [ 0, 0, 0, 1 ],
+                        "scale": [ 2, 2, 2 ]
+                    }
+                }
+            },
+            "lights": {
+                "45216": {
+                    "type": "DIRECTIONAL",
+                    "color": [ 1.0, 0.82, 0.68 ],
+                    "direction": [ 0.8, 1.0, 0.8 ],
+                    "intensity": 4.0
+                }
+            },
+            "cameras": {
+                "79126": {
+                    "position": [ 0.0, 1.0, 3.0 ],
+                    "target": [ 0.0, -1.0, -3.0 ]
+                }
+            }
+        }
+    }
+}
