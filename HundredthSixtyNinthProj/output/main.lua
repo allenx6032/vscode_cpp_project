@@ -164,24 +164,24 @@ function orderedPairs(t)
     return orderedNext, t, nil
 end
 
-function testIterator
-  -- 测试数据
-  tab1 = {
-      ['a'] = 'xxx',
-      ['b'] = 'xxx',
-      ['c'] = 'xxx',
-      ['d'] = 'xxx',
-      ['e'] = 'xxx',
-  }
-  print("Ordered iterating")
-  for key, val in orderedPairs(tab1) do
-      print(key.." : "..val)
-  end
-end
+-- function testIterator
+--   -- 测试数据
+--   tab1 = {
+--       ['a'] = 'xxx',
+--       ['b'] = 'xxx',
+--       ['c'] = 'xxx',
+--       ['d'] = 'xxx',
+--       ['e'] = 'xxx',
+--   }
+--   print("Ordered iterating")
+--   for key, val in orderedPairs(tab1) do
+--       print(key.." : "..val)
+--   end
+-- end
 
-print('-------------------------------')
-testIterator()
-print('-------------------------------')
+-- print('-------------------------------')
+-- testIterator()
+-- print('-------------------------------')
 
 -- function testRegex()
 --    string.gsub("hello, up-down!", "%A", ".") -- 替换所有非字母的字符
