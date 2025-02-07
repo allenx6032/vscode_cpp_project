@@ -31,7 +31,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "internal.h"
+#include "glfw_internal.h"
 
 
 static void makeContextCurrentOSMesa(_GLFWwindow* window)
