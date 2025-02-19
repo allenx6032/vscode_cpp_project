@@ -1,4 +1,4 @@
-#!/usr/local/bin/lua
+#!/usr/local_bin/lua
 
 function print_hello()
 	-- body
