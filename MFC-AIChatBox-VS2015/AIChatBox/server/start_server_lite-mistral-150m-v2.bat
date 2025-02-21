@@ -1,0 +1,1 @@
+llama-server.exe -m ..\models\Lite-Mistral-150M-v2-Instruct.Q4_K_S.gguf -ngl 100 -c 133072 -n -1

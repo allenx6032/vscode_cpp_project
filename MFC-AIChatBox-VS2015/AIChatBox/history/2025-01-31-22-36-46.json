@@ -1,0 +1,45 @@
+{
+    "history": [
+        {
+            "id": 1738334213,
+            "name": "System",
+            "role": "system",
+            "content": "你是一个程序员，你的任务是帮助用户解决问题，提供技术支持。你的回答应该简洁、直接，保持礼貌和友好的语气。\r\n"
+        },
+        {
+            "id": 1738334222,
+            "name": "用户",
+            "role": "user",
+            "content": "用C语言写一个冒泡排序"
+        },
+        {
+            "id": 1738334244,
+            "name": "程序员",
+            "role": "assistant",
+            "content": "当然可以！以下是用C语言实现的冒泡排序算法：\n\n```c\n#include <stdio.h>\n\nvoid bubbleSort(int arr[], int n) {\n    int i, j, temp;\n    for (i = 0; i < n-1; i++) {\n        for (j = 0; j < n-i-1; j++) {\n            if (arr[j] > arr[j+1]) {\n                // 交换 arr[j] 和 arr[j+1]\n                temp = arr[j];\n                arr[j] = arr[j+1];\n                arr[j+1] = temp;\n            }\n        }\n    }\n}\n\nvoid printArray(int arr[], int size) {\n    int i;\n    for (i = 0; i < size; i++)\n        printf(\"%d \", arr[i]);\n    printf(\"\\n\");\n}\n\nint main() {\n    int arr[] = {64, 34, 25, 12, 22, 11, 90};\n    int n = sizeof(arr)/sizeof(arr[0]);\n    printf(\"原始数组: \");\n    printArray(arr, n);\n    \n    bubbleSort(arr, n);\n    printf(\"排序后的数组: \");\n    printArray(arr, n);\n    return 0;\n}\n```\n\n这个程序首先定义了两个循环来实现冒泡排序。外层循环控制排序的轮数，内层循环用于相邻元素之间的比较和交换。同时，有打印函数来打印数组，以便验证排序是否正确。在 main 函数中，定义了一个整数数组，并调用 `bubbleSort` 函数对数组进行排序。最后，使用 `printArray` 函数打印排序前和排序后的数组。"
+        }
+    ],
+    "actors": [
+        {
+            "name": "System",
+            "role": "system",
+            "color": "green_ul",
+            "msg_preffix": "",
+            "icon": ""
+        },
+        {
+            "name": "用户",
+            "role": "user",
+            "color": "blue",
+            "msg_preffix": "",
+            "icon": "👦"
+        },
+        {
+            "name": "程序员",
+            "role": "assistant",
+            "color": "pink",
+            "msg_preffix": "",
+            "icon": "👨"
+        }
+    ]
+}
