@@ -1,4 +1,4 @@
-#include "../lautoc.h"
+#include "lautoc.h"
 
 typedef struct {
   float x, y, z;

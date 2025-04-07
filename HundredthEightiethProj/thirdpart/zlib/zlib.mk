@@ -1,0 +1,15 @@
+gcc -c -o adler32.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTadler32.o -MFadler32.o.d -MD -MP adler32.c
+gcc -c -o compress.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTcompress.o -MFcompress.o.d -MD -MP compress.c
+gcc -c -o crc32.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTcrc32.o -MFcrc32.o.d -MD -MP crc32.c
+gcc -c -o deflate.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTdeflate.o -MFdeflate.o.d -MD -MP deflate.c
+gcc -c -o gzclose.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTgzclose.o -MFgzclose.o.d -MD -MP gzclose.c
+gcc -c -o gzlib.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTgzlib.o -MFgzlib.o.d -MD -MP gzlib.c
+gcc -c -o gzread.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTgzread.o -MFgzread.o.d -MD -MP gzread.c
+gcc -c -o gzwrite.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTgzwrite.o -MFgzwrite.o.d -MD -MP gzwrite.c
+gcc -c -o infback.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTinfback.o -MFinfback.o.d -MD -MP infback.c
+gcc -c -o inffast.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTinffast.o -MFinffast.o.d -MD -MP inffast.c
+gcc -c -o inflate.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTinflate.o -MFinflate.o.d -MD -MP inflate.c
+gcc -c -o inftrees.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTinftrees.o -MFinftrees.o.d -MD -MP inftrees.c
+gcc -c -o trees.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTtrees.o -MFtrees.o.d -MD -MP trees.c
+gcc -c -o uncompr.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTuncompr.o -MFuncompr.o.d -MD -MP uncompr.c
+gcc -c -o zutil.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG   -MTzutil.o -MFzutil.o.d -MD -MP zutil.c

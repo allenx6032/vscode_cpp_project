@@ -1,0 +1,15 @@
+gcc -c -o png.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpng.o -MFpng.o.d -MD -MP png.c
+gcc -c -o pngerror.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngerror.o -MFpngerror.o.d -MD -MP pngerror.c
+gcc -c -o pngget.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngget.o -MFpngget.o.d -MD -MP pngget.c
+gcc -c -o pngmem.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngmem.o -MFpngmem.o.d -MD -MP pngmem.c
+gcc -c -o pngpread.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngpread.o -MFpngpread.o.d -MD -MP pngpread.c
+gcc -c -o pngread.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngread.o -MFpngread.o.d -MD -MP pngread.c
+gcc -c -o pngrio.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngrio.o -MFpngrio.o.d -MD -MP pngrio.c
+gcc -c -o pngrtran.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngrtran.o -MFpngrtran.o.d -MD -MP pngrtran.c
+gcc -c -o pngrutil.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngrutil.o -MFpngrutil.o.d -MD -MP pngrutil.c
+gcc -c -o pngset.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngset.o -MFpngset.o.d -MD -MP pngset.c
+gcc -c -o pngtrans.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngtrans.o -MFpngtrans.o.d -MD -MP pngtrans.c
+gcc -c -o pngwio.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngwio.o -MFpngwio.o.d -MD -MP pngwio.c
+gcc -c -o pngwrite.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngwrite.o -MFpngwrite.o.d -MD -MP pngwrite.c
+gcc -c -o pngwtran.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngwtran.o -MFpngwtran.o.d -MD -MP pngwtran.c
+gcc -c -o pngwutil.o -g -O0 -mthreads  -DHAVE_W32API_H -DNDEBUG -I..\zlib   -MTpngwutil.o -MFpngwutil.o.d -MD -MP pngwutil.c

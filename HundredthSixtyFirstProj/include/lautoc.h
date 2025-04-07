@@ -701,9 +701,20 @@ void __luaA_##func(void* out, void* args) { \
   
 #endif
 
-#define luaA_function(L, func, ret_t, ...) luaA_function_declare(func, ret_t, ##__VA_ARGS__); luaA_function_register(L, func, ret_t, ##__VA_ARGS__)
+// #ifdef MSVC
+// #define luaA_function(L, func, ret_t, ...) luaA_function_declare(func, ret_t, ##__VA_ARGS__); luaA_function_register(L, func, ret_t, ##__VA_ARGS__)
 #define luaA_function_declare(func, ret_t, ...) LUAA_DECLARE(func, ret_t, LUAA_COUNT(__VA_ARGS__), LUAA_SUFFIX(ret_t), ##__VA_ARGS__)
 #define luaA_function_register(L, func, ret_t, ...) LUAA_REGISTER(L, func, ret_t, LUAA_COUNT(__VA_ARGS__), ##__VA_ARGS__)
+// #else
+// // 主宏定义
+// #define luaA_function(L, func, ret_t, ...) \
+//     luaA_function_declare(func, ret_t, ##__VA_ARGS__); \
+//     luaA_function_register(L, func, ret_t, ##__VA_ARGS__)
+// #define luaA_function_declare(func, ret_t, ...) \
+//     LUAA_DECLARE(func, ret_t, LUAA_COUNT(__VA_ARGS__), LUAA_SUFFIX(ret_t), __VA_ARGS__)
+// #define luaA_function_register(L, func, ret_t, ...) \
+//     LUAA_REGISTER(L, func, ret_t, LUAA_COUNT(__VA_ARGS__), __VA_ARGS__)
+// #endif
 
 enum {
   LUAA_RETURN_STACK_SIZE   =  256,
