@@ -21,5 +21,5 @@ end
 background = {r = 0.3, g = 0.4 , b = 0.5}
 
 print(1)
-clua.sleep(5000)
+-- clua.sleep(5000)
 print(2)
