@@ -1,0 +1,69 @@
+// This file is part of Eigen, a lightweight C++ template library
+// for linear algebra.
+//
+// This Source Code Form is subject to the terms of the Mozilla
+// Public License v. 2.0. If a copy of the MPL was not distributed
+// with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#ifndef EIGEN_SPARSECORE_MODULE_H
+#define EIGEN_SPARSECORE_MODULE_H
+
+#include "Eigen_Core"
+
+#include "Eigen_DisableStupidWarnings.h"
+
+#include <vector>
+#include <map>
+#include <cstdlib>
+#include <cstring>
+#include <algorithm>
+
+/** 
+  * \defgroup SparseCore_Module SparseCore module
+  *
+  * This module provides a sparse matrix representation, and basic associated matrix manipulations
+  * and operations.
+  *
+  * See the \ref TutorialSparse "Sparse tutorial"
+  *
+  * \code
+  * #include <Eigen_SparseCore>
+  * \endcode
+  *
+  * This module depends on: Core.
+  */
+
+#include "Eigen_SparseUtil.h"
+#include "Eigen_SparseMatrixBase.h"
+#include "Eigen_SparseAssign.h"
+#include "Eigen_CompressedStorage.h"
+#include "Eigen_AmbiVector.h"
+#include "Eigen_SparseCompressedBase.h"
+#include "Eigen_SparseMatrix.h"
+#include "Eigen_SparseMap.h"
+#include "Eigen_MappedSparseMatrix.h"
+#include "Eigen_SparseVector.h"
+#include "Eigen_SparseRef.h"
+#include "Eigen_SparseCwiseUnaryOp.h"
+#include "Eigen_SparseCwiseBinaryOp.h"
+#include "Eigen_SparseTranspose.h"
+#include "Eigen_SparseBlock.h"
+#include "Eigen_SparseDot.h"
+#include "Eigen_SparseRedux.h"
+#include "Eigen_SparseView.h"
+#include "Eigen_SparseDiagonalProduct.h"
+#include "Eigen_ConservativeSparseSparseProduct.h"
+#include "Eigen_SparseSparseProductWithPruning.h"
+#include "Eigen_SparseProduct.h"
+#include "Eigen_SparseDenseProduct.h"
+#include "Eigen_SparseSelfAdjointView.h"
+#include "Eigen_SparseTriangularView.h"
+#include "Eigen_TriangularSolver.h"
+#include "Eigen_SparsePermutation.h"
+#include "Eigen_SparseFuzzy.h"
+#include "Eigen_SparseSolverBase.h"
+
+#include "Eigen_ReenableStupidWarnings.h"
+
+#endif // EIGEN_SPARSECORE_MODULE_H
+

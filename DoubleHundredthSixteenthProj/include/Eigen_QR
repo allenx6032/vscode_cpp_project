@@ -1,0 +1,51 @@
+// This file is part of Eigen, a lightweight C++ template library
+// for linear algebra.
+//
+// This Source Code Form is subject to the terms of the Mozilla
+// Public License v. 2.0. If a copy of the MPL was not distributed
+// with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#ifndef EIGEN_QR_MODULE_H
+#define EIGEN_QR_MODULE_H
+
+#include "Eigen_Core"
+
+#include "Eigen_DisableStupidWarnings.h"
+
+#include "Eigen_Cholesky"
+#include "Eigen_Jacobi"
+#include "Eigen_Householder"
+
+/** \defgroup QR_Module QR module
+  *
+  *
+  *
+  * This module provides various QR decompositions
+  * This module also provides some MatrixBase methods, including:
+  *  - MatrixBase::householderQr()
+  *  - MatrixBase::colPivHouseholderQr()
+  *  - MatrixBase::fullPivHouseholderQr()
+  *
+  * \code
+  * #include <Eigen_QR>
+  * \endcode
+  */
+
+#include "Eigen_HouseholderQR.h"
+#include "Eigen_FullPivHouseholderQR.h"
+#include "Eigen_ColPivHouseholderQR.h"
+#include "Eigen_CompleteOrthogonalDecomposition.h"
+#ifdef EIGEN_USE_LAPACKE
+#ifdef EIGEN_USE_MKL
+#include "mkl_lapacke.h"
+#else
+#include "Eigen_lapacke.h"
+#endif
+#include "Eigen_HouseholderQR_LAPACKE.h"
+#include "Eigen_ColPivHouseholderQR_LAPACKE.h"
+#endif
+
+#include "Eigen_ReenableStupidWarnings.h"
+
+#endif // EIGEN_QR_MODULE_H
+/* vim: set filetype=cpp et sw=2 ts=2 ai: */

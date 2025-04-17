@@ -1,0 +1,50 @@
+// This file is part of Eigen, a lightweight C++ template library
+// for linear algebra.
+//
+// This Source Code Form is subject to the terms of the Mozilla
+// Public License v. 2.0. If a copy of the MPL was not distributed
+// with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#ifndef EIGEN_LU_MODULE_H
+#define EIGEN_LU_MODULE_H
+
+#include "Eigen_Core"
+
+#include "Eigen_DisableStupidWarnings.h"
+
+/** \defgroup LU_Module LU module
+  * This module includes %LU decomposition and related notions such as matrix inversion and determinant.
+  * This module defines the following MatrixBase methods:
+  *  - MatrixBase::inverse()
+  *  - MatrixBase::determinant()
+  *
+  * \code
+  * #include <Eigen_LU>
+  * \endcode
+  */
+
+#include "Eigen_Kernel.h"
+#include "Eigen_Image.h"
+#include "Eigen_FullPivLU.h"
+#include "Eigen_PartialPivLU.h"
+#ifdef EIGEN_USE_LAPACKE
+#ifdef EIGEN_USE_MKL
+#include "mkl_lapacke.h"
+#else
+#include "Eigen_lapacke.h"
+#endif
+#include "Eigen_PartialPivLU_LAPACKE.h"
+#endif
+#include "Eigen_Determinant.h"
+#include "Eigen_InverseImpl.h"
+
+// Use the SSE optimized version whenever possible. At the moment the
+// SSE version doesn't compile when AVX is enabled
+#if defined EIGEN_VECTORIZE_SSE && !defined EIGEN_VECTORIZE_AVX
+  #include "Eigen_Inverse_SSE.h"
+#endif
+
+#include "Eigen_ReenableStupidWarnings.h"
+
+#endif // EIGEN_LU_MODULE_H
+/* vim: set filetype=cpp et sw=2 ts=2 ai: */
