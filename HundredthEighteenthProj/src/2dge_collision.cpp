@@ -74,7 +74,8 @@ Collider::Collider()
 	//font.loadFromFile(fontPath);
 	info.setFont(font);
 	info.setStyle(sf::Text::Regular);
-	info.setFillColor(sf::Color::White);
+	// info.setFillColor(sf::Color::White);
+	info.setColor(sf::Color::White);
 	info.setCharacterSize(CHARACTER_SIZE);
 }
 Collider::~Collider()
@@ -99,7 +100,7 @@ const sf::Text& Collider::getInfo() const
 }
 void Collider::infoUpdate(float x, float y)
 {
-	info.setPosition(x, y - 2 * (2 * info.getLineSpacing() + info.getCharacterSize()));
+	info.setPosition(x, y - 2 * (2 * info.getFont()->getLineSpacing(' ') + info.getCharacterSize()));
 	std::stringstream ss;
 	ss << "X:" << x << "\nY:" << y;
 	std::string infostr = ss.str();
@@ -107,7 +108,7 @@ void Collider::infoUpdate(float x, float y)
 }
 void Collider::infoUpdate(const sf::Vector2f& vec)
 {
-	info.setPosition(vec.x, vec.y - 2 * (2 * info.getLineSpacing() + info.getCharacterSize()));
+	info.setPosition(vec.x, vec.y - 2 * (2 * info.getFont()->getLineSpacing(' ') + info.getCharacterSize()));
 	std::stringstream ss;
 	ss << "X:" << vec.x << "\nY:" << vec.y;
 	std::string infostr = ss.str();

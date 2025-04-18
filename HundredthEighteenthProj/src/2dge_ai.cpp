@@ -105,7 +105,7 @@ void AImanager::init()
     lua["milliseconds"] = &sf::milliseconds;
     lua["microseconds"] = &sf::microseconds;
     lua["getNormalized"] = &getNormalized;
-    lua["atan"] = &atan;
+    // lua["atan"] = &atan;
     lua["map"] = &map;
     sol::load_result script = lua.load_file("scripts/ai.lua");
     assert(script.valid());

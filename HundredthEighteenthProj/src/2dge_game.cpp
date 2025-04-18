@@ -134,7 +134,7 @@ void ObjectManager::init()
     lua["milliseconds"] = &sf::milliseconds;
     lua["microseconds"] = &sf::microseconds;
     lua["getNormalized"] = &getNormalized;
-    lua["atan"] = &atan;
+    // lua["atan"] = &atan;
     sol::protected_function_result script_result = lua.script_file("scripts/objects.lua");
     std::size_t type_max = lua["setting"]["type_max"];
     std::size_t action_type_max = lua["setting"]["action_type_max"];

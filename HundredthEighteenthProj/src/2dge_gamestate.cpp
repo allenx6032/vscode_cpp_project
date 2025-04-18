@@ -64,16 +64,16 @@ void GameState::init()
             sol::resolve<void(float, float)>(&GameObject::setPosition),
             sol::resolve<void(const sf::Vector2f&)>(&GameObject::setPosition)));    
     lua.new_usertype<ParameterObject>("ParameterObject", sol::constructors<ParameterObject(int)>(),
-        "setHp", ParameterObject::setHp,
-        "getHp", ParameterObject::getHp,
-        "setMaxHp", ParameterObject::setMaxHp,
-        "setDamage", ParameterObject::setDamage,
-        "getDamage", ParameterObject::getDamage);
+        "setHp", &ParameterObject::setHp,
+        "getHp", &ParameterObject::getHp,
+        "setMaxHp", &ParameterObject::setMaxHp,
+        "setDamage", &ParameterObject::setDamage,
+        "getDamage", &ParameterObject::getDamage);
     lua.new_usertype<StaticGameObject>("StaticGameObject", sol::constructors<StaticGameObject()>(),
         sol::base_classes, sol::bases<GameObject>());
     lua.new_usertype<DynamicGameObject>("DynamicGameObject", sol::constructors<DynamicGameObject()>(),
         sol::base_classes, sol::bases<GameObject, ParameterObject>(),
-        "setAIclass", DynamicGameObject::setAIclass);
+        "setAIclass", &DynamicGameObject::setAIclass);
     lua.new_usertype<SpriteObject>("SpriteObject", sol::constructors<SpriteObject()>(),
         "sprite", &SpriteObject::sprite,
         "setTexture", &SpriteObject::setTexture,

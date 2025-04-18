@@ -2132,17 +2132,17 @@ namespace sol {
 			#endif
 		}
 	#else
-		#if defined(__has_include)
-			#if __has_include(<lua.hpp>)
-				#include <lua.hpp>
-			#else
-				extern "C" {
-					#if defined(LUAJIT_VERSION) && LUAJIT_VERSION
-					#endif
-				}
-			#endif // lua.hpp exists or does not
-		#else
-		#endif // check for lua.hpp safely for Lua 5.1 derps
+		// #if defined(__has_include)
+		// 	#if __has_include(<lua.hpp>)
+				#include <lua_includes.h>
+		// 	#else
+		// 		extern "C" {
+		// 			#if defined(LUAJIT_VERSION) && LUAJIT_VERSION
+		// 			#endif
+		// 		}
+		// 	#endif // lua.hpp exists or does not
+		// #else
+		// #endif // check for lua.hpp safely for Lua 5.1 derps
 	#endif // Manual - have lua.hpp or not
 #endif // C++ Mangling for Lua vs. Not
 
