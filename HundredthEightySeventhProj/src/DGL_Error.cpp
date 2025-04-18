@@ -16,8 +16,8 @@
 // module Errors;
 
 // import WindowsSystem;
-#include "WindowsSystem.ixx"
-#include "Error.ixx"
+#include "DGL_WindowsSystem.ixx"
+#include "DGL_Error.ixx"
 
 namespace DGL
 {

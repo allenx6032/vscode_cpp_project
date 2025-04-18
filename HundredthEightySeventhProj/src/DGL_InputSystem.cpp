@@ -14,9 +14,9 @@
 
 // import Errors;
 // import WindowsSystem;
-#include "InputSystem.ixx"
-#include "Error.ixx"
-#include "WindowsSystem.ixx"
+#include "DGL_InputSystem.ixx"
+#include "DGL_Error.ixx"
+#include "DGL_WindowsSystem.ixx"
 
 namespace DGL
 {

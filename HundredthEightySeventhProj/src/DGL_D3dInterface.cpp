@@ -10,9 +10,9 @@
 
 #include "DGL.h"
 #include <d3d11.h>
-#include "VShader.h"
-#include "PShader.h"
-#include "PTexShader.h"
+#include "DGL_VShader.h"
+#include "DGL_PShader.h"
+#include "DGL_PTexShader.h"
 
 // module D3DInterface;
 
@@ -21,11 +21,11 @@
 // import WindowsSystem;
 // import Shader;
 // import Texture;
-#include "Error.ixx"
-#include "GraphicsSystem.ixx"
-#include "WindowsSystem.ixx"
-#include "Shader.ixx"
-#include "Texture.ixx"
+#include "DGL_Error.ixx"
+#include "DGL_GraphicsSystem.ixx"
+#include "DGL_WindowsSystem.ixx"
+#include "DGL_Shader.ixx"
+#include "DGL_Texture.ixx"
 
 namespace DGL
 {

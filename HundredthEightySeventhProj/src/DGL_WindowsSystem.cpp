@@ -16,10 +16,10 @@
 // import Errors;
 // import Input;
 // import GraphicsSystem;
-#include "WindowsSystem.ixx"
-#include "Error.ixx"
-#include "InputSystem.ixx"
-#include "GraphicsSystem.ixx"
+#include "DGL_WindowsSystem.ixx"
+#include "DGL_Error.ixx"
+#include "DGL_InputSystem.ixx"
+#include "DGL_GraphicsSystem.ixx"
 
 namespace DGL
 {

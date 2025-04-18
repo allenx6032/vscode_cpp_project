@@ -13,7 +13,7 @@
 #include <chrono>
 
 // module FrameRateControl;
-#include "FrameRateController.ixx"
+#include "DGL_FrameRateController.ixx"
 
 namespace DGL
 {

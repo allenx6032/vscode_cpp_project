@@ -19,8 +19,8 @@
 
 // module Shader;
 // import Errors;
-#include "Shader.ixx"
-#include "Error.ixx"
+#include "DGL_Shader.ixx"
+#include "DGL_Error.ixx"
 
 namespace DGL
 {

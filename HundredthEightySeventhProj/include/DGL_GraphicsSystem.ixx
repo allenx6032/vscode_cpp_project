@@ -17,10 +17,10 @@
 // import D3DInterface;
 // import Mesh;
 // import Shader;
-#include "Camera.ixx"
-#include "D3DInterface.ixx"
-#include "Mesh.ixx"
-#include "Shader.ixx"
+#include "DGL_Camera.ixx"
+#include "DGL_D3DInterface.ixx"
+#include "DGL_Mesh.ixx"
+#include "DGL_Shader.ixx"
 
 namespace DGL
 {

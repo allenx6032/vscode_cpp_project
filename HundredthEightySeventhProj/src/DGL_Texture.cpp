@@ -8,7 +8,7 @@
 
 // module;
 
-#include "WICTextureLoader11.h"
+#include "DGL_WICTextureLoader11.h"
 #include <DirectXMath.h>
 #include <sstream>
 
@@ -16,9 +16,9 @@
 
 // import Errors;
 // import Math;
-#include "Texture.ixx"
-#include "Error.ixx"
-#include "Math.ixx"
+#include "DGL_Texture.ixx"
+#include "DGL_Error.ixx"
+#include "DGL_Math.ixx"
 
 namespace DGL
 {

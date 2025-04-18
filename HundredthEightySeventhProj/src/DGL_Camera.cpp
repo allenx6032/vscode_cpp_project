@@ -15,8 +15,8 @@
 
 // import GraphicsSystem;
 // import Math;
-#include "Math.ixx"
-#include "GraphicsSystem.ixx"
+#include "DGL_Math.ixx"
+#include "DGL_GraphicsSystem.ixx"
 
 namespace DGL
 {

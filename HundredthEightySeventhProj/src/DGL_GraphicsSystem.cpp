@@ -17,10 +17,10 @@
 // import Math;
 // import Errors;
 // import Texture;
-#include "GraphicsSystem.ixx"
-#include "Math.ixx"
-#include "Error.ixx"
-#include "Texture.ixx"
+#include "DGL_GraphicsSystem.ixx"
+#include "DGL_Math.ixx"
+#include "DGL_Error.ixx"
+#include "DGL_Texture.ixx"
 
 namespace DGL
 {

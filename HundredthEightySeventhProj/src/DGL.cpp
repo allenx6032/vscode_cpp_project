@@ -13,11 +13,11 @@
 // import Input;
 // import GraphicsSystem;
 // import WindowsSystem;
-#include "Error.ixx"
-#include "FrameRateController.ixx"
-#include "InputSystem.ixx"
-#include "GraphicsSystem.ixx"
-#include "WindowsSystem.ixx"
+#include "DGL_Error.ixx"
+#include "DGL_FrameRateController.ixx"
+#include "DGL_InputSystem.ixx"
+#include "DGL_GraphicsSystem.ixx"
+#include "DGL_WindowsSystem.ixx"
 
 DGL::GraphicsSystem graphics;
 DGL::FrameRateController frameController;
