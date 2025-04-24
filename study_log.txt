@@ -1,0 +1,4291 @@
+﻿https://gpts.le10.dev/  chatgpt
+https://gitdl.cn/https://raw.githubusercontent.com/ clash/v2ray常用订阅加速地址
+rmdir "C:/Users"
+mklink /J "C:/Users" "D:/Users"
+
+ndkVersion "16.1.4479499"
+ndkVersion "22.1.7171670"
+ndkVersion "21.4.7075529"
+mkdir bld&cd bld&cmake -G "Visual Studio 14" -A x86  ..&cmake --build . --config Release
+mkdir bld&cd bld&cmake -G "CodeBlocks - MinGW Makefiles" -A x86  ..
+mkdir bld&cd bld&cmake -G "MinGW Makefiles" ..
+mkdir bld&cd bld&cmake -G "Ninja"  ..
+mkdir bld&cd bld&cmake  ..
+
+VC万能头文件 <YVALS.H>
+
+modelscope download --model=gongjy/minimind-v1 --local_dir ./minimind-v1
+modelscope download --model=OpenBMB/MiniCPM3-4B --local_dir ./MiniCPM3-4B
+huggingface-cli download --resume-download jingyaogong/minimind-v1 --local-dir minimind-v1
+huggingface-cli download --resume-download runfuture/MiniCPM3-4B --local-dir MiniCPM3-4B
+git clone --depth=1 https://github.com/
+git submodule update --init --recursive --depth=1
+
+curl --proxy 127.0.0.1:7890 -O https://huggingface.co/karpathy/tinyllamas/resolve/main/stories15M.bin //通过代理下载模型
+curl https://hf-mirror/karpathy/tinyllamas/resolve/main/stories15M.bin //通过镜像下载模型
+
+#if LUA_VERSION_NUM < 502
+#define luaL_newlib(L,l) (lua_newtable(L), luaL_register(L,NULL,l))
+#endif
+//#if (LUA_VERSION_NUM == 501)
+//#define luaL_setfuncs(L,f,n) luaL_register(L,NULL,f)
+//#define luaL_newlib(L,f) luaL_register(L,"lpeg",f)
+//#endif
+
+gcc 编译在 int main() 前添加#undef main
+gcc 64位 (int) -> (int)(size_t)
+gcc asm
+__asm__("");
+set http_proxy=http://127.0.0.1:[端口] & set https_proxy=http://127.0.0.1:[端口]
+#ifndef _XXX_H_
+#define _XXX_H_
+#endif
+
+#make指定makefile文件编译
+make -f makefilename
+make -f makefilename clean
+make -f Makefile.win32 CFG=debug
+make 2>&1|tee xxx.log  编译日志打印
+gcc/g++ -Wall[打印所有日志] -w[打印警告/错误日志] -fsyntax-only[打印错误日志]
+
+set PROMTP=$p$_$+$g /m //缩短cmd路径显示
+set JAVA_HOME=U:\android-studio\jre 临时用户变量
+set /m JAVA_HOME=U:\android-studio\jre 临时系统变量
+setx "JAVA_HOME" "U:\android-studio\jre" 永久用户变量
+setx /m "JAVA_HOME" "U:\android-studio\jre" 永久系统变量
+setx PATH %PATH%;D:\android-sdk\platform-tools
+set DEPOT_TOOLS_UPDATE=0
+set DEPOT_TOOLS_WIN_TOOLCHAIN=0
+set HTTP_PROXY=http://127.0.0.1:7897 
+set HTTPS_PROXY=http://127.0.0.1:7897
+set ALL_PROXY=socks5://127.0.0.1:7890
+set GOBIN=D:\go\bin
+set GOPATH=D:\go
+set GOROOT=D:\go
+setx "DEPOT_TOOLS_UPDATE" "0" 
+setx "DEPOT_TOOLS_WIN_TOOLCHAIN" "0" 
+git config --global http.proxy 127.0.0.1:7897
+git config --global https.proxy 127.0.0.1:7897
+netsh winhttp set proxy 127.0.0.1:7897
+adb connect 127.0.0.1:62001 夜神模拟器
+
+gradlew app:assembleRelease
+gradlew :app:dependencies  > app.txt
+gradlew :app:androidDependencies > app.txt
+gradlew clean  assembleRelease --stacktrace --no-daemon
+gradlew clean  assembleRelease --stacktrace --no-daemon --debug --scan
+
+adb exec-out screencap -p > s2c_1.png //手机屏幕截屏导出图片
+adb install -r -d xxx.apk //强制降级安装
+
+set GRADLE_USER_HOME="C:/.gradle"
+setx GRADLE_USER_HOME C:/.gradle
+setx GRADLE_USER_HOME C:/.gradle /m
+
+jarsigner -verify -verbose -certs 获取apk签名状态、信息
+jarsigner -verbose -keystore {签名证书存放路径} -signedjar {签名后apk存放路径} {未签名的apk路径} {证书别名}
+jarsigner -verbose -keystore test.jks -signedjar unsign_test.apk signed_test.apk test
+jarsigner -verbose -keystore {签名证书存放路径} -storepass {签名证书密码} -signedjar {签名后文件存放路径} {未签名的文件路径} {您的证书别名}
+jarsigner -verbose -keystore test.jks -storepass 123123 -signedjar test.apk before_test.apk test
+jarsigner -verbose -keystore (签名地址) -signedjar (签名后的apk地址) (待签名apk地址) (别名) V1签名（jarsigner方式）
+apksigner sign --ks (签名地址) --ks-key-alias (别名) --out (签名后的apk地址) (待签名apk地址)  V2签名（apksigner方式）
+jarsigner -verbose -keystore {签名证书存放路径} -signedjar {签名后apk存放路径} {未签名的apk路径} {证书别名
+
+git config --global filter.lfs.smudge "git-lfs smudge --skip"#跳过大文件clone pull
+git config --global filter.lfs.smudge "git-lfs smudge -- %f"#解除跳过大文件clone pull
+set GIT_LFS_SKIP_SMUDGE=1&git clone --depth=1 https://github.com/google/angle
+git clone --depth=1 https://github.com/
+git submodule update --init --recursive --depth=1
+git submodule deinit -f <module_name>
+git rm <module_name>
+git config --global http.proxy socks5://127.0.0.1:7890#全局代理
+git config --local https.proxy socks5://127.0.0.1:7890#临时代理
+git config --global http.https://github.com.proxy socks5://127.0.0.1:7890#针对github代理
+git config --global --unset http.https://github.com.proxy#取消对github代理
+git config --global --unset http.proxy#取消git代理
+git config --global url."https://gitdl.cn/https://github.com".insteadOf https://github.com#针对github替换
+git config --global http.version HTTP/1.1//配置https lts标准
+git config --global http.sslVerify false
+git config --global http.postBuffer 5120m
+git config --global core.compression 0#设置压缩机别 0表示无压缩
+git config --global core.filemode false#设置文件格式（忽略权限变化）\不信任文件模式（跨系统文件复制和使用）
+git config --global core.safecrlf true#拒绝提交包含混合换行符的文件
+git config --global core.autocrfl false#设置git换行符 不转换换行符
+git config --system core.longpaths true#启用 Git 的长路径支持
+git config --global http.lowSpeedLimit 0
+git config --global http.lowSpeedTime 99
+git config --global pack.threads 1#设置git 线程数
+git config --global pack.deltaCacheSize 2560m
+git config --global pack.SizeLimit 2560m#设置一个包最大的压缩尺寸
+git config --global pack.windowMemory 5120m
+git config --global core.protectNTFS false #关闭NTFS 保护机制
+git-lfs filter-process
+git log 
+git show
+git diff
+git revert
+git reset --hard //重置历史修改
+git reset //在使用 git reset --hard 或者重写历史之后，一定要记得强制推送（--force），这样远程仓库的历史才会被更新。
+git filter-branch
+git checkout/swhitch ^Tag#命令切换到某一节点
+git reset –hard    # 切换到某一节点并丢弃当前改动
+git reset –mixed   # 切换到某一节点但保留当前改动
+git cherry-pick 
+git add .
+git commit -m ”“
+git checkout master
+git push origin master
+git pull --rebase
+git pull --rebase origin main
+git push -u origin main #推送新的“main”分支到远程仓库
+git remote add origin <remote_repository_url> #关联远程仓库
+git merge dev
+git fetch
+git reset ^HEAD
+git reset --unshallow
+git config --system https.sslbackend openssl
+git config --global url."https://github.moeyy.xyz/https://github.com".insteadOf https://github.com
+git config --global url."https://mirror.ghproxy.com/https://github.com".insteadOf https://github.com
+git config --global url."https://ghproxy.net/https://github.com".insteadOf https://github.com
+git config --global url."https://ghp.ci/https://github.com".insteadOf https://github.com
+git config --global url."https://gitdl.cn/https://github.com".insteadOf https://github.com
+git config --global url.https://source.codeaurora.org.insteadOf git://codeaurora.org
+git config --global url.https://beijing.source.codeaurora.org.insteadOf git://codeaurora.org
+git config --global url.https://beijing.source.codeaurora.org.insteadOf https://source.codeaurora.org
+git config --global url."https://mirrors.tuna.tsinghua.edu.cn/git/chromiumos".insteadOf https://chromium.googlesource.com
+git config --global --unset url.https://github.moeyy.xyz/https://github.com.insteadof
+git config --global --unset url.https://ghproxy.net/https://github.com/.insteadof
+git config --global --unset url.https://gitdl.cn/https://github.com.insteadof
+.gitconfig查看配置文件
+
+git config --global pack.deltaCacheSize 2560m
+git config --global pack.SizeLimit 2560m
+git config --global pack.windowMemory 5120m
+git config --global core.protectNTFS false
+git config --global core.longpaths true
+git config --global core.autocrfl false
+git config --global core.filemode false
+git config --global core.compression 0
+git config --global http.sslVerify false
+git config --global https.sslVerify false
+git config --global http.version HTTP/1.1
+git config --global https.version HTTP/1.1
+git config --global http.lowSpeedLimit 0
+git config --global http.lowSpeedTime 99
+git config --global http.postBuffer 5120m
+git config --global https.lowSpeedLimit 0
+git config --global https.lowSpeedTime 99
+git config --global https.postBuffer 5120m
+git config --global http.proxy socks5://127.0.0.1:7890
+git config --global https.proxy socks5://127.0.0.1:7890
+git config --global url."https://gitdl.cn/https://github.".insteadOf git://github.
+git config --global url."https://gitdl.cn/https://github.com".insteadOf https://github.com
+git config --global url."https://gitdl.cn/https://github.com/".insteadOf git@github.com:
+git config --global url."https://ghp.ci/https://github.".insteadOf git://github.
+git config --global url."https://ghp.ci/https://github.com".insteadOf https://github.com
+git config --global url."https://ghp.ci/https://github.com/".insteadOf git@github.com:
+git config --global url."https://ghproxy.net/https://github.".insteadOf git://github.
+git config --global url."https://ghproxy.net/https://github.com".insteadOf https://github.com
+git config --global url."https://ghproxy.net/https://github.com/".insteadOf git@github.com:
+git config --global url."https://mirrors.tuna.tsinghua.edu.cn/git/chromiumos".insteadOf https://chromium.googlesource.com
+
+ rm -f NUL 强制删除文件
+ rmdir -f NUL 强制删除文件夹
+del /f/q/s *.* > NUL //强制删除文件 /F：强制删除只读文件 /Q：在模糊文件名匹配删除的时候，不询问是否删除 /S：删除当前目录和子目录中指定文件
+rd /f/s/q   强制删除文件夹
+
+VS 常量$(LatestTargetPlatformVersion)$(DefaultPlatformToolset)$(SolutionDir)$(ProjectDir)$(Configuration)$(OutDir)$(ProjectName)$(Platform)$(IntDir)$(MSBuildProjectName)$(IncludePath)$(LibraryPath)
+VS 链接-> 命令行 ->其他 \verbose:lib查看链接过程 \utf-8编码支持[#pragma warning (disable:4819)]
+VS 链接 -> 清单文件 -> UAC执行级别 /level='requireAdministrator'
+VS dumpbin /exports xxx.lib > xxx.txt dumpbin 可以查看 lib 库中的所有导出符号
+VS undname ?XXX@XXX@XX undname方便查看未经过编译器处理的函数名
+Microsoft.Cpp.Win32.user.props Microsoft.Cpp.x64.user.props VS2010VC++目录
+Microsoft.Cpp.MSVC.Toolset.Win32.props Microsoft.Cpp.MSVC.Toolset.x64.props VS2022VC++目录
+Windows导出环境变量 set >> evn.reg
+
+Huggingface镜像站hf-mirror.com 大模型下载
+pip install -U huggingface_hub hf_transfer
+set HF_ENDPOINT=https://hf-mirror.com;set HF_HOME=D:/Work/hf-mirror/.cache/huggingface/hub;set TRANSFORMERS_CACHE=D:/Work/hf-mirror/.cache
+huggingface-cli download --resume-download xxx/xx --local-dir xx
+
+https://gitdl.cn/https://github.com/gorhill/uBlock/releases/download/1.60.1b13/uBlock0_1.60.1b13.chromium.zip
+https://www.tampermonkey.net/crx/tampermonkey_stable.crx
+
+flutter dart环境配置
+openssl x509 -inform der -in tuna.tsinghua.edu.cn.der -out tuna.tsinghua.edu.cn.pem//利用镜像网站der/cer证书文件生成pem信任证书文件
+openssl x509 -inform der -in mirrors.sjtug.sjtu.edu.cn.crt -out mirrors.sjtug.sjtu.edu.cn.pem//利用镜像网站der/cer证书文件生成pem信任证书文件
+set PUB_HOSTED_URL=https://pub.flutter-io.cn//推荐flutter镜像站
+set FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn//推荐第三方镜像站
+set DART_VM_OPTIONS="--root-certs-file=mirrors.sjtug.sjtu.edu.cn.gem"//设置环境变量并指定证书文件
+set https_proxy="--root-certs-file=mirrors.sjtug.sjtu.edu.cn.gem"//设置环境变量并指定证书文件
+flutter pub get//获取第三方包
+flutter build apk//打包apk
+
+ollama添加gguf模型
+ollama list
+<model_name>.mf : FROM ./<model_name>.gguf
+ollama create <model_name> -f <model_name>.mf
+ollama run <model_name>
+ollama rm <model_name>
+
+msys64
+修改 D:\msys64\etc\pacman.d 目录下的所有 mirrorlist.* 文件，将原来的注释掉，添加如下
+#清华源
+Server = http://mirrors.tuna.tsinghua.edu.cn
+#中科大源
+Server = http://mirrors.ustc.edu.cn
+#北理源
+Server = http://mirror.bit.edu.cn
+添加目录 ;D:\msys64\mingw64\bin;D:\msys64; 到path中
+pacman -U [包名.tar.zst | 包名.tar.xz] #归档包安装
+pacman -R 包名 #卸载软件包
+pacman -Q #查询已安装包信息
+pacman -Suy
+pacman -Su
+pacman -S base-devel
+pacman -S gcc
+pacman -S gcc-c++
+pacman -S pkg-config
+pacman -S make
+pacman -S wget
+pacman -S curl
+pacman -S git
+pacman -S python
+pacman -S ncurses
+pacman -S llvm
+pacman -S clangd
+pacman -S gdb
+pacman -S glib
+pacman -S 7zip-full
+pacman -S maven
+pacman -S apache
+pacman -S docker
+pacman -S nasm
+pacman -S zsh
+pacman -S ninja
+pacman -S meson
+pacman -S cmake
+pacman -S xmake
+pacman -S mingw-w64-x86_64-gcc
+pacman -S mingw-w64-x86_64-cmake-gui
+pacman -S mingw-w64-x86_64-gdb
+pacman -S mingw-w64-x86_64-make
+pacman -S mingw-w64-x86_64-boost
+pacman -S mingw-w64-x86_64-opencv
+pacman -S mingw-w64-x86_64-toolchain
+pacman -S mingw-w64-i686-toolchain
+pacman -S mingw64/mingw-w64-x86_64-clang
+pacman -S mingw32/mingw-w64-i686-clang
+
+FFMPEG最简Windows编译方案[msys]
+pacman -Syu
+pacman -S git make diffutils pkg-config
+pacman -S mingw-w64-x86_64-toolchain
+pacman -S --needed base-devel mingw-w64-x86_64-toolchain
+pacman -S mingw-w64-ucrt-x86_64-gcc
+pacman -S mingw-w64-x86_64-ffmpeg
+pacman -S nasm
+pacman -S mingw-w64-ucrt-x86_64-SDL2
+git clone github.com/FFmpeg/FFmpe
+cd FFmpeg
+./configure --arch=x86_64 --enable-shared --enable-static
+make
+make install
+
+https://github.com/ViRb3/magisk-frida[frida-server on boot with the following rooting tools: Magisk, KernelSU and APatch] 
+https://zhuanlan.zhihu.com/p/151851826[模拟来电，假装来电话，关键时刻有妙用]
+
+//Android Gradle ktx
+编译完release版本后复制apk到特定目录，apk文件名字符合自己的需求，例如增加版本号，版本名字。翻了一遍网上基本上都是Groovy编写，但是项目刚好切换到kts了，之前Groovy代码用不了。
+原来的Groovy版本
+
+// Version
+def versionPropertiesFile = project.file("version.properties")
+def versionProperties = new Properties()
+versionProperties.load(new FileInputStream(versionPropertiesFile))
+/////////////
+artifact_version=1.0.4
+artifact_name=pager-demo
+/////////////
+def getGitHash() { 
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08:00"))
+}
+android {
+    /////其他代码
+    android.applicationVariants.all {
+        variant ->
+//            if (!assembleProvider.name.contains("Release")) {
+//                return
+//            }
+            println(" rootDir  = ${rootDir.absolutePath}")
+            println(" buildDir =${buildDir.absolutePath}")
+            def isDebuggable = variant.getBuildType().isDebuggable()
+            def appName = "Silkswap"
+            println(" isDebuggable  = ${isDebuggable}")
+            println(" appName  = ${appName}")
+            variant.outputs.all { output ->
+                //指定文件输出名称
+                if (isDebuggable) {
+                    outputFileName = "${appName}-${variant.name}-${output.baseName}-${variant.versionName}-${getGitHash()}.apk"
+                } else {
+                    outputFileName = "${appName}-${variant.name}-${output.baseName}-${variant.versionName}.apk"
+                }
+            }
+//            variant.outputs.all {
+//                //指定文件输出路径
+//                outputFileName = "Silkswap-${variant.name}.apk"
+//            }
+            def outputFileDir = new File("${rootDir.absolutePath}/apkFile/")
+            // 删除旧的 assets 目录及其内容
+            if (!outputFileDir.exists()) {
+                outputFileDir.mkdir()
+            }
+            variant.assembleProvider.configure() {
+                it.doLast {
+                    if (variant.mappingFile != null && variant.mappingFile.exists()) {
+                        def mappingFileName = "$archivesBaseName-$variant.baseName-mapping.txt"
+                        (new File(variant.mappingFile.parent, mappingFileName)).delete()
+                        if (isDebuggable) {
+                            variant.mappingFile.renameTo(variant.mappingFile.parent + "/$appName-$variant.baseName-${variant.versionName}-${getGitHash()}-mapping.txt")
+                        } else {
+                            variant.mappingFile.renameTo(variant.mappingFile.parent + "/$appName-$variant.baseName-${variant.versionName}-mapping.txt")
+                        }
+                    }
+                    copy{
+                        variant.outputs.all { file ->
+                                copy {
+                                    from(file.outputFile)
+                                    into(outputFileDir)
+                                }
+                        }
+//                        variant.outputs.forEach { file ->
+//                            copy {
+//                                from file.outputFile
+//                                into outputFileDir
+//                            }
+//                        }
+                    }
+                }
+            }
+    }
+}
+下面是kts版本。
+全部代码如下，只需要在你的主模块的android中增加代码即可。
+ getGitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+getDateOfBuild = { -> // ISO 8601 time format
+    return new Date().format("yyyy-MM-dd'T'HH:mm'Z'").toString().trim()
+}
+android {
+    /////其他代码
+    applicationVariants.all {
+        val variant = this
+        if (!assembleProvider.name.contains("Release")) {
+            return@all
+        }
+        outputs.forEach {
+            val output = it as BaseVariantOutputImpl
+            output.outputFileName = "sob_" + buildType.name + "_v" + versionName + "_" + versionCode + ".apk"
+        }    
+        // 打包完成后复制apk到指定文件夹,根目录apkFile
+        var outputFileDir = File("${rootDir.absolutePath}/apkFile/")
+        if (!outputFileDir.exists()) {
+            outputFileDir.mkdir()
+        }
+        assembleProvider.configure {
+            doLast {
+                copy {
+                    variant.outputs.forEach { outFile ->
+                        // 只复制文件
+                        outFile.outputFile.isFile.ifTrue {
+                            copy {
+                                from(outFile.outputFile)
+                                into(outputFileDir)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//Android Gradle编译JNI Android.mk项目
+ndk {
+        moduleName "Test"
+        ldLibs "log"
+       abiFilters "armeabi", "armeabi-v7a", "x86" //输出指定三种abi体系结构下的so库，目前可有可无
+}
+sourceSets {
+    main {
+        jniLibs.srcDirs = ['libs', 'src/main/libs']
+    }
+}
+repositories {
+    flatDir {
+        dirs 'libs', 'src/main/libs'
+    }
+}
+import org.apache.tools.ant.taskdefs.condition.Os
+tasks.withType(JavaCompile) {
+    compileTask -> compileTask.dependsOn ndkBuild
+}
+String getNdkBuildPath() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def ndkBuildingDir = properties.getProperty("ndk.dir")
+    def ndkBuildPath = ndkBuildingDir
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        ndkBuildPath = ndkBuildingDir + '/ndk-build.cmd'
+    } else {
+        ndkBuildPath = ndkBuildingDir + '/ndk-build'
+    }
+    return ndkBuildPath
+}
+task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
+    println('executing ndkBuild')
+    def ndkBuildPath = getNdkBuildPath();
+    commandLine ndkBuildPath, '-j8', '-C', file('src/main').absolutePath
+}
+task ndkClean(type: Exec, description: 'clean JNI libraries') {
+    println('executing ndkBuild clean')
+    def ndkBuildPath = getNdkBuildPath();
+    commandLine ndkBuildPath, 'clean', '-C', file('src/main').absolutePath
+}
+clean.dependsOn 'ndkClean'
+
+Windows下静态编译Skia
+要先安装Python，并把Python设置到环境变量里，到安装目录下把Python.exe复制一份，取名Python3.exe
+接着下载谷歌的：depot_tools
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+下载完成后把depot_tools所在目录手动设置到环境变量中，我设置的是：D:\tool\depot_tools
+接着安装LLVM（最新稳定版，我下载的是LLVM-15.0.7-win64.exe，安装过程中配置到环境变量中）：
+https://github.com/llvm/llvm-project/releases
+​github.com/llvm/llvm-project/releases
+必须使用LLVM编译Skia，用VS编译的Skia是有性能问题的
+接着下载skia源码（D:\sdk\skia）（use github desktop）
+git clone https://skia.googlesource.com/skia.git
+skia版本很重要，最新的几个版本几乎都有问题，我用的是chrome/m115
+接着下载skia的依赖库的源码
+cd skia
+python tools/git-sync-deps
+如有必要需要设置代理
+git config --global https.proxy 127.0.0.1:7890
+git config --global http.proxy 127.0.0.1:7890
+git config --global http.sslVerify false
+接着下载ninja
+python bin/fetch-ninja
+接着修改一下gn\BUILDCONFIG.gn，把129-150行（左右）的代码改成如下：
+if (target_os == "win") {
+  # By default we look for 2017 (Enterprise, Pro, and Community), then 2015. If MSVC is installed in a
+  # non-default location, you can set win_vc to inform us where it is.
+  if (win_vc == "") {
+    win_vc = "C:/Program Files/Microsoft Visual Studio/2022/Community/VC"
+  }
+  assert(win_vc != "")  # Could not find VC installation. Set win_vc to your VC
+                        # directory.
+}
+if (target_os == "win") {
+  if (win_toolchain_version == "") {
+    win_toolchain_version = "14.36.32532"
+  }
+  if (win_sdk_version == "") {
+    win_sdk_version = "10.0.22621.0"
+  }
+  if (clang_win != "" && clang_win_version == "") {
+    clang_win_version = "16"
+  }
+}
+gn\toolchain\BUILD.gn，45行附近
+dlsymutil_pool_depth = 8
+接着执行如下指令（这行代码使用powershell执行）
+bin/gn gen out/debug --args='clang_win=\"C:\Program Files\LLVM\" cc=\"clang\" cxx=\"clang++\" extra_cflags=[\"/MTd\"] is_official_build=true is_debug=false skia_use_system_expat=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_icu=false'
+现在开始编译：
+ninja -C out/debug
+这一步可能要等一会儿
+编译完成后，如下目录下应该出现一堆lib文件，这就是你想要的啦
+上面的指令是编译debug版本的静态库，如果你要编译release版本的静态库需要用下面的指令
+（编译静态库前，记得把BUILD.gn改动的那行代码再改回来）
+bin/gn gen out/release --args='clang_win=\"C:\Program Files\LLVM\" cc=\"clang\" cxx=\"clang++\" extra_cflags=[\"/MT\"] is_debug=false is_official_build=true skia_use_system_expat=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_icu=false skia_use_angle=true'
+ninja -C out/release
+如果Skia升级之后，你也想跟着升级，就重新下载，重新编译：
+git pull
+python tools/git-sync-deps
+ninja -C out/Static
+
+那些编译skia跳过的坑
+最近在windows上面编译skia，自己属于小白的那种，遇到了种种问题，各种坑快哭了，在前辈的指导下终于搞定了，下面首先就我自己安装过程遇到的问题分享一下，最后介绍一下在vs中编译这一方法（其实也有很多坑），好处就是编译完了直接可以在vs中调试工程下的代码，分析代码进行学习。如果大家编译的过程遇到相似的问题可以改一下，如果只是想编译成功，直接跳过前面看最后面的VS中编译过程即可！
+这是skia安装官网https://skia.org/user/download，按照上面来估计会遇到种种挫折，下面来列一下我遇到的问题。
+坑1：首先记住如果之前安装的python是3.0以上的最好不要用，要安装2.7版本的最好，我因为之前电脑上装的3.5版本，结果有的库不兼容
+坑2：当进行到bin/gn gen out/Static --args='is_official_build=true'时，会报错'bin' 不是内部或外部命令，也不是可运行的程序
+或批处理文件。于是老老实实的按照官网运行了python tools/git-sync-deps 结果还是会报同样的错误，纳尼？什么鬼！！还是，呵呵此时你应该
+改为bin\gn gen out/Static --args='is_official_build=true'对你没有看错，将/改为\，我去，神坑！！！
+坑3：好了现在总应该没错了吧，呵呵，天真了，再次运行你会发现，它又报错了，巴拉巴拉一堆，此时你需要将 --args='is_official_build=true'
+改为 --args="is_official_build=true"就是将单引号改为双引号。是不是感觉萌萌哒！！
+坑4：当编译的时候，它有时会报错，说什么缺少XXXX.h(以.h结尾的头文件)，这时候其实已经步入一个神坑了哭哈哈哈，按理说它是会自动获取这些头文件的
+这时候怎么办呢?可以到如下目录下找到相应的头文件：如果你没有externals目录，要运行python tools/git-sync-deps（其实这个步骤在之前就
+应该运行了的）
+也可以直接谷歌这个头文件，一般是有的，然后自己将代码拷贝，文件名就以报错提示缺少的文件名命名，最后放到目录下：
+坑7：运行的时候会报C2220的错误如下：
+什么意思呢？意思就是它将警告视为错误了，这个好解决找到这个文件如下：
+在代码中找到，原来这里是没有“-”的，加上就好了
+坑6：git克隆下来的代码skia好像有问题（我也不是很清楚），大家可以试一下用Sourcetree下载skia源代码。
+好了从新编译一下吧，看看是不是OK了？也许可以吧，但其实说实话我的还是报错(天理在哪里？)，说什么头文件中在#前缺少;我去我去！！！！代码本身有错误？
+这个时候其实就可以放弃了，你可以试一试下面这种编译方式（当然可以根据提示一步步去改动，不过我此时心态已奔）
+好了最后说一下vs编译的方法，
+首先下载 depot_tools 这个没什么说的，然后就是下载skia了，官网上使用git下的，建议用Sourcetree下载skia源代码（这个影响不大）。Sourcetree
+很好用，有ui界面。
+然后先在cmd中切换到你自己skia文件夹所在位置例如我的是e盘
+然后运行python tools/git-sync-deps
+不出意料的话就是下面结果：
+接着输入bin\gn.exe gen out/vs2015x64d --sln="skia" --ide="vs2015"
+两点说明：(一)我这里生产的Debug版本，方便我们看代码时调试(二)我的vs版本是2015的
+不错意料会出现：
+然后去skia目录下会有一个叫做out目录的东西，点开会发现如下图这么个skia用vs打开即可（切记vs要用管理员身份打开，不要编译的时候又会报错
+说什么没有访问权限）
+点击build下面第一个选项进行编译
+当编译的时候有时又会报错，报错不能打开某个文件，不好意思又进入另一个坑了，此时在vs中选中相关的不能打开的文件左键，选中最后一个即propertes
+会弹出一个窗口
+可以看到windows的sdk是10.0.15063，然后去自己电脑上看居然没有10.0.15063版本
+呵呵，无语了吧，我的安装之路就是这么艰辛哭，好了去下载一个吧
+官网https://developer.microsoft.com/en-us/windows/downloads/sdk-archive
+点击相应版本如下：
+下载好了以后，再次在vs中build(按F7就可以)，
+说明：在编译的时候有时会报错，根据错误索引到对应的工程，就是在这里拷贝一下报错的文件，回车就可以索引到该工程了
+然后右键单独编译这个工程，在此会看到具体的错误提示，进而可以做进一步的措施！但更多的是，没有报错！！！编译通过，此时再整体编译一下整个工程（就是按F7）可以发现这个错误又没了，呵呵笑哭偷笑，这是什么原因呢？应该是在整体编译的时候，编译顺序不对引起的，那我们就单独编译报错的某个工程，哈哈哈是不是很心累！！！但愿大家不会碰到这个问题（我记得好像有什么访问受限之类的，记住直接找到对应的工程单独给它编译，简单粗暴我就是单独编译了好几个单独工程才解决了的）
+好了到此应该是编译好了，我们测试一下；找到out工程下的HelloWorld.exe然后运行一下，结果如下：
+苍天呀，上帝呀！终于成功了。
+总结一下：大家可以下载vs2017版本，估计会友好一些！一路下来还是蛮累的，希望大家不要遇到这些种种琐碎的错误！
+
+在windows上编译skia
+0、准备好VPN
+准备好VPN，这是第一步。
+1、下载depot_tools
+skia使用git管理源码。所以，要先安装git。
+但是不能直接使用git获得skia源码。因为编译skia需要一些依赖库。要使用google提供的depot_tools来
+获得源码。depot_tools使用python包装了git。根本上还是使用git获得源码。
+可直接下载depot_tools工具。
+2、下载源码
+安装好depot_tools工具后。进入命令行，新建一个目录，切换到此目录下。
+以后下载的源码就会下载到这个目录下。
+执行如下命令
+gclient config --name=src https://skia.googlesource.com/skia.git
+执行此命令后会创建.gclient文件。文件内容为：
+solutions = [
+  { "name"        : "src",
+    "url"         : "https://skia.googlesource.com/skia.git",
+    "deps_file"   : "DEPS",
+    "managed"     : True,
+    "custom_deps" : {
+    },
+    "safesync_url": "",
+  },
+]
+cache_dir = None
+再执行如下命令：
+gclient sync
+此命令用来获取源码。慢慢等吧。
+3、下载某一版本
+获取源码完成后，会发现此源码的版本为master。使用如下git命令会看到此skia的版本
+$ git branch
+* (HEAD detached at origin/master)
+  master
+如果我们为了使用skia，而不是开发skia，最好不要使用master版本。要获得skia已经定型的版本。
+查看skia的版本
+$ git branch -r
+  origin/HEAD -> origin/master
+  origin/chrome/m39
+  origin/chrome/m40
+  origin/chrome/m41
+  origin/chrome/m42
+  origin/chrome/m43
+  origin/chrome/m44
+  origin/chrome/m45
+  origin/chrome/m46
+  origin/chrome/m47
+  origin/chrome/m48
+  origin/chrome/m49
+  origin/chrome/m50
+  origin/chrome/m51
+  origin/chrome/m52
+  origin/chrome/m53
+  origin/chrome/m54
+  origin/chrome/m55
+  origin/infra/config
+  origin/master
+ 下载某一个版本，这里以m55为例
+ git checkout -b chrome_55 origin/chrome/m55
+ 稍等一会，就会获取完此版本。
+4、生成VS2015工程
+skia中使用了一些C++11的特性。VS2013不能很好的支持C++11。所以要使用VS2015。
+在命令行中执行如下三条命令
+SET "GYP_MSVS_VERSION=2015"
+SET "GYP_GENERATORS=msvs"
+python gyp_skia
+会生成vs2015的工程。
+5、编译Skia
+在执行python gyp_skia的过程中，我们会发现程序输出了如下内容：
+gyp: Missing input files:
+E:\svn\skiasrc\src\out\gyp\..\..\third_party\externals\giflib\gifalloc.c
+E:\svn\skiasrc\src\out\gyp\..\..\third_party\externals\giflib\gif_err.c
+E:\svn\skiasrc\src\out\gyp\..\..\third_party\externals\giflib\dgif_lib.c
+解决方法
+下载giflib。将对应文件放到在对应的位置中。稍稍修改代码即可。
+之后，就可编译skia了。
+
+https://blog.csdn.net/superyu1992/article/details/105841465[#Android反编译#零基础脱掉360加固包的“外衣”]
+利用Frida给加固过的App脱壳
+1、frida简介
+frida的原理在我理解就是，通过在PC上安装Frida，手机上运行frida-server，实现PC对手机的控制，同时通过js注入的方式，将dex从“壳”里“钩”出来。（如果只是想实现结果，可以不在意这些原理，直接用大神们提供的工具就好~）
+它是一款基于Python的hook（钩子）工具，因此在安装它之前我们需要先配置Py环境，现在的frida仅支持3.7以下的环境，3.8以上的暂不支持，这一点需要注意，我就因为PC上的py版本太高，不得不重新安装py。
+2、pc上安装frida和frida-server
+我们通过pip3 install 安装frida、frida-server，这里也有一个注意点：如果你的测试设备是5.1.1的话，需要指定frida为12.1.0（pip3 frida install == 12.1.0）frida-tools为1.2.0，至于原因，后面再说。
+在安装之前，还需要手动下载与你py版本对应的egg文件，否则在安装frida的过程中，会报一个找不到对应egg文件的错误。
+下载链接：https://github.com/frida/frida/releases
+整个安装过程会比较慢，会卡在Running setup.py install for frida ... – 这里很久，一定要有耐心。如果在下载过程中出现超时，可以重新下载或者安装时添加参数 pip3 --default-timeout=100 install -U xxx 。
+安装完成后可以通过在python中，import frida来检测，如果没有报错，则代表安装成功。
+3、在手机上运行frida-server
+frida-server版本的选择由设备的内核版本与frida的版本决定，frida的版本已经确定，我们还需要确定设备的内核版本。在shell中，执行命令:cat /proc/cpuinfo查看系统内核。我的frida版本为12.1.0，设备内核版本为arm32位，因此选择:
+下载地址：https://github.com/frida/frida/releases
+下载完成后将文件解压，通过adb push导入到/data/local文件夹中,然后：
+adb shell进入手机系统；
+通过su切换刀root；
+cd到/data/local；
+赋予froda-server 777 权限：chmod 777 frida-server；
+运行frida-server:./frida-server；还记得之前强调的frida版本问题吗？如果你在5.1.1的设备上，安装了高于12.1.0的frida-server上的话，这里执行就会报错：unused DT entry: type 0x6ffffef5 arg 0x1ddc，那么你又得重新安装frida、frida-tools、frida-server，那又将是一个漫长的过程了...
+启动成功以后，新建一个终端窗口，输入：frida-ps -U，如果可以看到当前设备的进程和名称，则证明pc和手机通过frida联通了：
+4、关键一步，利用“钩子”将dex脱出来：
+以上所做的都是准备工作，下面就是真正的脱壳操作了，这里感谢“看雪”论坛里的大神，提供了可以直接脱壳的js，使得我们直接调用就可以了，献上原文链接：[原创]Frida-Apk-Unpack 脱壳工具-Android安全-看雪论坛-安全社区|安全招聘|bbs.pediy.com
+按照大神的做法：frida -U -f {包名} -l dexDump.js --no-pause，就可以dump出dex了！包名可以从前面所说的apktool中反编译出的manifest中得到。而dex文件会生成在/data/data/应用包名/目录下：
+接下来我们退出shell，通过adb pull将dex文件拉出，再通过jd-gui-osx查看：
+当当，源码全都脱出来了！
+
+360加固脱壳实战
+下载frida
+打开app
+进入手机目录并启动frida sargo:/data/local/tmp # ./frida-server-15.1.27-android-arm64
+端口转发 adb forward tcp:27042 tcp:27042
+确定包名
+使用frida -U -f com.xxx.xxx.xxx -l dupDex.js --no-pause<br> 命令 或者使用frida-hexdump -U -f com.inmo.inmolife命令
+在com.xxx.xxx.xxx 中寻找dex文件 或者在输出的日志中有输出路径
+使用dex2jar工具把dex文件转为jar文件 d2j-dex2jar.sh *.dex -d --skip-exceptions -f,也可以直接用jadx打开
+
+模拟来电的实现
+模拟来电这个功能其实Android原生就有实现，想想Android模拟器是可以来电或者拨号的吧。这个功能对于手机厂商的程序员来说，节省了大量调整UI的时间，不用去真的打电话来呈现UI。实现有两种方式：
+实现虚拟的BaseCommands
+这种方式也是Android5.0之前预留的方式。
+frameworks/opt/telephony/src/java/com/android/internal/telephony/test/SimulatedCommands.java
+public final class SimulatedCommands extends BaseCommands implements CommandsInterface, SimulatedRadioControl
+正常流程中BaseCommands的实现类是RIL.Java， 用这个SimulatedCommands替换掉Phone对象中的BaseCommands对象，然后framework中相关的数据源就成了虚拟的了，使用SimulatedRadioControl接口中的方法即可触发各种操作。
+frameworks/opt/telephony/src/java/com/android/internal/telephony/test/SimulatedRadioControl.java
+public interface SimulatedRadioControl
+{
+    public void triggerRing(String number); //模拟来电
+    public void progressConnectingCallState();
+    public void progressConnectingToActive();  //拨号转接通
+    ...
+    public void triggerHangupForeground(); //挂断前台通话
+    public void triggerHangupBackground();
+    public void triggerHangupAll();
+    ...
+    /** Generates an incoming USSD message. */
+    public void triggerIncomingUssd(String statusCode, String message);
+     ...
+}
+这种方式要对framework中的相关代码稍作修改，非手机厂商的同学使用这种方式比较麻烦。
+实现虚拟的ConnectionService
+Android5.0通讯架构大调整后，实现虚拟来电其实更方便了。这次不用修改framework层代码了，只要实现虚拟的ConnectionService。正常流程中这个是Telephony包下TelephonyConnectionService实现的，现在实现虚拟用的ConnectionService即可。
+原生代码中Telecomm包下就有相关的实现，在testapps包下，这个是测试Telecomm包的测试程序，稍加修改即可实现虚拟来电。在testapps包中，不仅有TestConnectionService，还有TestInCallServiceImpl，虚拟来电是要使用真正的InCallUI的，所以在AndroidManifest.xml中要把相应的类注释掉
+ <!-- <service android:name="com.android.server.telecom.testapps.TestInCallServiceImpl"
+		 android:process="com.android.server.telecom.testapps.TestInCallService"
+		 android:permission="android.permission.BIND_INCALL_SERVICE" >
+	<intent-filter>
+		<action android:name="android.telecom.InCallService"/>
+	</intent-filter>
+</service> -->
+我这里手头上只有mtk的代码，还需要删除一些视频通话相关的代码程序才能跑起来，如果使用原生代码应该只要做上述一处修改就可以实现虚拟来电了。
+
+window系统
+分割压缩包
+1、安装好 WinRAR 之后，用鼠标右键点击要创建分割压缩包的目标文件。选择‘’添加到压缩文件＂
+2、 在弹出的窗口里的“压缩分卷大小，字节”里面选择要分割的尺寸，例如100m。
+完成以上设置后，等待自动压缩文件即可。使用时只要将这分割出来的压缩包放在一起，也就是放在同一个文件夹中，然后随便打开一个就会自动解压。
+合并
+1、把要合并的文件filename1.rar,filename2.rar放到同一个文件夹下面；
+2、快捷键“Win+R”弹出运行命令框，输入：cmd，打开命令行窗口。
+3、输入copy /b filename* filename.rar，回车。然后，就能看到友好的压缩包格式，可用压缩软件解压打开。
+linux系统
+//split 重命名 -b 分割大小 -d 原始压缩包 split xxx.tar.gz -b 10240m -d test.tar.gz //合并压缩包 cat xxx.tar.gz*>> test.tar.gz
+tar zxvf 压缩包
+实例
+split -b 1G -d -a 1 原始test.tar 目标test.tar.
+split -b 1G -d -a 1 test.tar.gz test.tar.gz.
+-b 1G 表示设置每个分割包的大小，单位还是可以k
+-d "参数指定生成的分割包后缀为数字的形式
+-a x来设定序列的长度(默认值是2)，这里设定序列的长度为1
+合并分割后的压缩包：
+cat test.tar.* >>new_test.tar
+tar-xvf new_test.tar
+
+Mingw32右键
+mingw64.reg后缀文件：
+Windows Registry Editor Version 5.00
+[HKEY_CLASSES_ROOT\Directory\Background\shell\mingw64]
+@="MinGW64 Here"
+"icon"="C:\\msys64\\mingw64.exe"
+[HKEY_CLASSES_ROOT\Directory\Background\shell\mingw64\command]
+@="C:\\msys64\\msys2_shell.cmd -mingw64 -here"
+
+Windows Terminal右键
+wt.reg后缀文件：
+Windows Registry Editor Version 5.00
+[HKEY_CLASSES_ROOT\Directory\Background\shell\wt]
+@="Windows Terminal Here"
+[HKEY_CLASSES_ROOT\Directory\Background\shell\wt\command]
+@="C:\\Users\\你的用户名\\AppData\\Local\\Microsoft\\WindowsApps\\wt.exe"
+
+Windows 禁用路径长度限制
+Windows Registry Editor Version 5.00
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
+@="FileSystem"
+"LongPathsEnabled"="1"
+
+Windows 禁用下载文件夹默认分组
+Windows Registry Editor Version 5.00
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}]
+"GroupBy"="System.Null"
+"SortByList"="prop:System.ItemNameDisplay"
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}
+GroupBy:从 System.DateModified 改为 System.Null 这个就可以关闭自动分组了
+SortByList:从 prop:System.DateModified 改为 prop:System.ItemNameDisplay 这个
+如果修改提示 写入值的新内容时出错，右键 {00000000-0000-0000-0000-000000000000} 项，选择 权限，弹出窗口中点击 高级，然后弹出窗口的左上角的 所有者，点击 更改。弹出的“选择用户或组”窗口中点击 高级，然后点击 立即找查，在搜索结果的选项中选择“Administrators”，确定。之后再次回到权限界面，选择“Administrators”用户勾选完全控制权限就可以正常修改了。
+上述修改之前的默认用户是SYSTEM，“Administrators”默认权限是读取，改完之后可以还原回去。
+
+Windows explorer.exe 无法访问指定设备路径或文件。你可能没有适当的权限访问该项目。
+win10 [HKEY_CLASSES_ROOT\PackagedCom\ClassIndex]  win11  [HKEY_CLASSES_ROOT\PackagedCom\TreatAsClassIndex] 
+右键[ClassIndex/TreatAsClassIndex]文件夹，点击权限->添加->输入对象[Users]->检查名称->确认->选择Users勾选[读取]权限
+
+Cmake
+# 最低版本要求
+cmake_minimum_required(VERSION 3.10)
+# 添加项目信息
+project(test_account)
+# 添加可执行文件目标
+add_executable(test_account main.cpp)
+# 为目标添加头文件目录
+target_include_directories(test_account PUBLIC "../account_dir")
+# 为目标添加库文件目录
+target_link_directories(test_account PUBLIC "../account_dir/build")
+# 链接,为目标添加库libAccount.a,这里不需要写全称
+target_link_libraries(test_account Account)
+# 设置自定义路径
+set(CUSTOM_ROOT /XXX/mylib)
+# 指定库和包含路径
+include_directories(${CUSTOM_ROOT}/include)
+link_directories(${CUSTOM_ROOT}/lib)
+# 查找并链接MyLib库
+find_library(MYLIB_LIB NAMES mylib PATHS ${CUSTOM_ROOT}/lib)
+# 链接MyLib库
+target_link_libraries(MyExecutable ${MYLIB_LIB})
+
+Chocolatey
+CMD：set http_proxy=http://127.0.0.1:7890
+CMD：set http_proxy=socks5://127.0.0.1:7890
+CMD：@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+PowerShell：$env:HTTP_PROXY="http://127.0.0.1:7890"
+PowerShell：$env:HTTP_PROXY="socks5://127.0.0.1:7890"
+PowerShell：Remove-Item C:\ProgramData\chocolatey -Recurse
+PowerShell：Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+解决flutter下载dartsdk慢的办法
+CMD：set FLUTTER_STORAGE_BASE_URL=https://mirrors.sjtug.sjtu.edu.cn/ 
+CMD：set PUB_HOSTED_URL=https://dart-pub.mirrors.sjtug.sjtu.edu.cn/
+上海交通大学
+FLUTTER_STORAGE_BASE_URL: https://mirrors.sjtug.sjtu.edu.cn/
+PUB_HOSTED_URL: https://dart-pub.mirrors.sjtug.sjtu.edu.cn/
+**Flutter 社区**
+FLUTTER_STORAGE_BASE_URL: https://storage.flutter-io.cn
+PUB_HOSTED_URL: https://pub.flutter-io.cn
+**清华大学 TUNA 协会**
+FLUTTER_STORAGE_BASE_URL: https://mirrors.tuna.tsinghua.edu.cn/flutter
+PUB_HOSTED_URL: https://mirrors.tuna.tsinghua.edu.cn/dart-pub
+**上海交通大学**
+FLUTTER_STORAGE_BASE_URL: https://mirrors.sjtug.sjtu.edu.cn/ 
+PUB_HOSTED_URL: https://dart-pub.mirrors.sjtug.sjtu.edu.cn/
+
+Windows环境下安装pkg-config
+安装choco
+Set-ExecutionPolicy AllSigned 策略全是A
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+安装pkg-config
+choco install pkgconfiglite
+
+Gradle全局配置修改(http://repo.maven.apache.org/maven) 在 ${USER_HOME}/.gradle/ 目录下创建 init.gradle 文件，添加以下内容：
+allprojects{
+    repositories {
+        def ALIYUN_REPOSITORY_URL = 'https://maven.aliyun.com/repository/public'
+        def ALIYUN_JCENTER_URL = 'https://maven.aliyun.com/repository/public'
+        def ALIYUN_GOOGLE_URL = 'https://maven.aliyun.com/repository/google'
+        def ALIYUN_GRADLE_PLUGIN_URL = 'https://maven.aliyun.com/repository/gradle-plugin'
+        all { ArtifactRepository repo ->
+            if(repo instanceof MavenArtifactRepository){
+                def url = repo.url.toString()
+                if (url.startsWith('https://repo.maven.apache.org/maven2/')) {
+                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_REPOSITORY_URL."
+                    remove repo
+                }
+                if (url.startsWith('https://repo1.maven.org/maven2/')) {
+                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_REPOSITORY_URL."
+                    remove repo
+                }
+                if (url.startsWith('https://jcenter.bintray.com/')) {
+                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_JCENTER_URL."
+                    remove repo
+                }
+                if (url.startsWith('https://dl.google.com/dl/android/maven2/')) {
+                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_GOOGLE_URL."
+                    remove repo
+                }
+                if (url.startsWith('https://plugins.gradle.org/m2/')) {
+                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_GRADLE_PLUGIN_URL."
+                    remove repo
+                }
+            }
+        }
+        maven { url ALIYUN_REPOSITORY_URL }
+        maven { url ALIYUN_JCENTER_URL }
+        maven { url ALIYUN_GOOGLE_URL }
+        maven { url ALIYUN_GRADLE_PLUGIN_URL }
+    }
+}
+
+https://support.github.com/request/landing
+github  Suspended或者Your account has been flagged.申诉解决办法
+https://support.github.com/contact/reinstatement
+Would you like to provide any additional information or context that would be helpful for our review of your reinstatement request?
+Dear sir or madam:
+I am writing to seek your help. My GitHub account has been flagged and my profile is hidden from public. It brings me a whole lot of trouble because my friends on GitHub cannot see my open source project in my GitHub warehouse. I doubt whether this problem has something to do with my recent network fluctuation. I would appreciate your help if you unlock the hidden profile as soon as possible. Thank you so much!
+
+git clone git://github.com/gittup/tup.git
+cd tup
+./bootstrap.sh
+man ./tup.1
+
+set Env=env #临时变量
+setx Env env #用户变量
+setx /m Env env #系统变量
+
+python -m pip install -i https://mirrors.bfsu.edu.cn/pypi/web/simple --upgrade pip
+pip3 install torch torchvision torchaudio -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+pip3 install tensorflow -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+pip3 install modelscope -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+pip3 install  -i https://mirrors.bfsu.edu.cn/pypi/web/simple --upgrade urllib3
+pip3 install  -i https://mirrors.bfsu.edu.cn/pypi/web/simple --upgrade requests
+pip3 install transformers -i https://mirrors.bfsu.edu.cn/pypi/web/simple
+modelscope download --model=OpenBMB/MiniCPM3-4B --local_dir ./MiniCPM3-4B
+modelscope download --model=OpenBMB/MiniCPM3-4B-GPTQ-Int4 --local_dir ./MiniCPM3-4B-GPTQ-Int4
+https://modelscope.cn/organization/OpenBMB
+https://modelscope.cn/models/OpenBMB/MiniCPM-V-2_6-gguf
+
+一、清华源 https://pypi.tuna.tsinghua.edu.cn/simple/
+pip install xxx -i https://pypi.tuna.tsinghua.edu.cn/simple/
+二、阿里源 https://mirrors.aliyun.com/pypi/simple
+pip install xxx -i https://mirrors.aliyun.com/pypi/simple
+三、中科大源 https://pypi.mirrors.ustc.edu.cn/simple/
+pip install xxx -i https://pypi.mirrors.ustc.edu.cn/simple/
+四、豆瓣源 http://pypi.douban.com/simple/
+pip install xxx -i http://pypi.douban.com/simple/
+pip config set global.index-url http://mirrors.aliyun.com/pypi/simple/ 
+pip config set install.trusted-host mirrors.aliyun.com
+python -m pip install --upgrade pip
+pip install -U huggingface_hub hf_transfer
+setx HF_ENDPOINT https://hf-mirror.com
+setx HF_HOME D:/VscodiumZone/.cache/huggingface 
+setx TRANSFORMERS_CACHE D:/VscodiumZone/.cache   
+huggingface-cli download --resume-download runfuture/MiniCPM-2B-dpo-q4km-gguf --local-dir MiniCPM-2B-dpo-q4km-gguf
+huggingface-cli download --resume-download --local-dir-use-symlinks False runfuture/MiniCPM-2B-dpo-q4km-gguf--local-dir  MiniCPM-2B-dpo-q4km-gguf  --cache-dir  MiniCPM-2B-dpo-q4km-gguf
+
+pip config set global.index-url https://mirror.baidu.com/pypi/simple
+pip config set install.trusted-host mirror.baidu.com
+pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
+pip config set install.trusted-host mirrors.aliyun.com
+python -m pip install --upgrade pip //更新pip
+pip install uv //pip替代
+
+修复：无法终止进程。操作无法完成，访问被拒绝。
+cmd：tskill pid
+powershell：Stop-Process -ID pid
+powershell：Stop-Process -Name "java"
+
+del /s /f /q xx.xx
+del /s /f /q *.txt *.png *.jpg
+rmdir /s /q  xx
+
+setx GRADLE_USER_HOME "D:/.gradle" /m
+set X_VCPKG_ASSET_SOURCES="x-azurl,http://106.15.181.5/" /m
+set VCPKG_DEFAULT_TRIPLET="x86-windows" /m
+setx X_VCPKG_ASSET_SOURCES "x-azurl,http://106.15.181.5/" /m
+setx VCPKG_DEFAULT_TRIPLET "x86-windows" /m
+
+npm config set registry https://registry.npmmirror.com  切换淘宝NPM镜像站
+npm config get registry 查看镜像状态
+npm config set registry https://registry.npmjs.org  恢复官方镜像源
+
+安装cnpm 
+npm install -g cnpm --registry=https://registry.npmmirror.com
+安装pnpm
+npm install -g pnpm --registry=https://registry.npmmirror.com
+# 注册模块镜像
+npm set registry https://registry.npmmirror.com  
+// node-gyp 编译依赖的 node 源码镜像  
+npm config set disturl https://npmmirror.com/dist 
+npm set disturl https://npmmirror.com/dist 
+// 清空缓存  
+npm cache clean --force  
+# mirror config
+sharp_binary_host = https://npmmirror.com/mirrors/sharp
+sharp_libvips_binary_host = https://npmmirror.com/mirrors/sharp-libvips
+profiler_binary_host_mirror = https://npmmirror.com/mirrors/node-inspector/
+fse_binary_host_mirror = https://npmmirror.com/mirrors/fsevents
+node_sqlite3_binary_host_mirror = https://npmmirror.com/mirrors
+sqlite3_binary_host_mirror = https://npmmirror.com/mirrors
+sqlite3_binary_site = https://npmmirror.com/mirrors/sqlite3
+sass_binary_site = https://npmmirror.com/mirrors/node-sass
+electron_mirror = https://npmmirror.com/mirrors/electron/
+puppeteer_download_host = https://npmmirror.com/mirrors
+chromedriver_cdnurl = https://npmmirror.com/mirrors/chromedriver
+operadriver_cdnurl = https://npmmirror.com/mirrors/operadriver
+phantomjs_cdnurl = https://npmmirror.com/mirrors/phantomjs
+python_mirror = https://npmmirror.com/mirrors/python
+registry = https://registry.npmmirror.com
+disturl = https://npmmirror.com/dist
+
+本地连github出错“ssh: connect to host github.com port 22: Connection timed out”，如何解决？
+当你尝试连接到 GitHub 时遇到 “ssh: connect to host github.com port 22: Connection timed out” 这个错误，这通常意味着有些东西阻止了你的连接。下面是一些建议的解决步骤：
+网络连接：确保你的网络连接是稳定的。
+端口阻塞：某些网络或ISP可能会阻塞SSH的默认端口（22）。尝试使用443端口连接到GitHub：
+ssh -T -p 443 git@ssh.github.com
+如果这成功了，你可以考虑永久地更改你的SSH配置以使用443端口。在 ~/.ssh/config 文件中添加以下内容：
+Host github.com Hostname ssh.github.com Port 443
+代理设置：如果你在使用代理，确保你的SSH配置正确地设置了代理。
+SSH密钥：确保你的公钥已经添加到GitHub的SSH keys列表中，并且你的私钥存在于你的机器上。
+防火墙设置：确保你的防火墙或安全软件没有阻止SSH连接。
+DNS问题：尝试使用IP地址代替域名进行连接，以检查是否是DNS问题。但是注意，长期使用IP地址不是一个好办法，因为GitHub的IP地址可能会变化。
+ping测试：尝试使用 ping github.com 来检查你的机器是否可以达到GitHub。
+网络工具：使用 traceroute github.com 或 mtr github.com 来检查网络路径中可能存在的问题。
+GitHub状态：虽然较少见，但有可能GitHub正在遇到问题。
+重新启动：有时简单地重新启动你的计算机和路由器可能会解决问题。
+#Host github.com *.github.com
+#User git
+#Port 22
+#Hostname %h
+#PreferredAuthentications publickey
+#IdentityFile id_rsa
+# 设置代理, 127.0.0.1:10808 换成你自己代理软件监听的本地地址
+# HTTPS使用-H，SOCKS使用-S   使用gotoh/ssh-connect进行代理
+#ProxyCommand connect -S 127.0.0.1:7890 %h %p
+
+//代理github.com ssh
+#Host github.com
+#User git
+#Port 22
+#Hostname github.com
+#IdentityFile "C:\Users\Administrator\.ssh\id_rsa"
+#TCPKeepAlive yes
+
+//代理ssh.github.com ssh
+#Host ssh.github.com
+#User git
+#Port 443
+#Hostname ssh.github.com
+#IdentityFile "C:\Users\Administrator\.ssh\id_rsa"
+#TCPKeepAlive yes
+
+#代理github.com ssh切换到ssh.github.com
+Host github.com
+User git
+# SSH默认端口22， HTTPS默认端口443
+Port 443
+Hostname ssh.github.com
+# SSH私钥位置
+IdentityFile "C:\Users\Administrator\.ssh\id_rsa"
+TCPKeepAlive yes
+
+
+Makefile过滤
+filter函数：用于从文件列表中选择符合条件的文件。语法为$(filter pattern, text)，其中pattern为匹配模式，text为文件列表。返回符合条件的文件列表。
+filter-out函数：用于从文件列表中排除符合条件的文件。语法为$(filter-out pattern, text)，其中pattern为匹配模式，text为文件列表。返回不符合条件的文件列表。
+sort函数：用于对文件列表进行排序。语法为$(sort list)，其中list为文件列表。返回排序后的文件列表。
+wildcard函数：用于匹配文件名。语法为$(wildcard pattern)，其中pattern为匹配模式。返回符合条件的文件列表
+SRC_FOLDER := $(shell find . -maxdepth 2 -type d)
+FIND_FOLDER:= $(patsubst ./%,%,$(filter %/$(UNITNAME), $(SRC_FOLDER)))
+
+Makefile/C&Cpp Windows编译脚本
+# SHELL=powershell
+SHELL=cmd
+CXX = g++
+CXX = g++
+CC = gcc
+ASMFLAGS	:=               
+CXXFLAGS	:= -std=c++14 -w -O3 -g -static -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT -DLUA_COMPAT_ALL -DAL_BUILD_LIBRARY -DAL_ALEXT_PROTOTYPES -DIL_NO_EXTLIBS -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB              
+CCFLAGS		:= -std=c11 -w -O3 -g -static -D_GLFW_WIN32 -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT -DLUA_COMPAT_ALL -DAL_BUILD_LIBRARY -DAL_ALEXT_PROTOTYPES -DIL_NO_EXTLIBS -DFT2_BUILD_LIBRARY -DFT_CONFIG_OPTION_SYSTEM_ZLIB                
+# FLAG		:= -std=c++11 -m32 -w -O3 -g -static -fprofile-arcs -ftest-coverage -D_WIN32 -DWIN32 -D_DEBUG -DDEBUG -D_WINDOWS -DWINDOWS -D_UNICODE -DUNICODE -DNANOVG_GLEW -DGLEW_STATIC -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DLUA_COMPAT -DLUA_COMPAT_ALL -DSK_IGNORE_ETC1_SUPPORT                   
+LFLAGS = -Wl,--subsystem,console -municode -mwindows -fexec-charset=utf-8 -finput-charset=utf-8 -m64 -lkernel32 -limm32 -lversion -luser32 -lwinspool -lodbc32 -lodbccp32 -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid  -lwinmm -lmingw32 -lMsimg32 -lopengl32 -lglu32 -lgdi32 -lgdiplus -ld3d9 -ldxguid -ld3d11 -lxinput -ldinput8 -ld2d1 -ldwrite -lwindowscodecs -lshlwapi -lWs2_32 -lIphlpapi -lcomctl32 -lpthread -ldsound -lddraw -lm -lbcrypt -lsetupapi -lsecur32
+# LFLAGS = -Wl,--subsystem,windows -municode -mwindows -fexec-charset=utf-8 -finput-charset=utf-8 -m64 -lkernel32 -limm32 -lversion -luser32 -lwinspool -lodbc32 -lodbccp32 -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid  -lwinmm -lmingw32 -lMsimg32 -lopengl32 -lglu32 -lgdi32 -lgdiplus -ld3d9 -ldxguid -ld3d11 -lxinput -ldinput8 -ld2d1 -ldwrite -lwindowscodecs  -lshlwapi -lWs2_32 -lIphlpapi -lcomctl32  -lpthread -ldsound -lddraw -lm -lbcrypt -lsetupapi -lsecur32
+OUTPUT	:= output
+SRC		:= src
+INCLUDE	:= include
+LIB		:= lib
+ifeq ($(OS),Windows_NT)
+MAIN	:= main.exe
+SOURCEDIRS	:= $(SRC)
+INCLUDEDIRS	:= $(INCLUDE)
+LIBDIRS		:= $(LIB)
+FIXPATH = $(subst /,\,$1)
+RM			:= del
+TARGET 		:=  /s /q /f
+# RM			:= rm 
+# TARGET 		:= -f
+MD	:= mkdir
+else
+MAIN	:= main
+SOURCEDIRS	:= $(shell find $(SRC) -type d)
+INCLUDEDIRS	:= $(shell find $(INCLUDE) -type d)
+LIBDIRS		:= $(shell find $(LIB) -type d)
+FIXPATH = $1
+RM = rm 
+TARGET 		:= -f
+MD	:= mkdir -p
+endif
+INCLUDES	:= $(patsubst %,-I%, $(INCLUDEDIRS:%/=%))
+LIBS		:= $(patsubst %,-L%, $(LIBDIRS:%/=%))
+ASMSOURCES		:= $(wildcard $(patsubst %,%/*.s, $(SOURCEDIRS)))
+ASMOBJECTS		:= $(ASMSOURCES:.s=.o)
+CXXSOURCES		:= $(wildcard $(patsubst %,%/*.cxx, $(SOURCEDIRS)))
+CXXOBJECTS		:= $(CXXSOURCES:.cxx=.o)
+CPPSOURCES		:= $(wildcard $(patsubst %,%/*.cpp, $(SOURCEDIRS)))
+CPPOBJECTS		:= $(CPPSOURCES:.cpp=.o)
+CCSOURCES		:= $(wildcard $(patsubst %,%/*.cc, $(SOURCEDIRS)))
+CCOBJECTS		:= $(CCSOURCES:.cc=.o)
+CSOURCES		:= $(wildcard $(patsubst %,%/*.c, $(SOURCEDIRS)))
+COBJECTS		:= $(CSOURCES:.c=.o)
+ASMDEPS		:= $(ASMOBJECTS:.o=.d)
+CXXDEPS		:= $(CXXOBJECTS:.o=.d)
+CPPDEPS		:= $(CPPOBJECTS:.o=.d)
+CCDEPS		:= $(CCOBJECTS:.o=.d)
+CDEPS		:= $(COBJECTS:.o=.d)
+OUTPUTMAIN	:= $(call FIXPATH,$(OUTPUT)/$(MAIN))
+all: $(OUTPUT) $(MAIN)
+	@echo Executing 'all' complete!
+$(OUTPUT):
+	$(MD) $(OUTPUT)
+$(MAIN):  $(CPPOBJECTS) $(CXXOBJECTS) $(CCOBJECTS) $(COBJECTS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $(OUTPUTMAIN) $(CPPOBJECTS) $(CXXOBJECTS) $(CCOBJECTS) $(COBJECTS) $(LFLAGS) $(LIBS)
+-include   $(CPPDEPS) $(CXXDEPS) $(CCDEPS) $(CDEPS)
+.s.o:
+	$(CXX) $(ASMFLAGS) $(INCLUDES) -c -MMD $<  -o $@
+.cpp.o:
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -MMD $<  -o $@
+.cxx.o:
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -MMD $<  -o $@
+.cc.o:
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -MMD $<  -o $@
+.c.o:
+	$(CC) $(CCFLAGS) $(INCLUDES) -c -MMD $<  -o $@
+.PHONY: clean
+clean:
+	del $(call FIXPATH,src/*.o)
+	del $(call FIXPATH,src/*.d)
+	del $(OUTPUTMAIN)
+	@echo Cleanup complete!
+run: all
+	./$(OUTPUTMAIN)
+	@echo Executing 'run: all' complete!
+
+Makefile/Golang编译脚本
+.PHONY: all build clean run check cover lint docker help
+BIN_FILE=hello
+all: check build
+build:
+    @go build -o "${BIN_FILE}"
+clean:
+    @go clean
+    rm --force "xx.out"
+test:
+    @go test
+check:
+    @go fmt ./
+    @go vet ./
+cover:
+    @go test -coverprofile xx.out
+    @go tool cover -html=xx.out
+run:
+    ./"${BIN_FILE}"
+lint:
+    golangci-lint run --enable-all
+docker:
+    @docker build -t leo/hello:latest .
+help:
+    @echo "make 格式化go代码 并编译生成二进制文件"
+    @echo "make build 编译go代码生成二进制文件"
+    @echo "make clean 清理中间目标文件"
+    @echo "make test 执行测试case"
+    @echo "make check 格式化go代码"
+    @echo "make cover 检查测试覆盖率"
+    @echo "make run 直接运行程序"
+    @echo "make lint 执行代码检查"
+    @echo "make docker 构建docker镜像"
+    
+Makefile常用函数汇总
+ 一、名称处理函数
+1、wildcard —— 获取指定格式的文件列表
+原型（不同格式之间使用空格隔开）
+$(wildcard <pattern...>)
+示例：获取当前目录下所有的 .cpp 文件和 test目录下所有的 .cpp 文件
+$(wildcard *.cpp test/*.cpp)
+2、dir —— 获取文件所在目录
+获取文件所在目录，本质是获取最后一个反斜杠 '/' 以前的内容。如果没有反斜杠 '/' ，返回 ./
+$(dir <names...>)    # 不同文件名之间以空格隔开
+$(dir src/foo.c sum.txt)
+3、notdir —— 获取文件路径非目录部分
+获取一个文件路径的非目录部分，也可以理解为获取文件名（含后缀），本质是获取最后一个反斜杠 '/' 之后的内容。如果没有反斜杠，直接返回本身。
+$(notdir <names...>)
+$(notdir src/foo.c sum.txt)
+4、suffix —— 获取文件后缀
+取出文件名的后缀，如果文件无后缀，返回空字符。注意其本质并非是单纯获取到最后一个点符号 '.' 之后的内容。
+$(suffix <names…>)
+$(suffix src/foo.c src-1.0/bar.c hacks)
+5、basename —— 去除文件后缀
+$(basename  <names...>)
+$(basename src/foo.c src-1.0/bar.c hacks)
+二、字符串替换与分析函数
+1、subst —— 直接替换字符
+subst 直接将 <text> 中的字符 <src> 替换为字符 <dst>。
+$(subst <src>,<dst>,<text>)
+ 示例：注意逗号两边不要有空格
+$(subst aa,AA,aabbaa aAfd)
+2、patsubst —— 按格式替换字符
+patsubs 函数的作用是使用目标字符（格式）替换源字符（格式），函数返回替换以后的结果，常常搭配通配符 % 使用，% 表示任意长度的字串，如果 <src_pattern> 和  <dst_pattern> 都包含 % ，那么此时 % 表示的字符内容是一样的。
+函数调用原型如下：
+# 将 <text> 中的 源格式 <src_pattern> 替换成目标格式 <dst_pattern>
+ret = $(patsubst <src_pattern>,<dst_pattern>,<text>)
+示例：将所有满足后缀为 .cpp 格式的字符串替换为 后缀为 .o 格式
+$(patsubst %.cpp,%.o,add.cpp bar.cpp)
+3、$(C_SOURCES:.c=.o) —— 按指定格式替换后缀
+和上面 patsubst  达到的效果是一样的，只不过这里的写法更加简单，通常用于替换文件后缀，这里所表达的意思是：将 C_SOURCES 变量中所有 .c 后缀替换成 .o 。
+比如 C_SOURCES 中包含的是
+file1.c file2.c file3.c
+那么最后会被替换成  
+file1.o file2.o file3.o
+4、strip —— 去掉开头和结尾的空白字符
+这里所说的空白字符可以是 空格键 或者 Tab 产生的
+$(strip <string>)
+$(strip, add.cpp bar.cpp )
+5、findstring —— 在某个字串中查找指定字符串
+在字符串 <src> 中查找目标字符或者字符串 <dst>，如果找到了就返回对应字符，如果没有找到返回空字符。
+$(findstring <dst>,<src>) 
+$(findstring a,a b c) 
+6、filter —— 保留指定格式的字符串
+保留指定格式的字符串，指定的格式可以有多个，返回保留的字符串 
+$(filter <pattern...>,<text>)
+sources := foo.c bar.c baz.s ugh.h
+result := $(filter %.c %.s,${sources})
+7、filter-out —— 去除指定格式的字符串
+去除指定格式的字符串，指定的格式可以有多个，返回去除以后的结果
+$(filter-out <pattern...>,<text>)
+示例： 去掉所有的 .h 文件
+sources := foo.c bar.c baz.s ugh.h
+result := $(filter %.h,${sources})
+8、addprefix —— 为字符串添加前缀
+该函数用于向字符串列表中的每个字符串添加指定的前缀。可以是添加路径前缀，也可以添加字符前缀。比如我们要在 所有文件名之前添加路径前缀。
+OBJ_FILES = main.o util.o helper.o  
+PREFIXED_OBJ_FILES = $(addprefix obj/,$(OBJ_FILES))  
+此时 PREFIXED_OBJ_FILES 的输出如下：
+obj/main.o obj/util.o obj/helper.o
+三、控制函数（信息打印函数）
+1、info —— 打印提示信息
+向标准输出打印文本 <text> ，用于输出调试信息，make继续执行
+$(info <text>)
+$(info some debug info)
+2、warning —— 打印报警信息
+向标准输出打印文本 <text> ，用于输出警告信息。make继续执行
+$(warning <text>)
+$(warning some warning info)
+3、errror —— 打印错误信息
+向标准错误输出打印文本 <text> ，用于输出指明错误信息。make停止执行。
+$(error <text>)
+$(error some error info)
+四、其他函数
+1、foreach —— 循环函数
+将 <list> 中的参数逐一取出放到 <var> 变量中，然后再执行 <expression> 中的表达式。
+循环执行中：每执行一次循环都会返回一个字符串，foreach循环会将返回的字符串汇总，不同字符串通过空格分隔
+循环执行结束：当整个循环结束的时候，返回汇总的字符串（不同字串以空格分隔）
+$(foreach <var>,<list>,<text>)
+names := a b c d
+files := $(foreach n,${names},$(n).o)
+2、call —— 调用函数
+makefile中可以自定义函数，call 的作用就是调用自定义的函数或者表达式，也可以传参调用，关于函数的自定义和调用，可以参考：
+$(call <expression>,<parm1>,<parm2>,<parm3>,...)
+3、shell —— 执行命令行命令
+shell 可以执行操作系统的shell命令，返回的是命令行命令的执行结果
+shell <commands>
+$(shell ps ajx | grep test)
+4、eval 
+eval 可以将 <text> 中的内容作为makefile的一部分，然后按照makefile的语法解析这些内容，无返回值。该函数在执行时会对参数展开两次，可以理解为第一次是eval函数检查<text>语法，第二次是解析 <text>内容。
+$(eval <text>)   
+    
+Makefile常用函数总结
+1、realpath  返回一个绝对路径
+例：ROOT  = $(realpath ./)  返回当前路径的绝对地址，赋值给ROOT
+2、wildcard 通配符函数,类似于linux中的 “*”
+命令格式：
+$(wildcard pattern)
+例子 ：SRCS = $(wildcard *.c)  得到当前目录下的所有.c文件
+3、patsubst 字符串替换函数，是pattern substitute的缩写
+命令格式
+$(patsubst pattern, replacement, text)
+例： OBJS = $(patsubst %.o %.c SRCS) SRCS是上面的当前目录的.c文件，将当前目录的.c文件替换为.o文件，赋值给OBJS
+4、addprefix 加前缀函数
+命令格式
+$(addprefix prefix, name..)
+例子：
+file = a.c b.c 
+dir_file = $(addprefix src/,$(file))
+在a.c b.c文件前面加入文件夹名称src/
+5、filter函数
+命令格式：
+$(filter patern...,text)
+例子：
+SOURCE = foo.c foo.o foo.h main.c main.o boot.s
+SOURCE :=$(filter %.c %.s,$(SOURCE) )
+从SOURCE当中抽取.c .s文件
+6、filter-out函数
+剔除某些字符串
+$(filter-out patern...,text)
+例子：
+SOURCE = foo.c foo.o foo.h main.c main.o boot.s
+SOURCE :=$(filter %.c %.s,$(SOURCE) )
+从SOURCE当中剔除.c .s文件
+
+修复COULD NOT FIND PKGCONFIG错误
+Linux可以直接apt-get即可：
+sudo apt-get install pkg-config
+下面详细说一下Windows如何手动安装：
+转到http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/
+下载文件pkg-config_0.26-1_win32.zip
+将文件bin / pkg-config.exe解压缩到your_directory/mysy64/ucrt64/bin
+下载文件gettext-runtime_0.18.1.1-2_win32.zip
+将文件bin / intl.dll提取到your_directory/mysy64/ucrt64/bin
+转到http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.28
+下载文件glib_2.28.8-1_win32.zip
+将文件bin / libglib-2.0-0.dll解压缩到your_directory/mysy64/ucrt64/bin
+至此，问题解决，打开cmd测试一下：
+ 可以识别pkg-config指令
+接下来说两个其他思路：
+网上有一种思路是让pkg-config单独成目录，我没有尝试，但是要记得添加进Path
+还有一种说法可以用choco指令安装：
+choco install pkgconfiglite
+这个我也没试，大家可以尝试
+最后粘三个参考：
+https://www.codenong.com/1710922/
+https://blog.csdn.net/a1341398182/article/details/124321875
+https://www.bilibili.com/video/av601004734/?vd_source=46b92c037ea112837e3a69b8d9125abb
+
+CMake中使用PkgConfig
+首先让CMake找到PkgConfig模块：
+
+set(PKG_CONFIG_EXECUTABLE "D:/pkg-config/bin/pkg-config.exe")
+find_package(PkgConfig)
+然后通过PkgConfig模块找到你想要找到的第三方库，这里我找一下SDL2：
+pkg_check_modules(REQUIRED SDL2 SDL2_image SDL2_ttf SDL2_mixer)
+pkg_search_module(SDL2 REQUIRED sdl2)
+pkg_search_module(SDL2_image REQUIRED sdl2_image)
+pkg_search_module(SDL2_mixer REQUIRED sdl2_mixer)
+pkg_search_module(SDL2_ttf REQUIRED sdl2_ttf)
+pkg_check_modules可以一次性检查所给的所有模块是否存在。
+接下来再使用pkg_search_module找到对应的模块。第一个参数是prefix，第二个参数我填了REQUIRED表示找不到就报错，第三个参数就是模块名字。
+找到之后，我们可以使用如下变量来得到模块信息：
+<prefix>_FOUND：如果找到模块，此变量为1
+<prefix>_LIBRARIES：模块的链接库名称（不包含-l）
+<prefix>_LINK_LIBRARIES：模块的链接库名称（包含绝对路径）
+<prefix>_LIBRARY_DIRS：模块的链接库路径（不包含-L）
+<prefix>_INCLUDE_DIRS：模块的头文件路径（不包含-I）
+<prefix>_LDFLAGS：链接flags
+<prefix>_LDFLAGS_OTHER：额外的链接flags
+<prefix>_CFLAGS：所有的编译器cflags
+<prefix>_CFLAGS_OTHER：其他的编译器cflags
+这里我这样写，以让我的工程得以编译：
+aux_source_directory(src SRC)
+set(SRC ${SRC} main.cpp)
+include_directories(include ${SDL2_INCLUDE_DIRS} ${SDL2_image_INCLUDE_DIRS} ${SDL2_mixer_INCLUDE_DIRS} ${SDL2_ttf_INCLUDE_DIRS})
+link_directories(${SDL2_LIBRARY_DIRS} ${SDL2_mixer_LIBRARY_DIRS} ${SDL2_ttf_LIBRARY_DIRS} ${SDL2_image_LIBRARY_DIRS})
+link_libraries(${SDL2_LIBRARIES} ${SDL2_image_LIBRARIES} ${SDL2_mixer_LIBRARIES} ${SDL2_ttf_LIBRARIES})
+
+安装 Go Mobile
+首先，确保你已经安装了 Go 语言。然后，使用以下命令安装 Go Mobile 工具：
+go get golang.org/x/mobile/cmd/gomobile // go get -u -v golang.org/x/mobile/cmd/gomobile
+gomobile init
+创建一个简单的移动应用
+以下是一个简单的示例，展示如何使用 Go Mobile 创建一个 Android 应用：
+创建一个新的 Go 文件 hello.go：
+package main
+import (
+	"golang.org/x/mobile/app"
+	"golang.org/x/mobile/event/lifecycle"
+	"golang.org/x/mobile/event/paint"
+	"golang.org/x/mobile/gl"
+)
+func main() {
+	app.Main(func(a app.App) {
+		for e := range a.Events() {
+			switch e := a.Filter(e).(type) {
+			case lifecycle.Event:
+				// 处理生命周期事件
+			case paint.Event:
+				// 处理绘制事件
+				gl.ClearColor(1, 0, 0, 1)
+				gl.Clear(gl.COLOR_BUFFER_BIT)
+				a.Publish()
+			}
+		}
+	})
+}
+使用以下命令构建 Android 应用：
+gomobile build -target=android .
+将生成的 APK 文件安装到 Android 设备上：
+adb install hello.apk
+
+解决golang：cannot find module providing package
+这主要是由于不能找到我们某些依赖的模块。如果遇到这种问题。我们可以尝试使用go get来安装这些模块。
+如果使用go get安装模块依然不能生效。返回网络错误码404或者410.很有可能是我们无法连接golang.org的GOSUBDB去验证包的有效性。
+这个时候可以设置GOSUBDB为off。绕过验证
+go env -w set GOSUBDB = off
+同时可以设置https://goproxy.io/zh/ 的代理让我们可以正常的安装使用的包。
+go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.io,direct
+# 设置不走 proxy 的私有仓库，多个用逗号相隔（可选）
+go env -w GOPRIVATE=*.corp.example.com
+# 设置不走 proxy 的私有组织（可选）
+go env -w GOPRIVATE=example.com/org_name
+# 阿里云
+go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
+# 七牛云
+go env -w GOPROXY=https://goproxy.cn,direct
+# 官方代理（通常全球范围可用）
+go env -w GOPROXY=https://proxy.golang.org,direct
+#检查代理
+go env | grep GOPROXY
+#取消代理
+go env -w GOPROXY=direct
+
+gomobile 在windows电脑上android环境搭建
+安装go
+安装gomobile
+go install golang.org/x/mobile/cmd/gomobile@latest
+gomobile init
+可以通过git clone下载也可以手动下载,这里我采用的是手动下载
+gomobile github地址 https://github.com/golang/mobile.git
+下载完成之后,把gomobile-master.zip解压到当前目录, 文件夹名字修改为mobile
+在Go安装根目录下的src=>新建golang.org目录=>新建x目录 src\golang.org\x
+然后将刚才的mobile文件夹拷贝当x目录下,目录结构如图所示
+go/src/golang.org/x/mobile/cmd/gomobile
+生成gomobile可执行程序
+在bin目录下执行命令
+go build golang.org/x/mobile/cmd/gomobile
+执行这个命令可能为报错,提示xxx package在GOROOT或者GOPATH下都找不到,在https://github.com/golang
+上找到对应的 mod、tools、xerrors，同样的下载,解压修改文件夹名字拷贝到golang.org/x目录下 重新运行即可
+image.png
+运行demo测试
+尝试编译第一个Android apk安装包cmd命令：
+gomobile build -target=android golang.org/x/mobile/example/basic
+配置ndk-bundle
+如若提示没有配置ANDROID_HOME或者ANDRID_NDK_HOME,配置环境变量即可
+GOROOT与GOPATH环境变量 、ANDROID_HOME
+image.png
+重新运行cmd命令
+gomobile build -target=android golang.org/x/mobile/example/basic
+可以当前目录发现生成一个base.apk
+image.png
+gomobile install golang.org/x/mobile/example/basic
+此命令将安装apk包到已连接的android设备
+image.png
+GOPATH
+在 go1.12 之前，安装 golang 之后，需要配置两个环境变量----GOROOT 和GOPATH。前者是 go 安装后的所在的路径，后者是开发中自己配置的，用于存放go 源代码的地方。在 GOPATH 路径内，有三个文件夹，分别是
+bin: go 编译后的可执行文件所在的文件夹
+pkg: 编译非 main 包的中间连接文件
+src: go 项目源代码
+开发的程序源码则放在src里，可以在src里创建多个项目。每一个项目同时也是一个文件夹。
+go1.12 之后，淡化了 GOPATH，因此也可以忽略这部分内容。
+    
+从源码(编译)安装golang
+通常情况下，安装go只需要在官网(https://golang.org/dl/)下载适合系统的二进制发布包，按照安装说明进行安装即可。
+对于Linux, Mac OS X和FreeBSD系统下的安装，三步即可完成：
+1.下载tarballs文件go$VERSION.$OS-$ARCH.tar.gz，例如1.8.3
+    wget https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz）
+2.执行tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz提取到 /usr/local
+3.设置环境变量，将/usr/local/go/bin 加入到PATH环境变量。可以通过将
+export PATH=$PATH:/usr/local/go/bin 添加到/etc/profile或$HOME/.profile文件的最后一行。
+对于windows系统下的安装，可以下载msi安装包，安装程序自动将go发布拷贝到c:\go目录下，并且将c:\go\bin目录加入到PATH环境变量。
+如果安装位置不是/usr/local/go或者c:\go目录，则需要设置GOROOT环境变量，将GOROOT/bin加入到PATH环境变量。
+Go的一大特征是简单，通过下载二进制发布包安装go环境就充分体现了简单性。
+某些时候，可能要使用特殊版本的go，从源码安装，这同样很简单。从源码安装，首先要进行编译。Go 1.5实现了bootstrapping，所以编译1.5以后的版本和编译1.5以前的版本会略有不同。bootstrapping是编译器领域的一个术语，中文翻译为自举或自展，通俗地讲“用要编译的目标语言编写其编译器（汇编器）”。Go1.5开始编译器和运行时完全用Go语言编写（还有少量汇编）；go1.4是最后一个用C编写工具链的发布。
+编译go1.4，ubuntu 16.04.2系统：
+cd ~
+wget https://storage.googleapis.com/golang/go1.4-bootstrap-20170531.tar.gz
+tar zxvf go1.4-bootstrap-20170531.tar.gz
+cd go/src/
+./all.bash
+编译完成后，可以看到如下输出:
+ALL TESTS PASSED
+---
+Installed Go for linux/amd64 in /home/dell/go
+Installed commands in /home/dell/go/bin
+*** You need to add /home/dell/go/bin to your PATH.
+成功编译后，将~/go/bin加入到PATH环境变量
+sudo gedit /etc/profile
+在最后一行加入  export PATH=/home/dell/go/bin:$PATH  保存
+source /etc/profile
+执行go version，检查安装
+dell@dell-VirtualBox:~/go/src$ go version
+go version go1.4-bootstrap-20170531 linux/amd64
+编译Go1.5及以上版本：
+Go 1.5开始编译器和运行时用go自身编写，要编译它们，首先要安装go编译器。all.bash 编译脚本会在$GOROOT_BOOTSTRAP环境变量中查找一个已经存在的go tool chain，实际上就是要有一个编译好的bin/go程序，$GOROOT_BOOTSTRAP/bin/go应该是go二进制命令。有很多选择，可以在官网(https://golang.org/dl/)下载go发布包；也可以用go1.4源码编译，也就是按照上面的步骤编译go1.4，然后再去编译更高版本的go。
+用官方下载的go1.7编译go 1.8，ubuntu 16.04.2 举例:
+cd ~
+wget https://storage.googleapis.com/golang/go1.7.6.linux-amd64.tar.gz
+wget https://github.com/golang/go/archive/go1.8.3.tar.gz
+tar zxvf go1.7.6.linux-amd64.tar.gz
+tar zxvf go1.8.3.tar.gz
+export GOROOT_BOOTSTRAP=/home/dell/go
+cd go-go1.8.3/src
+./all.bash
+编译成功后，有如下输出：
+##### API check
+Go version is "go1.8.3", ignoring -next /home/dell/go-go1.8.3/api/next.txt
+ALL TESTS PASSED
+---
+Installed Go for linux/amd64 in /home/dell/go-go1.8.3
+Installed commands in /home/dell/go-go1.8.3/bin
+*** You need to add /home/dell/go-go1.8.3/bin to your PATH.
+sudo gedit /etc/profile 将export PATH=/home/dell/go-go1.8.3/bin:$PATH 加入到文件最后一行
+执行go version 检查安装
+dell@dell-VirtualBox:~/go-go1.8.3/src$ go version
+go version go1.8.3 linux/amd64
+
+windows 批处理脚本定时删除指定文件夹、文件
+1.删除文件夹：rd /S /Q （rd /? 可以查看命令参数）
+@echo off
+rem 删除文件夹
+set logPath=D:\tool\DelHisKLineData\log
+set dateSuffix=%DATE:~0,4%%DATE:~5,2%%DATE:~8,2%
+rem FCT_INDEX_2
+rem sh
+set klinepath=D:\Server\FCT_INDEX_2\hqservice\data\sh
+rd /S /Q %klinepath%\min1kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min5kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min15kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min30kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min60kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rem sz
+set klinepath=D:\Server\FCT_INDEX_2\hqservice\data\sz
+rd /S /Q %klinepath%\min1kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min5kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min15kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min30kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min60kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rem 删除文件夹
+rem FCT_INDEX
+rem sh
+set klinepath=D:\Server\FCT_INDEX\hqservice\data\sh
+rd /S /Q %klinepath%\min1kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min5kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min15kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min30kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min60kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rem sz
+set klinepath=D:\Server\FCT_INDEX\hqservice\data\sz
+rd /S /Q %klinepath%\min1kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min5kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min15kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min30kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+rd /S /Q %klinepath%\min60kline >> %logPath%\DelHisKLine_%dateSuffix%.txt
+2.删除指定文件：del /F /S /Q
+rem 删除文件
+rem 查看del命令的参数:del /?
+@echo off
+setlocal enabledelayedexpansion
+rem 变量延迟
+set logPath=D:\tool\DelLog\log
+set path=D:\app\taf\app_log\IndicatorSys\FormulaCalcServer
+set dateSuffix=%DATE:~0,4%%DATE:~5,2%%DATE:~8,2%
+for /r %path% %%i in (*.*) do (
+    rem echo 完整路径: %%i
+    rem echo 无后缀路径： %%~dpni
+    rem echo 所在目录： %%~dpi
+    rem echo 完整文件名： %%~nxi
+    rem echo 不带后缀文件名： %%~ni
+    rem echo 文件后缀： %%~xi
+    set filename=%%~nxi
+    set filetmp=%%~ni
+    echo 文件日期后缀： !filetmp:~-8,8!
+    set datetmp=!filetmp:~-8,8!
+    if /I !datetmp! LSS %dateSuffix% (
+        echo !datetmp!
+        echo:
+        del /F /S /Q %path%\!filename! >> %logPath%\delLog_%dateSuffix%.txt
+    ) else (
+        echo GEQ
+        echo:
+    )
+)
+rem 右括号和左括号要和else在同行，else两边需要有空格
+
+
+//windows分割大文件
+::复制到txt改成， 【zzz-文件夹分割.bat】，然后双击运行。
+::D:\300 存放30万个txt的原始文件夹，就是准备进行分割成小文件夹的大文件夹目录;
+::说明：将该文件放到D:\300文件夹;
+::1、对D:\300文件夹文件排序;
+::3、重命名该bat文件，保证排序后该bat文件是文件夹的最后一个文件;
+::4、这样防止文件夹分割过程中这个文件混入原始文件中，这样就可以保证分割后该bat文
+::件存在于最后一个小文件夹中。
+::为了保证文件夹区分，小文件夹命名前缀是【zz+数字】
+@echo off
+echo "亲准备好了就按下回车键"
+setlocal enabledelayedexpansion
+set mydir=D:\300
+set /a n+=1
+md zz"!n!"
+echo zz"!n!"
+pause
+for /f "delims=" %%i in ('dir /a-d /b %mydir%') do (
+        set /a m+=1
+        xcopy "%%~fi" .\zz"!n!"\
+        echo "%%~fi" "<<<复制到>>>"  ".\zz"!n!"\"
+        if "!m!"=="1" (    :1000表示每1000个文件存放在一个文件夹，该数字表示每个文件夹中的文件个数
+        set /a n+=1,m=0
+        md zz"!n!"
+        echo "完成<<" "!m!" ">>个啦" 
+        echo "创建" "zz!n!" "稍等3秒"
+        color 0A
+                for /L %%a in ( 3,-1,0) do (
+                 echo ">>>>>>>>>>" %%a "秒后继续>>>>>"
+                 ping -n 2 127.0.0.1 > nul
+                if "%%a"=="1" color 0F
+                )
+        color 00
+        )
+)
+echo "ok"
+pause
+::以上内容复制到txt，并重命名成【zzzz文件夹分割.bat】
+//windows下合并压缩包
+copy /b skia_source.tar.gz* skia_source.tar.gz
+//linux分割压缩包
+split 重命名 -b 分割大小 -d 原始压缩包 split skia_source.tar.gz -b 10240m -d test.tar.gz 
+//linu下合并压缩包
+ cat skia_source.tar.gz*>> test.tar.gz
+ split -b 1G -d -a 1 原始test.tar 目标test.tar.
+ -b 1G 表示设置每个分割包的大小，单位还是可以k
+-d "参数指定生成的分割包后缀为数字的形式
+-a x来设定序列的长度(默认值是2)，这里设定序列的长度为1
+//linux下解压压缩包
+tar -zxvf skia_source.tar.gz
+
+批量修改文件后缀
+ren *.jpg *.png
+批量修改文件后
+-----------------------------------------------------
+@echo off
+REM 将字符集设置为 UTF-8
+chcp 65001
+setlocal enabledelayedexpansion
+rem 设置要查找和替换的字符串
+set "search=aaa"
+set "replace=bbb"
+rem 设置文件名匹配模式，例如*.txt表示修改.txt文件，*.*表示修改所有文件
+set "filePattern=*.txt"
+rem 设置目标文件夹的路径
+set "folderPath=C:\YourFolderPath"
+rem 切换到目标文件夹
+cd /d "%folderPath%"
+rem 遍历文件并重命名
+for %%f in (%filePattern%) do (
+    set "filename=%%~nf"
+    set "newFilename=!filename:%search%=%replace%!"
+    ren "%%f" "!newFilename!%%~xf"
+)
+echo 文件名修改完成。
+pause
+-----------------------------------------------------
+-----------------------------------------------------
+@echo off
+chcp 65001
+setlocal enabledelayedexpansion
+rem 获取批处理文件所在的文件夹路径
+for %%I in ("%~dp0.") do set "folderPath=%%~fI"
+rem 设置要查找和替换的字符串
+set "search=aaa"
+set "replace=bbb"
+rem 设置文件名匹配模式，例如*.txt表示修改.txt文件，*.*表示修改所有文件
+set "filePattern=*.txt"
+rem 切换到目标文件夹
+cd /d "%folderPath%"
+rem 遍历文件并重命名
+for %%f in (%filePattern%) do (
+    set "filename=%%~nf"
+    set "newFilename=!filename:%search%=%replace%!"
+    ren "%%f" "!newFilename!%%~xf"
+)
+echo 文件名修改完成。
+pause
+-----------------------------------------------------
+
+#、##和__VA_ARGS__
+1.#
+假如希望在字符串中包含宏参数，ANSI C允许这样做，在类函数宏的替换部分，#符号用作一个预处理运算符，它可以把语言符号转化成字符串。例如，如果x是一个宏参量，那么#x可以把参数名转化成相应的字符串。该过程称为字符串化（stringizing）.
+#incldue <stdio.h>
+#define PSQR(x) printf("the square of" #x "is %d.\n",(x)*(x))
+int main(void)
+{
+    int y =4;
+    PSQR(y);
+    PSQR(2+4);
+    return 0;
+}
+输出结果：
+the square of y is 16.
+the square of 2+4 is 36.
+第一次调用宏时使用"y"代替#x；第二次调用时用"2+4"代#x。
+2.##
+##运算符可以用于类函数宏的替换部分。另外，##还可以用于类对象宏的替换部分。这个运算符把两个语言符号组合成单个语言符号。例如：#define XNAME(n) x##n
+这样宏调用：
+XNAME(4)
+展开后：
+x4
+程序：
+#include <stdio.h>
+#define XNAME(n) x##n
+#define PXN(n) printf("x"#n" = %d\n",x##n)
+int main(void)
+{
+    int XNAME(1)=12;//int x1=12;
+    PXN(1);//printf("x1 = %d\n", x1);
+    return 0;
+}
+输出结果：x1=12
+关于#和##补充一点，来自《C语言高级编程》
+当宏参数是另一个宏的时候
+需要注意的是凡宏定义里有用'#'或'##'的地方宏参数是不会再展开.
+1, 非'#'和'##'的情况
+#define TOW(2)
+#define MUL(a,b) (a*b)
+printf("%d*%d=%d\n", TOW, TOW, MUL(TOW,TOW));
+这行的宏会被展开为：
+printf("%d*%d=%d\n", (2), (2), ((2)*(2)));
+MUL里的参数TOW会被展开为(2).
+2, 当有'#'或'##'的时候
+#define A(2)
+#define CONS(a,b)int(a##e##b)
+这行会被展开为：
+printf(“%s\n”, CONS(A, A));// compile error
+这一行则是：printf("%s\n", int(AeA));
+INT_MAX和A都不会再被展开, 然而解决这个问题的方法很简单. 加多一层中间转换宏. 加这层宏的用意是把所有宏的参数在这层里全部展开, 那么在转换宏里的那一个宏(_STR)就能得到正确的宏参数.
+#define A(2)
+#define _CONS(a,b)int(a##e##b)
+#define CONS(a,b)_CONS(a,b)// 转换宏
+printf("%d\n", CONS(A, A));
+输出为：200
+CONS(A, A)-->_CONS((2), (2))--> int((2)e(2))
+3.可变参数宏 ...和__VA_ARGS__
+__VA_ARGS__ 是一个可变参数的宏，很少人知道这个宏，这个可变参数的宏是新的C99规范中新增的，目前似乎只有gcc支持（VC6.0的编译器不支持）(我用的vc2008也可以)。
+实现思想就是宏定义中参数列表的最后一个参数为省略号（也就是三个点）。这样预定义宏__VA_ARGS__就可以被用在替换部分中，替换省略号所代表的字符串。比如：
+#define PR(...) printf(__VA_ARGS__)
+int main()
+{
+    int wt=1,sp=2;
+    PR("hello\n");
+    PR("weight = %d, shipping = %d",wt,sp);
+    return 0;
+}
+(我的注释：__VA_ARGS__这个宏的头尾是两个下划线，包括后面提到的另外的一些编译器内置宏，不要搞错了哦。)
+输出结果：
+hello
+weight = 1, shipping = 2
+省略号只能代替最后面的宏参数。
+#define W(x,...,y)错误！
+(可变宏的另外一个在调试过程中很给力的用途，这篇文章里有个例子：http://blog.csdn.net/hinyunsin/article/details/6546670，现在整理如下，感谢原作者！)
+编译器内置宏：
+先介绍几个编译器内置的宏定义，这些宏定义不仅可以帮助我们完成跨平台的源码编写，灵活使用也可以巧妙地帮我们输出非常有用的调试信息。
+ANSI C标准中有几个标准预定义宏（也是常用的）：
+__LINE__：在源代码中插入当前源代码行号；
+__FILE__：在源文件中插入当前源文件名；
+__DATE__：在源文件中插入当前的编译日期
+__TIME__：在源文件中插入当前编译时间；
+__STDC__：当要求程序严格遵循ANSI C标准时该标识被赋值为1；
+__cplusplus：当编写C++程序时该标识符被定义。
+编译器在进行源码编译的时候，会自动将这些宏替换为相应内容。
+看到这里，你的眼睛应该一亮了吧，嗯，是的，__FILE__和__LINE__正是我们前面想要的输出的，于是，我们的每一条语句都变成了：
+DEBUG("FILE: %s, LINE: %d…",__FILE__,__LINE__,…)
+其实没有必要，__FILE__本身就会被编译器置换为字符常量，于是乎我们的语句又变成了这样：
+DEBUG("FILE:"__FILE__", LINE: %d…",__LINE__,…)
+但是，我们还是不满足，依然发现，还是很讨厌，为什么每条语句都要写"FILE:"__FILE__", LINE: %d 以及,__LINE,这两个部分呢？这不是浪费我们时间么？
+哈哈，是的，这就是本次大结局，把DEBUG写成这样：
+DEBUG(format,...) printf("FILE: "__FILE__", LINE: %d: "format"/n", __LINE__, ##__VA_ARGS__)
+没错，就是这样！下面，所有的DEBUG信息都会按照这样的方式输出：
+FILE: xxx, LINE: xxx, …….
+最后，老规矩，coding测试。
+#include <stdio.h>
+#define __DEBUG__
+#ifdef __DEBUG__
+#define DEBUG(format,...) printf("File: "__FILE__", Line: %05d: "format"\n", __LINE__, ##__VA_ARGS__)
+#else
+#define DEBUG(format,...)
+#endif
+int main(int argc, char **argv) {
+    char str[]="Hello World";
+    DEBUG("A ha, check me: %s",str);
+    return 0;
+}
+输出结果：
+(关于上面的DEBUG宏里面的__FILE__,__LINE__，我本以为可以这样改：
+#define DEBUG(format,...) printf("File: "__FILE__", Line: "__LINE__", "format"\n", ##__VA_ARGS__)
+即让编译器自动置换__LINE__宏，但是编译错误，我想可能是编译器不会像__FILE__宏一样，自己主动置换这个宏,而是需要你去格式化输出，所以这样也许会报错：
+printf("File: "__FILE__", Line: "__LINE__"\n");
+果然报错：error C2064: 项不会计算为接受 1 个参数的函数。所以用的时候还是老老实实按照格式化输出的形式写吧，呵呵，这个小问题在这里备注一下。
+另外代码中的这种形式：#define CCLOG(format, ...)      cocos2d::CCLog(format, ##__VA_ARGS__)，' ## '的意思是，如果可变参数被忽略或为空，将使预处理器（ preprocessor ）去除掉它前面的那个逗号
+关于#和##，还可以看看这篇博客：http://www.cnblogs.com/morewindows/archive/2011/08/18/2144112.html，讲的比较详细)
+4 计算结构体中成员变量的偏移
+#define offset(s,m) (size_t)&(((s*)0)->m)
+二：C++中有用的一些宏定义
+1,命名空间使用的宏定义
+最近在看cocos2d-x的代码，有些地方写的很有意思(我自己以前代码写的很少，可能少见多怪了)，所以记录下来。其实这也不算技巧了，对于做事讲究省布料的人，可以这么做：
+#define NS_CC_BEGIN                     namespace cocos2d {
+#define NS_CC_END                       }
+#define USING_NS_CC                     using namespace cocos2d
+用的时候，可以这样写：
+/****custom head file***/
+//**.h
+NS_CC_BEGIN
+//add your code here
+NS_CC_END
+//**.cpp
+#include "**.h"
+USING_NS_CC;
+//add your code here
+2，成员变量和函数的定义
+#define CC_PROPERTY_READONLY(varType, varName, funName)\
+protected: varType varName;\
+public: virtual varType get##funName(void);
+#define CC_PROPERTY_READONLY_PASS_BY_REF(varType, varName, funName)\
+protected: varType varName;\
+public: virtual const varType& get##funName(void);
+再看一个：
+#define CC_PROPERTY(varType, varName, funName)\
+protected: varType varName;\
+public: virtual varType get##funName(void);\
+public: virtual void set##funName(varType var);
+#define CC_PROPERTY_PASS_BY_REF(varType, varName, funName)\
+protected: varType varName;\
+public: virtual const varType& get##funName(void);\
+public: virtual void set##funName(const varType& var);
+这样的宏定义是不是很奇葩？但很好懂，而且比较节省体力，方便为类声明一些成员，同时提供外部读或写接口。写在这里借鉴下。
+
+三：常用宏
+这个也是来自cocos2d-x的代码，在头文件"CCPlatformMacros.h"中。
+#define CC_SAFE_DELETE(p)            if(p) { delete (p); (p) = 0; }
+#define CC_SAFE_DELETE_ARRAY(p)    if(p) { delete[] (p); (p) = 0; }
+#define CC_SAFE_FREE(p)            if(p) { free(p); (p) = 0; }
+#define CC_SAFE_RELEASE(p)            if(p) { (p)->release(); }
+#define CC_SAFE_RELEASE_NULL(p)    if(p) { (p)->release(); (p) = 0; }
+#define CC_SAFE_RETAIN(p)            if(p) { (p)->retain(); }
+#define CC_BREAK_IF(cond)            if(cond) break;
+总结：宏这个玩意是把双刃剑，因为编译器不会提供类型安全检查，只是进行替换，所以很容易将一些错误隐藏起来，总之，要在能把控的情况下玩弄，否则磨刀出鞘，会嗜血的！
+
+Linux网络配置
+重置网络
+service network-manager stop 
+rm /var/lib/NetworkManager/NetworkManager.state 
+service network-manager start
+配置网络
+ifconfig -a //查看所有网卡信息
+ifconfig eth0 192.168.1.11 netmask 255.255.255.0  //配置ip地址 和 子网掩码
+route add default gw 192.168.1.1  //设置网关
+紧急模式恢复root密码
+内核上按↑↓键，选择第一项按下 e键，然后编辑选项
+按↑↓键找到ro，将ro改成 ：rw init=/sysroot/bin/sh
+改完之后，按下 Ctrl+X 进入紧急求援模式，依次输入以下的命令
+chroot /sysroot   //进入系统的根目录
+passwd            //重置密码
+touch /.autorelabel     //创建文件,让系统重新启动时能够识别修改
+exit              //退出chroot模式
+reboot            //重启系统
+
+------C语言中写文件------
+//获取文件指针
+FILE *pFile = fopen("1.txt", //打开文件的名称
+                    "w"); // 文件打开方式 如果原来有内容也会销毁
+//向文件写数据
+fwrite ("hello", //要输入的文字
+         1,//文字每一项的大小 以为这里是字符型的 就设置为1 如果是汉字就设置为4
+         strlog("hello"), //单元个数 我们也可以直接写5
+         pFile //我们刚刚获得到的地址
+         );
+//fclose(pFile); //告诉系统我们文件写完了数据更新，但是我们要要重新打开才能在写
+fflush(pFile); //数据刷新 数据立即更新
+------C语言中读文件------
+FILE *pFile=fopen("1.txt","r"); //获取文件的指针
+char *pBuf;  //定义文件指针
+fseek(pFile,0,SEEK_END); //把指针移动到文件的结尾 ，获取文件长度
+int len=ftell(pFile); //获取文件长度
+pBuf=new char[len+1]; //定义数组长度
+rewind(pFile); //把指针移动到文件开头 因为我们一开始把指针移动到结尾，如果不移动回来 会出错
+fread(pBuf,1,len,pFile); //读文件
+pBuf[len]=0; //把读到的文件最后一位 写为0 要不然系统会一直寻找到0后才结束
+MessageBox(pBuf);  //显示读到的数据
+fclose(pFile); // 关闭文件
+
+make步骤编译SDL_windows_gaming_input.c，报错信息如下：
+make: *** [makefile:730: build/sdl_windows_gaming_input.lo] error 1
+需要修改下 SDL_windows_gaming_input.c（$MSYS2/home/source/SDL2-2.0.18/src/joystick/windows）文件，增加新的宏（此处是参考SDL issue解决，路径贴在末尾）。修改内容如下：
+//增加宏
+#ifdef __MINGW32__
+#define __FIReference_1_int __FIReference_1_INT32
+#define __FIReference_1_int_get_Value __FIReference_1_INT32_get_Value
+#define __FIReference_1_int_Release __FIReference_1_INT32_Release
+#endif
+//源代码
+struct joystick_hwdata
+{
+    __x_ABI_CWindows_CGaming_CInput_CIRawGameController *controller;
+    __x_ABI_CWindows_CGaming_CInput_CIGameController *gamecontroller;
+    __x_ABI_CWindows_CGaming_CInput_CIGameControllerBatteryInfo *battery;
+    __x_ABI_CWindows_CGaming_CInput_CIGamepad *gamepad;
+    __x_ABI_CWindows_CGaming_CInput_CGamepadVibration vibration;
+    UINT64 timestamp;
+};
+
+TeamTalk部署详细教程（最全最新TeamTalk部署教程助你一次部署成功）
+背景
+TeamTalk是一款蘑菇街开源的企业内部即时通讯软件，目前支持pc、安卓、IOS、Mac和web多个终端。这是各个版本的代码和部署脚本。
+最近在部署TeamTalk服务端的过程中，绕了很多弯路。尝试过使用官网提供的默认的一件配置，尝试过所谓的TeamTalk安装部署手册，后面遇到了各种各样的问题导致部署失败。
+
+现在将最后实践有效的部署过程，结合网友的资料，在此记录与分享一下。
+文章中已经替换了原文中已经失效的源，修改了之前网友整理该文档时的一些命令的排版问题，同时修改了部署过程中遇到的一些其他问题。
+文章的核心内容来源于http://www.bluefoxah.org/teamtalk/new_tt_deploy.html（由于打不开该文档，所以只能参考别人转发的文章，在此还是贴出原文地址，以表感谢）
+安装环境：腾讯云服务器 1核 2GB 1Mbps
+操作系统：centos7.8
+源码下载：https://github.com/mogujie/TeamTalk
+1、更新操作系统
+更新操作系统:
+CentOS 使用如下命令: yum update
+Ubuntu 使用如下命令: apt-get update
+2、删除已经安装的软件
+为了减少一些不必要的麻烦，我们需要先卸载系统自带的一些软件，譬如mysql，nginx，php，执行以下命令:
+CentOS 执行如下命令: yum -y remove httpd* php* mysql-server mysql mysql-libs php-mysql
+Ubuntu 使用如下命令: apt-get remove -y apache2 apache2-doc apache2-utils apache2.2-common apache2.2-bin apache2-mpm-prefork apache2-doc apache2-mpm-worker mysql-client mysql-server mysql-common php5 php5-common php5-cgi php5-mysql php5-curl php5-gdkillall apache2dpkg -l |grep mysqldpkg -P libmysqlclient15off libmysqlclient15-dev mysql-commondpkg -l |grep apachedpkg -P apache2 apache2-doc apache2-mpm-prefork apache2-utils apache2.2-commondpkg -l |grep phpdpkg -P php5 php5-common php5-cgi php5-mysql php5-curl php5-gdapt-get purge `dpkg -l | grep php| awk '{print $2}'`
+3、安装必要的依赖软件
+如果CentOS是最小化安装，系统中很多软件是没有安装的，需要进行手动安装。
+执行如下命令安装一些依赖软件:
+CentOS 使用如下命令: yum -y install wget vim git texinfo patch make cmake gcc gcc-c++ gcc-g77 flex bison file libtool libtool-libs autoconf kernel-devel libjpeg libjpeg-devel libpng libpng-devel libpng10 libpng10-devel gd gd-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glib2 glib2-devel bzip2 bzip2-devel libevent libevent-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel vim-minimal nano fonts-chinese gettext gettext-devel ncurses-devel gmp-devel pspell-devel unzip libcap diffutils
+ubuntu 使用如下命令: apt-get autoremove -yapt-get -fy installapt-get install -y build-essential gcc g++ makeapt-get install -y --force-yes wget vim git texinfo patch build-essential gcc g++ make cmake automake autoconf re2c wget cron bzip2 libzip-dev libc6-dev file rcconf flex vim nano bison m4 gawk less make cpp binutils diffutils unzip tar bzip2 libbz2-dev unrar p7zip libncurses5-dev libncurses5 libncurses5-dev libncurses5-dev libtool libevent-dev libpcre3 libpcre3-dev libpcrecpp0  libssl-dev zlibc openssl libsasl2-dev libltdl3-dev libltdl-dev libmcrypt-dev zlib1g zlib1g-dev libbz2-1.0 libbz2-dev libglib2.0-0 libglib2.0-dev libpng3 libjpeg62 libjpeg62-dev libjpeg-dev libpng-dev libpng12-0 libpng12-dev curl libcurl3 libmhash2 libmhash-dev libpq-dev libpq5 gettext libncurses5-dev libcurl4-gnutls-dev libjpeg-dev libpng12-dev libxml2-dev zlib1g-dev libfreetype6 libfreetype6-dev libssl-dev libcurl3 libcurl4-openssl-dev libcurl4-gnutls-dev mcrypt libcap-dev diffutils ca-certificates debian-keyring debian-archive-keyring;apt-get -fy installapt-get -y autoremove
+4、安装mysql
+4.1 下载
+wget http://mirrors.sohu.com/mysql/MySQL-5.6/mysql-5.6.45.tar.gz
+4.2 解压编译
+执行如下命令:
+tar -zxvf mysql-5.6.45.tar.gz 
+cd mysql-5.6.45 
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_READLINE=1 -DWITH_SSL=system -DWITH_ZLIB=system -DWITH_EMBEDDED_SERVER=1 -DENABLED_LOCAL_INFILE=1
+make -j 2 && make install
+编译将是一个漫长得过程。。。不同的机器性能等待时间不同。
+make的-j参数可以使make进行并行编译编译。cpu的个数是2，所以指定为2.
+4.3 添加mysql用户
+groupadd mysql
+useradd -s /sbin/nologin -M -g mysql mysql
+4.4 修改配置文件
+vim /etc/my.cnf
+下面给出一份参考配置(只是测试用，如果要用于生产环境，请根据需求自行调配):
+# Example MySQL config file for medium systems.
+# The following options will be passed to all MySQL clients
+[client]
+#password   = your_password
+port        = 3306
+socket      = /tmp/mysql.sock
+default-character-set=utf8mb4
+# Here follows entries for some specific programs
+# The MySQL server
+[mysqld]
+bind-address=127.0.0.1
+port        = 3306
+socket      = /tmp/mysql.sock
+datadir = /usr/local/mysql/var
+collation-server     = utf8mb4_general_ci
+character-set-server = utf8mb4
+skip-external-locking
+key_buffer_size = 16M
+max_allowed_packet = 1M
+table_open_cache = 64
+sort_buffer_size = 512K
+net_buffer_length = 8K
+read_buffer_size = 256K
+read_rnd_buffer_size = 512K
+myisam_sort_buffer_size = 8M
+# Replication Master Server (default)
+# binary logging is required for replication
+log-bin=mysql-bin
+# binary logging format - mixed recommended
+binlog_format=mixed
+# required unique id between 1 and 2^32 - 1
+# defaults to 1 if master-host is not set
+# but will not function as a master if omittedserver-id   = 1
+# Uncomment the following if you are using InnoDB tablesinnodb_data_home_dir = /usr/local/mysql/varinnodb_data_file_path = ibdata1:10M:autoextendinnodb_log_group_home_dir = /usr/local/mysql/var
+# You can set .._buffer_pool_size up to 50 - 80 %
+# of RAM but beware of setting memory usage too highinnodb_buffer_pool_size = 16Minnodb_additional_mem_pool_size = 2M
+# Set .._log_file_size to 25 % of buffer pool sizeinnodb_log_file_size = 5Minnodb_log_buffer_size = 8Minnodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+[mysqldump]
+quickmax_allowed_packet = 16M
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updatesdefault-character-set=utf8mb4
+[myisamchk]
+key_buffer_size = 20Ms
+ort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+[mysqlhotcopy]
+interactive-timeout
+4.5 初始化mysql
+/usr/local/mysql/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=/usr/local/mysql/var --user=mysql
+chown -R mysql /usr/local/mysql/var
+chgrp -R mysql /usr/local/mysql/.
+cp support-files/mysql.server /etc/init.d/mysql
+chmod 755 /etc/init.d/mysql
+
+vim /etc/ld.so.conf.d/mysql.conf
+在该文件中输入如下内容：
+/usr/local/mysql/lib
+/usr/local/lib
+ldconfig
+4.6 启动mysql
+/etc/init.d/mysql start
+4.7 查看到mysql进程，安装成功
+ps -ef|grep mysql
+4.8 后期配置
+ln -s /usr/local/mysql/lib/mysql /usr/lib/mysql
+ln -s /usr/local/mysql/include/mysql /usr/include/mysql
+ln -s /usr/local/mysql/bin/mysql /usr/bin/mysql
+ln -s /usr/local/mysql/bin/mysqldump /usr/bin/mysqldump
+ln -s /usr/local/mysql/bin/myisamchk /usr/bin/myisamchk
+ln -s /usr/local/mysql/bin/mysqld_safe /usr/bin/mysqld_safe
+登陆mysql:
+mysql -uroot -p
+修改密码(假定密码为:test123，这里根据需要自己设置，但是后面还会用到这个密码，自己记一下):
+下面指令中的mysqlrootpwd改为自己的密码再执行。
+use mysql;
+update user set password=password('$mysqlrootpwd') where user='root';
+flush privileges;
+退出，重新登陆:
+mysql -uroot -p
+4.9 结束
+至此，mysql 已经安装结束。退出到上一层目录
+cd ../
+5、安装PHP
+本次安装的PHP是php 5.3.28，选择从搜狐源下载。
+5.1 下载PHP
+wget http://mirrors.sohu.com/php/php-5.3.28.tar.gz
+5.2 安装依赖
+5.2.1 libiconv
+wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+tar -zxvf libiconv-1.14.tar.gz
+cd libiconv-1.14
+./configure
+make -j 2&& make install
+cd ..
+5.2.2 libmcrypt
+wget https://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.gz
+tar zxvf libmcrypt-2.5.8.tar.gz
+cd libmcrypt-2.5.8/
+./configure
+make
+make install
+/sbin/ldconfig
+cd libltdl/
+./configure --enable-ltdl-install
+make
+make install
+cd ../../
+5.2.3 mhash
+wget https://sourceforge.net/projects/mhash/files/latest/download/mhash-0.9.9.9.tar.gz
+tar -zxvf mhash-0.9.9.9.tar.gz
+cd mhash-0.9.9.9
+./configure
+make -j 2 && make install
+cd ../
+5.3 解压编译
+tar -zxvf php-5.3.28.tar.gz
+cd php-5.3.28
+./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc --enable-fpm --with-fpm-user=www --with-fpm-group=www --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-iconv-dir --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir=/usr --enable-xml --disable-rpath --enable-magic-quotes --enable-safe-mode --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --with-curl --enable-mbregex --enable-mbstring --with-mcrypt --enable-ftp --with-gd --enable-gd-native-ttf --with-openssl --with-mhash --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --without-pear --with-gettext --disable-fileinfo
+make -j 2 ZEND_EXTRA_LIBS='-liconv' && make install
+5.4 配置php
+cp php.ini-production /usr/local/php/etc/php.ini
+sed -i 's/post_max_size = 8M/post_max_size = 50M/g' /usr/local/php/etc/php.ini
+sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/g' /usr/local/php/etc/php.ini
+sed -i 's/;date.timezone =/date.timezone = PRC/g' /usr/local/php/etc/php.ini
+sed -i 's/short_open_tag = Off/short_open_tag = On/g' /usr/local/php/etc/php.ini
+sed -i 's/; cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /usr/local/php/etc/php.ini
+sed -i 's/; cgi.fix_pathinfo=0/cgi.fix_pathinfo=0/g' /usr/local/php/etc/php.ini
+sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /usr/local/php/etc/php.ini
+sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /usr/local/php/etc/php.ini
+sed -i 's/register_long_arrays = On/;register_long_arrays = On/g' /usr/local/php/etc/php.ini
+sed -i 's/magic_quotes_gpc = On/;magic_quotes_gpc = On/g' /usr/local/php/etc/php.ini
+sed -i 's/disable_functions =.*/disable_functions = passthru,exec,system,chroot,scandir,chgrp,chown,shell_exec,proc_open,proc_get_status,ini_alter,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server/g' /usr/local/php/etc/php.ini
+5.5 后期配置
+ln -s /usr/local/php/bin/php /usr/bin/php
+ln -s /usr/local/php/bin/phpize /usr/bin/phpize
+ln -s /usr/local/php/sbin/php-fpm /usr/bin/php-fpm
+cd ..
+5.6 安装ZendGuardLoader
+mkdir -p /usr/local/zend/
+wget http://downloads.zend.com/guard/5.5.0/ZendGuardLoader-php-5.3-linux-glibc23-x86_64.tar.gz
+tar -zxvf ZendGuardLoader-php-5.3-linux-glibc23-x86_64.tar.gz
+cp ZendGuardLoader-php-5.3-linux-glibc23-x86_64/php-5.3.x/ZendGuardLoader.so /usr/local/zend/
+
+vi  /usr/local/php/etc/php.ini
+;eaccelerator;ionCube[Zend Optimizer]
+zend_extension=/usr/local/zend/ZendGuardLoader.so
+zend_loader.enable=1
+zend_loader.disable_licensing=0
+zend_loader.obfuscation_level_support=3
+zend_loader.license_path=
+EOF
+
+5.7 修改php-fpm配置文件
+vim /usr/local/php/etc/php-fpm.conf
+[global]
+pid = /usr/local/php/var/run/php-fpm.pid
+error_log = /usr/local/php/var/log/php-fpm.log
+log_level = notice
+
+[www]
+listen = /tmp/php-cgi.sock
+listen.backlog = -1
+listen.allowed_clients = 127.0.0.1
+listen.owner = www
+listen.group = www
+listen.mode = 0666user = www
+group = www
+pm = dynamic
+pm.max_children = 10
+pm.start_servers = 2
+pm.min_spare_servers = 1
+pm.max_spare_servers = 6
+request_terminate_timeout = 100
+request_slowlog_timeout = 0
+slowlog = var/log/slow.log
+5.8 创建php-fpm启动脚本
+vim /etc/init.d/php-fpm
+chmod +x /etc/init.d/php-fpm
+以下是一份参考:
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          php-fpm
+# Required-Start:    $remote_fs $network
+# Required-Stop:     $remote_fs $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts php-fpm
+# Description:       starts the PHP FastCGI Process Manager daemon
+### END INIT INFO
+prefix=/usr/local/php
+exec_prefix=${prefix}
+php_fpm_BIN=${exec_prefix}/sbin/php-fpm
+php_fpm_CONF=${prefix}/etc/php-fpm.conf
+php_fpm_PID=${prefix}/var/run/php-fpm.pid
+php_opts="--fpm-config $php_fpm_CONF --pid $php_fpm_PID"
+wait_for_pid () {
+        try=0
+        while test $try -lt 35 ; do
+                case "$1" in
+                        'created')
+                        if [ -f "$2" ] ; then
+                                try=''
+                                break
+                        fi
+                        ;;
+                        'removed')
+                        if [ ! -f "$2" ] ; then
+                                try=''
+                                break
+                        fi
+                        ;;
+                esac
+                echo -n .
+                try=`expr $try + 1`
+                sleep 1
+        done
+}
+case "$1" in
+        start)
+                echo -n "Starting php-fpm "
+                $php_fpm_BIN --daemonize $php_opts
+                if [ "$?" != 0 ] ; then
+                        echo " failed"
+                        exit 1
+                fi
+                wait_for_pid created $php_fpm_PID
+
+                if [ -n "$try" ] ; then
+                        echo " failed"
+                        exit 1
+                else
+                        echo " done"
+                fi
+        ;;
+        stop)
+                echo -n "Gracefully shutting down php-fpm "
+
+                if [ ! -r $php_fpm_PID ] ; then
+                        echo "warning, no pid file found - php-fpm is not running ?"
+                        exit 1
+                fi
+                kill -QUIT `cat $php_fpm_PID`
+                wait_for_pid removed $php_fpm_PID
+                if [ -n "$try" ] ; then
+                        echo " failed. Use force-quit"
+                        exit 1
+                else
+                        echo " done"
+                fi
+        ;;
+        force-quit)
+                echo -n "Terminating php-fpm "
+                if [ ! -r $php_fpm_PID ] ; then
+                        echo "warning, no pid file found - php-fpm is not running ?"
+                        exit 1
+                fi
+                kill -TERM `cat $php_fpm_PID`
+                wait_for_pid removed $php_fpm_PID
+                if [ -n "$try" ] ; then
+                        echo " failed"
+                        exit 1
+                else
+                        echo " done"
+                fi
+        ;;
+        restart)
+                $0 stop
+                $0 start
+        ;;
+        reload)
+                echo -n "Reload service php-fpm "
+                if [ ! -r $php_fpm_PID ] ; then
+                        echo "warning, no pid file found - php-fpm is not running ?"
+                        exit 1
+                fi
+                kill -USR2 `cat $php_fpm_PID`
+                echo " done"
+        ;;
+        *)
+                echo "Usage: $0 {start|stop|force-quit|restart|reload}"
+                exit 1
+        ;;
+esac
+
+5.9 启动php-fpm
+groupadd www
+useradd -s /sbin/nologin -g www www
+/etc/init.d/php-fpm start
+6、 安装nginx
+6.1 下载nginx
+wget http://mirrors.sohu.com/nginx/nginx-1.6.0.tar.gz
+6.2 安装依赖
+6.2.1 pcre
+wget https://sourceforge.net/projects/pcre/files/pcre/8.39/pcre-8.39.tar.bz2
+tar -jxvf pcre-8.39.tar.bz2
+cd pcre-8.39
+./configure
+make -j 2 && make install 
+cd ..
+6.3 解压编译nginx
+tar -zxvf nginx-1.6.0.tar.gz
+cd nginx-1.6.0./configure --user=www --group=www --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module --with-http_gzip_static_module --with-ipv6
+make -j 2 && make install
+cd ..
+ln -s /usr/local/nginx/sbin/nginx /usr/bin/nginx
+6.4 配置nginx
+/usr/local/nginx/conf/nginx.conf
+user  www www;
+worker_processes auto;
+error_log  /home/wwwlogs/nginx_error.log  crit;
+pid        /usr/local/nginx/logs/nginx.pid;
+#Specifies the value for maximum file descriptors that can be opened by this process.
+worker_rlimit_nofile 51200;
+events
+    {
+        use epoll;
+        worker_connections 51200;
+        multi_accept on;
+    }
+http
+    {
+        include       mime.types;
+        default_type  application/octet-stream;
+        server_names_hash_bucket_size 128;
+        client_header_buffer_size 32k;
+        large_client_header_buffers 4 32k;
+        client_max_body_size 50m;
+        sendfile on;
+        tcp_nopush     on;
+        keepalive_timeout 60;
+        tcp_nodelay on;
+        fastcgi_connect_timeout 300;
+        fastcgi_send_timeout 300;
+        fastcgi_read_timeout 300;
+        fastcgi_buffer_size 64k;
+        fastcgi_buffers 4 64k;
+        fastcgi_busy_buffers_size 128k;
+        fastcgi_temp_file_write_size 256k;
+        gzip on;
+        gzip_min_length  1k;
+        gzip_buffers     4 16k;
+        gzip_http_version 1.0;
+        gzip_comp_level 2;
+        gzip_types       text/plain application/x-javascript text/css application/xml;
+        gzip_vary on;
+        gzip_proxied        expired no-cache no-store private auth;
+        gzip_disable        "MSIE [1-6]\.";
+        server_tokens off;
+        #log_format  access  '$remote_addr - $remote_user [$time_local] "$request" ''$status $body_bytes_sent "$http_referer" ''"$http_user_agent" $http_x_forwarded_for';
+        log_format  access  '$remote_addr - $remote_user [$time_local] "$request" '
+             '$status $body_bytes_sent "$http_referer" '
+             '"$http_user_agent" $http_x_forwarded_for "$upstream_addr" "$upstream_response_time" $request_time $content_length';
+    server
+    {
+            listen       80;
+            server_name localhost;
+            index index.html index.htm index.php default.html default.htm default.php;
+            root        /home/wwwroot/default;
+            location ~ \.php($|/) {
+                fastcgi_pass   unix:/tmp/php-cgi.sock;
+                fastcgi_index  index.php;
+                fastcgi_split_path_info ^(.+\.php)(.*)$;
+                fastcgi_param   PATH_INFO $fastcgi_path_info;
+                fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+                include        fastcgi_params;
+            }
+            location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$
+                    {
+                            expires      30d;
+                    }
+            location ~ .*\.(js|css)?$
+                    {
+                            expires      12h;
+                    }
+            if (!-e $request_filename) {
+                rewrite ^/(.*)$ /index.php/$1 last;
+                break;
+            }
+    }
+}
+6.5 后期配置
+mkdir -p /home/wwwroot/default
+chmod +w /home/wwwroot/default
+mkdir -p /home/wwwlogs
+chmod 777 /home/wwwlogs
+chown -R www:www /home/wwwroot/default
+6.6 编写nginx启动脚本
+vim /etc/init.d/nginx
+chmod +x /etc/init.d/nginx
+下面是一份参考配置:
+#!/bin/sh
+# chkconfig: 2345 55 25
+# Description: Startup script for nginx webserver on Debian. Place in /etc/init.d and
+# run 'update-rc.d -f nginx defaults', or use the appropriate command on your
+# distro. For CentOS/Redhat run: 'chkconfig --add nginx'
+### BEGIN INIT INFO# Provides:          nginx
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the nginx web server# Description:       starts nginx using start-stop-daemon
+### END INIT INFO
+# Author:   licess
+# website:  http://lnmp.org
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+NAME=nginx
+NGINX_BIN=/usr/local/nginx/sbin/$NAME
+CONFIGFILE=/usr/local/nginx/conf/$NAME.conf
+PIDFILE=/usr/local/nginx/logs/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+case "$1" in
+    start)
+        echo -n "Starting $NAME... "
+        if netstat -tnpl | grep -q nginx;
+        then
+        echo "$NAME (pid `pidof $NAME`) already running."
+        exit 1
+        fi
+        $NGINX_BIN -c $CONFIGFILE
+        if [ "$?" != 0 ] ; 
+        then
+        echo " failed"
+        exit 1
+        else
+        echo " done"
+        fi
+    ;;
+    stop)
+        echo -n "Stoping $NAME... "
+        if ! netstat -tnpl | grep -q nginx; 
+        then
+        echo "$NAME is not running."
+        exit 1
+        fi
+        $NGINX_BIN -s stop
+        if [ "$?" != 0 ] ; then
+        echo " failed. Use force-quit"
+        exit 1
+        else
+    echo " done"
+        fi
+    ;;
+    status)
+        if netstat -tnpl | grep -q nginx; then
+            PID=`pidof nginx`
+            echo "$NAME (pid $PID) is running..."
+            else
+            echo "$NAME is stopped"
+            exit 0
+            fi
+    ;;
+    force-quit)
+        echo -n "Terminating $NAME... "
+        if ! netstat -tnpl | grep -q nginx; 
+        then
+        echo "$NAME is not running."
+        exit 1
+        fi
+        kill `pidof $NAME`
+        if [ "$?" != 0 ] ; 
+        then
+        echo " failed"
+        xit 1
+        else
+        echo " done"
+        fi
+    ;;
+    restart)
+        $SCRIPTNAME stop
+        sleep 1$SCRIPTNAME start
+    ;;
+    reload)
+        echo -n "Reload service $NAME... "
+        if netstat -tnpl | grep -q nginx; 
+        then $NGINX_BIN -s reload
+            echo " done"elseecho "$NAME is not running, can't reload."
+            exit 1
+            fi
+    ;;
+    configtest)
+        echo -n "Test $NAME configure files... "$NGINX_BIN -t
+    ;;
+
+    *)
+        echo "Usage: $SCRIPTNAME {start|stop|force-quit|restart|reload|status|configtest}"
+        exit 1
+    ;;
+esac
+6.6 测试nginx
+6.6.1 写php测试代码
+cat >/home/wwwroot/default/index.php<<EOF
+<?
+phpinfo();
+?>
+EOF
+6.6.2启动nginx
+/etc/init.d/nginx startps -ef|grep nginx
+如果你开启了selinux，请关闭，否则访问不了:
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+临时关闭selinux:
+setenforce 0
+关闭防火墙:
+service iptables stop
+6.6.3 设置开机启动
+chkconfig --level 345 php-fpm on
+chkconfig --level 345 nginx on
+chkconfig --level 345 mysql on
+7、 安装redis
+7.1 下载redis
+wget http://download.redis.io/releases/redis-2.8.19.tar.gz
+7.2 解压编译redis
+tar -zxvf redis-2.8.19.tar.gz
+cd redis-2.8.19
+make PREFIX=/usr/local/redis install
+7.3 配置redis
+mkdir -p /usr/local/redis/etc/
+cp redis.conf  /usr/local/redis/etc/
+sed -i 's/daemonize no/daemonize yes/g' /usr/local/redis/etc/redis.conf
+cd ..
+7.4 编写redis启动脚本
+vim /etc/init.d/redis
+chmod +x /etc/init.d/redis
+下面是一份参考配置:
+#! /bin/bash
+## redis - this script starts and stops the redis-server daemon
+## chkconfig:    2345 80 90
+# description:  Redis is a persistent key-value database##
+## BEGIN INIT INFO
+# Provides:          redis
+# Required-Start:    $syslog
+# Required-Stop:     $syslog# Should-Start:        $local_fs# Should-Stop:        $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description:    redis-server daemon
+# Description:        redis-server daemon
+### END INIT INFO
+REDISPORT=6379
+EXEC=/usr/local/redis/bin/redis-server
+REDIS_CLI=/usr/local/redis/bin/redis-cli
+PIDFILE=/var/run/redis.pid
+CONF="/usr/local/redis/etc/redis.conf"
+case "$1" in
+    start)
+        if [ -f $PIDFILE ]
+        then
+        echo "$PIDFILE exists, process is already running or crashed"
+        else
+        echo "Starting Redis server..."
+        $EXEC $CONF
+        fi
+        if [ "$?"="0" ]
+        then
+        echo "Redis is running..."
+        fi
+        ;;
+    stop)
+        if [ ! -f $PIDFILE ]
+        then
+        echo "$PIDFILE does not exist, process is not running"
+        else
+                PID=$(cat $PIDFILE)
+                echo "Stopping ..."$REDIS_CLI -p $REDISPORT shutdown
+                while [ -x ${PIDFILE} ]
+                do
+                echo "Waiting for Redis to shutdown ..."
+                    sleep 1
+                    done
+                    echo "Redis stopped"
+                    fi
+        ;;
+   restart)
+        ${0} stop
+        ${0} start
+        ;;
+  *)  
+    echo "Usage: /etc/init.d/redis {start|stop|restart}" >&2
+    exit 1
+esac
+7.5 启动redis
+/etc/init.d/redis start
+查看redis是否启动
+ps -ef|grep redis
+8、 升级gcc，gdb等
+(非常漫长,如果系统中自带的g++支持C++11，可跳过此步骤)
+8.1 下载gcc4.9.2
+wget http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-4.9.2/gcc-4.9.2.tar.gz
+8.2 解压编译gcc4.9.2
+tar -zxvf gcc-4.9.2.tar.gz
+cd gcc-4.9.2
+./contrib/download_prerequisitesmkdir gcc-build-4.9.2cd gcc-build-4.9.2../configure --prefix=/usr -enable-checking=release -enable-languages=c,c++ -disable-multilib
+make -j 2 && make install
+cd ../../
+8.3 下载termcap
+wget https://mirrors.sjtug.sjtu.edu.cn/gnu/termcap/termcap-1.3.1.tar.gz
+8.4 解压编译termcap
+tar -zxvf termcap-1.3.1.tar.gz
+cd termcap-1.3.1./configure --prefix=/usr
+make -j 2 && make install
+8.5 下载gdb
+wget http://ftp.gnu.org/gnu/gdb/gdb-7.9.tar.gz
+8.6 解压编译gdb
+tar -zxvf gdb-7.9.tar.gz
+cd gdb-7.9
+./configure --prefix=/usr
+make -j 2 && make install
+9、 重启电脑
+shutdown -r now
+10、 安装PB
+10.1 下载pb
+wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.gz
+如果上面的下载不了，可以使用下面的链接，下载后改下名字即可
+wget https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/protobuf/2.6.1-1.3/protobuf_2.6.1.orig.tar.gz
+mv protobuf_2.6.1.orig.tar.gz protobuf_2.6.1.tar.gz
+10.2 解压编译pb
+tar -zxvf protobuf-2.6.1
+cd protobuf-2.6.1
+./configure --prefix=/usr/local/protobuf
+make -j 2 && make install
+11、 下载TeamTalk代码
+git clone https://github.com/mogujie/TeamTalk.git
+12、 生成pb文件
+12.1 拷贝pb相关文件
+拷贝pb的库、头文件到TeamTalk相关目录中:
+mkdir -p /root/TeamTalk/server/src/base/pb/lib/linux/
+cp /usr/local/protobuf/lib/libprotobuf-lite.a /root/TeamTalk/server/src/base/pb/lib/linux/
+cp  -r /usr/local/protobuf/include/* /root/TeamTalk/server/src/base/pb/
+12.2 生成pb协议
+cd /root/TeamTalk/pb
+执行:
+export PATH=$PATH:/usr/local/protobuf/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/protobuf/lib
+sh create.sh
+生成协议相关源码文件。
+再执行:
+sh sync.sh
+将相关文件拷贝到server 目录下。
+13、 安装依赖
+cd /root/TeamTalk/server/src
+sh make_log4cxx.sh
+sh make_hiredis.sh
+14、 编译server
+由于我们是源码安装mysql的，所以对db_proxy_server中的CMakeList做一定的修改.
+原来:
+SET(MYSQL_INCLUDE_DIR /usr/include/mysql)
+SET(MYSQL_LIB /usr/lib64/mysql)
+修改为:
+SET(MYSQL_INCLUDE_DIR /usr/local/mysql/include)
+SET(MYSQL_LIB /usr/local/mysql/lib)
+在server/src目录下，执行:
+sh build.sh version 1.0.0
+这时候会在src的上级目录server目录下构建出im-server-1.0.0.tar.gz的文件，将其拷贝到auto_setup目录下解压，并进入该目录。
+然后执行下面的命令：
+sh sync_lib_for_zip.sh
+然后就可以配置并启动各个服务程序了。
+15、 配置server(这里单独开一篇说明一下各个服务地址的配置，请看下面的链接)
+https://blog.csdn.net/siyacaodeai/article/details/114981583
+16、更新
+16.1 导入mysql
+登陆mysql:
+mysql -uroot -p
+输入密码:test123
+创建TeamTalk数据库:
+create database teamtalk
+创建成功显示如下内容：
+mysql> create database teamtalk;
+Query OK, 1 row affected (0.00 sec)
+创建teamtalk用户并给teamtalk用户授权teamtalk的操作:
+grant select,insert,update,delete on teamtalk.* to 'teamtalk'@'%' identified by 'test@123';
+flush privileges;
+导入数据库.
+use teamtalk;
+source /root/TeamTalk/auto_setup/mariadb/conf/ttopen.sql;
+show tables;
+成功后会如下内容:
+mysql> show tables;+--------------------+| Tables_in_teamtalk |+--------------------+| IMAdmin            || IMAudio            || IMDepart           || IMDiscovery        || IMGroup            || IMGroupMember      || IMGroupMessage_0   || IMGroupMessage_1   || IMGroupMessage_2   || IMGroupMessage_3   || IMGroupMessage_4   || IMGroupMessage_5   || IMGroupMessage_6   || IMGroupMessage_7   || IMMessage_0        || IMMessage_1        || IMMessage_2        || IMMessage_3        || IMMessage_4        || IMMessage_5        || IMMessage_6        || IMMessage_7        || IMRecentSession    || IMRelationShip     || IMUser             |+--------------------+25 rows in set (0.00 sec)mysql>
+16.2 修改php
+执行如下命令:
+cd /home/wwwroot/default
+cp -r /root/TeamTalk/php/* /home/wwwroot/default
+修改config.php:
+vim application/config/config.php
+修改第18-19行:
+$config['msfs_url'] = 'http://192.168.1.150:8700/';
+$config['http_url'] = 'http://192.168.1.150:8400';
+修改database.php
+vim application/config/database.php
+修改52-54行:
+$db['default']['hostname'] = '192.168.1.150';
+$db['default']['username'] = 'tamtalk';
+$db['default']['password'] = 'test@123';
+$db['default']['database'] = 'teamtalk';
+这里需要注意安装自己的username和password进行修改
+17、测试
+直接在浏览器输入ip地址即可看到php页面，这时候就可以在后台添加test用户了
+如果页面中出现如下错误，
+Unable to connect to your database server using the provided settings.  
+Filename: core/Loader.php  
+Line Number: 346
+可以参考后面的链接查找问题，我的修改 $db[‘default’][‘hostname’] = ‘127.0.0.1’;访问通过
+TeamTalk部署问题及解决方案[https://blog.csdn.net/siyacaodeai/article/details/114984901]
+18、 运行服务
+./restart.sh login_server
+./restart.sh route_server
+./restart.sh msg_server
+./restart.sh file_server
+./restart.sh msfs
+./restart.sh http_msg_server
+./restart.sh push_server
+./restart.sh db_proxy_server
+ps -ef|grep server
+如果看到如下:
+[root@zhyh ~]# ps -ef|grep server
+root      1653     1  0 22:13 ?        00:00:05 /usr/local/redis/bin/redis-server *:6379root      1658     1  1 22:13 ?        00:00:21 ./db_proxy_server
+root      1717     1  0 22:13 ?        00:00:02 ./http_msg_server
+root      1729     1  0 22:13 ?        00:00:02 ./route_server
+root      1737     1  0 22:14 ?        00:00:02 ./login_server
+root      1757     1  0 22:15 ?        00:00:02 ./msg_server
+root      1788  1774  0 22:34 pts/2    00:00:00 grep server 
+如果没有发现:db_proxy_server, http_msg_server,route_server,login_server,msg_server的进程，请执行如下命令启动:
+cd /usr/local/teamtalk
+cd xxxx
+../daeml xxxx
+xxx代表相应的程序名。通过查看:xxxx/log/default.log 查看程序错误。
+19、 redis,php,nginx,mysql的启动，停止与重启
+/etc/init.d/redis {start|stop|restart}
+/etc/init.d/php-fpm {start|stop|force-quit|restart|reload}
+/etc/init.d/nginx {start|stop|force-quit|restart|reload|status|configtest}
+/etc/init.d/mysql {start|stop|restart|reload|force-reload|status}  [ MySQL server options ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Regexp正则表达式
+[ABC] :: 匹配 [...] 中的所有字符，例如 [aeiou] 匹配字符串 "google runoob taobao" 中所有的 e o u a 字母。
+[^ABC] :: 匹配除了 [...] 中字符的所有字符，例如 [^aeiou] 匹配字符串 "google runoob taobao" 中除了 e o u a 字母的所有字符。
+[A-Z] :: [A-Z] 表示一个区间，匹配所有大写字母，[a-z] 表示所有小写字母。
+. :: 匹配除换行符（\n、\r）之外的任何单个字符，相等于 [^\n\r]。
+[\s\S] :: 匹配所有。\s 是匹配所有空白符，包括换行，\S 非空白符，不包括换行。
+\w :: 匹配字母、数字、下划线。等价于 [A-Za-z0-9_]
+\d	 :: 匹配任意一个阿拉伯数字（0 到 9）。等价于 [0-9]
+\cx	 :: 匹配由x指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 'c' 字符。
+\f	 :: 匹配一个换页符。等价于 \x0c 和 \cL。
+\n	 :: 匹配一个换行符。等价于 \x0a 和 \cJ。
+\r	 :: 匹配一个回车符。等价于 \x0d 和 \cM。
+\s	 :: 匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。注意 Unicode 正则表达式会匹配全角空格符。
+\S	 :: 匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。
+\t	 :: 匹配一个制表符。等价于 \x09 和 \cI。
+\v	 :: 匹配一个垂直制表符。等价于 \x0b 和 \cK。
+$	 :: 匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 '\n' 或 '\r'。要匹配 $ 字符本身，请使用 \$。
+( )	 :: 标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。要匹配这些字符，请使用 \( 和 \)。
+*	 :: 匹配前面的子表达式零次或多次。要匹配 * 字符，请使用 \*。
++	 :: 匹配前面的子表达式一次或多次。要匹配 + 字符，请使用 \+。
+.	 :: 匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 \. 。
+[	 :: 标记一个中括号表达式的开始。要匹配 [，请使用 \[。
+?	 :: 匹配前面的子表达式零次或一次，或指明一个非贪婪限定符。要匹配 ? 字符，请使用 \?。
+\	 :: 将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符。例如， 'n' 匹配字符 'n'。'\n' 匹配换行符。序列 '\\' 匹配 "\"，而 '\(' 则匹配 "("。
+^	 :: 匹配输入字符串的开始位置，除非在方括号表达式中使用，当该符号在方括号表达式中使用时，表示不接受该方括号表达式中的字符集合。要匹配 ^ 字符本身，请使用 \^。
+{	 :: 标记限定符表达式的开始。要匹配 {，请使用 \{。
+|	 :: 指明两项之间的一个选择。要匹配 |，请使用 \|。
+*	 :: 匹配前面的子表达式零次或多次。例如，zo* 能匹配 "z" 以及 "zoo"。* 等价于 {0,}。	
++	 :: 匹配前面的子表达式一次或多次。例如，zo+ 能匹配 "zo" 以及 "zoo"，但不能匹配 "z"。+ 等价于 {1,}。	
+?	 :: 匹配前面的子表达式零次或一次。例如，do(es)? 可以匹配 "do" 、 "does"、 "doxy" 中的 "do" 和 "does"。? 等价于 {0,1}。
+{n}	 :: n 是一个非负整数。匹配确定的 n 次。例如，o{2} 不能匹配 "Bob" 中的 o，但是能匹配 "food" 中的两个 o。	
+{n,}	 :: n 是一个非负整数。至少匹配n 次。例如，o{2,} 不能匹配 "Bob" 中的 o，但能匹配 "foooood" 中的所有 o。o{1,} 等价于 o+。o{0,} 则等价于 o*。	
+{n,m}	 :: m 和 n 均为非负整数，其中 n <= m。最少匹配 n 次且最多匹配 m 次。例如，o{1,3} 将匹配 "fooooood" 中的前三个 o。o{0,1} 等价于 o?。请注意在逗号和两个数之间不能有空格。
+^	 :: 匹配输入字符串开始的位置。如果设置了 RegExp 对象的 Multiline 属性，^ 还会与 \n 或 \r 之后的位置匹配。	
+$	 :: 匹配输入字符串结尾的位置。如果设置了 RegExp 对象的 Multiline 属性，$ 还会与 \n 或 \r 之前的位置匹配。	
+\b	 :: 匹配一个单词边界，即字与空格间的位置。	
+\B	 :: 非单词边界匹配。
+常用正则表达式汇总
+匹配大写字母开头单词      r"\b[A-Z]+[a-z]*\b"      r"\b[A-Z]\w*\b"
+匹配数字     r"\s(-?\d+\.?/?\d*%?)"
+替换日期  2019-09-09   换成  2019.09.09               r"\d{4}-\d{1,2}-\d{1,2}"
+比较常用的几个正则表达式(匹配数字)
+评注：匹配中文还真是个头疼的事，有了这个表达式就好办了
+匹配双字节字符(包括汉字在内)：[^\x00-\xff]
+评注：可以用来计算字符串的长度（一个双字节字符长度计2，ASCII字符计1）
+匹配空白行的正则表达式：\n\s*\r
+评注：可以用来删除空白行
+匹配HTML标记的正则表达式：<(\S*?)[^>]*>.*?</\1>|<.*? />
+评注：网上流传的版本太糟糕，上面这个也仅仅能匹配部分，对于复杂的嵌套标记依旧无能为力
+匹配首尾空白字符的正则表达式：^\s*|\s*$
+评注：可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式
+匹配Email地址的正则表达式：\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*
+评注：表单验证时很实用
+匹配网址URL的正则表达式：[a-zA-z]+://[^\s]*
+评注：网上流传的版本功能很有限，上面这个基本可以满足需求
+匹配帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：^[a-zA-Z][a-zA-Z0-9_]{4,15}$
+评注：表单验证时很实用
+匹配国内电话号码：\d{3}-\d{8}|\d{4}-\d{7}
+评注：匹配形式如 0511-4405222 或 021-87888822
+匹配腾讯QQ号：[1-9][0-9]{4,}
+评注：腾讯QQ号从10000开始
+匹配中国邮政编码：[1-9]\d{5}(?!\d)
+评注：中国邮政编码为6位数字
+匹配身份证：\d{15}|\d{18}
+评注：中国的身份证为15位或18位
+匹配ip地址：\d+\.\d+\.\d+\.\d+
+评注：提取ip地址时有用
+匹配特定数字：
+^[1-9]\d*$　 　 //匹配正整数
+^-[1-9]\d*$ 　 //匹配负整数
+^-?[1-9]\d*$　　 //匹配整数
+^[1-9]\d*|0$　 //匹配非负整数（正整数 + 0）
+^-[1-9]\d*|0$　　 //匹配非正整数（负整数 + 0）
+^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$　　 //匹配正浮点数
+^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$　 //匹配负浮点数
+^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$　 //匹配浮点数
+^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$　　 //匹配非负浮点数（正浮点数 + 0）
+^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$　　//匹配非正浮点数（负浮点数 + 0）
+/^(100|[1-9]?\d)%$/      // 0% 到 100% 不能有小数
+/^(100|[1-9]?\d(\.\d\d?)?)%$/    // 0% 到 100% 可有小数 (5.2%  55.55%)
+评注：处理大量数据时有用，具体应用时注意修正
+匹配特定字符串：
+^[A-Za-z]+$　　//匹配由26个英文字母组成的字符串
+^[A-Z]+$　　//匹配由26个英文字母的大写组成的字符串
+^[a-z]+$　　//匹配由26个英文字母的小写组成的字符串
+^[A-Za-z0-9]+$　　//匹配由数字和26个英文字母组成的字符串
+^\w+$　　//匹配由数字、26个英文字母或者下划线组成的字符串
+校验数字的表达式
+1 数字：^[0-9]*$
+2 n位的数字：^\d{n}$
+3 至少n位的数字：^\d{n,}$
+4 m-n位的数字：^\d{m,n}$
+5 零和非零开头的数字：^(0|[1-9][0-9]*)$
+6 非零开头的最多带两位小数的数字：^([1-9][0-9]*)+(.[0-9]{1,2})?$
+7 带1-2位小数的正数或负数：^(\-)?\d+(\.\d{1,2})?$   
+8 正数、负数、和小数：^(\-|\+)?\d+(\.\d+)?$
+9 有两位小数的正实数：^[0-9]+(.[0-9]{2})?$
+10 有1~3位小数的正实数：^[0-9]+(.[0-9]{1,3})?$
+11 非零的正整数：^[1-9]\d*$ 或 ^([1-9][0-9]*){1,3}$ 或 ^\+?[1-9][0-9]*$    
+12 非零的负整数：^\-[1-9][]0-9"*$ 或 ^-[1-9]\d*$
+13 非负整数：^\d+$ 或 ^[1-9]\d*|0$
+14 非正整数：^-[1-9]\d*|0$ 或 ^((-\d+)|(0+))$
+15 非负浮点数：^\d+(\.\d+)?$ 或 ^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$
+16 非正浮点数：^((-\d+(\.\d+)?)|(0+(\.0+)?))$ 或 ^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$
+17 正浮点数：^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$ 或 ^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$
+18 负浮点数：^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$ 或 ^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$
+19 浮点数：^(-?\d+)(\.\d+)?$ 或 ^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$
+校验字符的表达式
+1 汉字：^[\u4e00-\u9fa5]{0,}$
+2 英文和数字：^[A-Za-z0-9]+$ 或 ^[A-Za-z0-9]{4,40}$
+3 长度为3-20的所有字符：^.{3,20}$
+4 由26个英文字母组成的字符串：^[A-Za-z]+$
+5 由26个大写英文字母组成的字符串：^[A-Z]+$
+6 由26个小写英文字母组成的字符串：^[a-z]+$
+7 由数字和26个英文字母组成的字符串：^[A-Za-z0-9]+$
+8 由数字、26个英文字母或者下划线组成的字符串：^\w+$ 或 ^\w{3,20}$
+9 中文、英文、数字包括下划线：^[\u4E00-\u9FA5A-Za-z0-9_]+$
+10 中文、英文、数字但不包括下划线等符号：^[\u4E00-\u9FA5A-Za-z0-9]+$ 或 ^[\u4E00-\u9FA5A-Za-z0-9]{2,20}$
+11 可以输入含有^%&',;=?$\"等字符：[^%&',;=?$\x22]+
+12 禁止输入含有~的字符：[^~\x22]+
+特殊需求表达式
+1 Email地址：^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$
+2 域名：[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(/.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+/.?
+3 InternetURL：[a-zA-z]+://[^\s]* 或 ^http://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$
+4 手机号码：^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$
+5 电话号码("XXX-XXXXXXX"、"XXXX-XXXXXXXX"、"XXX-XXXXXXX"、"XXX-XXXXXXXX"、"XXXXXXX"和"XXXXXXXX)：^(\(\d{3,4}-)|\d{3.4}-)?\d{7,8}$
+6 国内电话号码(0511-4405222、021-87888822)：\d{3}-\d{8}|\d{4}-\d{7}
+7 身份证号(15位、18位数字)：^\d{15}|\d{18}$
+8 短身份证号码(数字、字母x结尾)：^([0-9]){7,18}(x|X)?$ 或 ^\d{8,18}|[0-9x]{8,18}|[0-9X]{8,18}?$
+9 帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：^[a-zA-Z][a-zA-Z0-9_]{4,15}$
+10 密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)：^[a-zA-Z]\w{5,17}$
+11 强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间)：^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$
+12 日期格式：^\d{4}-\d{1,2}-\d{1,2}
+13 一年的12个月(01～09和1～12)：^(0?[1-9]|1[0-2])$
+14 一个月的31天(01～09和1～31)：^((0?[1-9])|((1|2)[0-9])|30|31)$
+15 钱的输入格式：
+16 1.有四种钱的表示形式我们可以接受:"10000.00" 和 "10,000.00", 和没有 "分" 的 "10000" 和 "10,000"：^[1-9][0-9]*$
+17 2.这表示任意一个不以0开头的数字,但是,这也意味着一个字符"0"不通过,所以我们采用下面的形式：^(0|[1-9][0-9]*)$
+18 3.一个0或者一个不以0开头的数字.我们还可以允许开头有一个负号：^(0|-?[1-9][0-9]*)$
+19 4.这表示一个0或者一个可能为负的开头不为0的数字.让用户以0开头好了.把负号的也去掉,因为钱总不能是负的吧.下面我们要加的是说明可能的小数部分：^[0-9]+(.[0-9]+)?$
+20 5.必须说明的是,小数点后面至少应该有1位数,所以"10."是不通过的,但是 "10" 和 "10.2" 是通过的：^[0-9]+(.[0-9]{2})?$
+21 6.这样我们规定小数点后面必须有两位,如果你认为太苛刻了,可以这样：^[0-9]+(.[0-9]{1,2})?$
+22 7.这样就允许用户只写一位小数.下面我们该考虑数字中的逗号了,我们可以这样：^[0-9]{1,3}(,[0-9]{3})*(.[0-9]{1,2})?$
+23 8.1到3个数字,后面跟着任意个 逗号+3个数字,逗号成为可选,而不是必须：^([0-9]+|[0-9]{1,3}(,[0-9]{3})*)(.[0-9]{1,2})?$
+24 备注：这就是最终结果了,别忘了"+"可以用"*"替代如果你觉得空字符串也可以接受的话(奇怪,为什么?)最后,别忘了在用函数时去掉去掉那个反斜杠,一般的错误都在这里
+25 xml文件：^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$
+26 中文字符的正则表达式：[\u4e00-\u9fa5]
+27 双字节字符：[^\x00-\xff] (包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))
+28 空白行的正则表达式：\n\s*\r (可以用来删除空白行)
+29 HTML标记的正则表达式：<(\S*?)[^>]*>.*?</\1>|<.*? /> (网上流传的版本太糟糕，上面这个也仅仅能部分，对于复杂的嵌套标记依旧无能为力)
+30 首尾空白字符的正则表达式：^\s*|\s*$或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)
+31 腾讯QQ号：[1-9][0-9]{4,} (腾讯QQ号从10000开始)
+32 中国邮政编码：[1-9]\d{5}(?!\d) (中国邮政编码为6位数字)
+33 IP地址：\d+\.\d+\.\d+\.\d+ (提取IP地址时有用)
+34 IP地址：((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d))
+
+Chromium Angle 在 Windows and Mac 编译
+1. 准备好代理；
+第一步：window系统开启代理；
+第二步：下载window专用的 depot_tools，新建一个文件夹depot_tools，然后把depot_tools解压到这个文件夹depot_tools(一定带上git的文件夹，是隐藏的),将建立的这个文件夹depot_tools的路径设置到环境变量里面，并且必须在python的前面；
+第三步：以管理员的身份进入命令行操作，找个可用的磁盘位置，输入命令 mkdir angle && cd angle；
+第四步：执行git代理和Windows代理设置：
+git 代理方式为：
+git config --global http.proxy socks5://127.0.0.1:7890
+git config --global https.proxy socks5://127.0.0.1:7890
+git 代理取消方式为：
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+cmd代理设置：
+set http_proxy=socks5://127.0.0.1:7890
+set https_proxy=socks5://127.0.0.1:7890
+set DEPOT_TOOLS_WIN_TOOLCHAIN=0 
+第五步：克隆代码：
+git clone https://chromium.googlesource.com/angle/angle
+cd angle
+python scripts/bootstrap.py
+gclient sync
+git checkout master
+第六步：编译代码
+编译之前需要确认一下是不是装了 最新的 Windows SDK 最新版本
+Set DEPOT_TOOLS_WIN_TOOLCHAIN=0 // 不是Google的员工要有这步的操作
+set vs2019_install=D:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise
+gn gen out/Debug --sln=angle-debug --ide=vs2019 --args="is_debug=true is_clang=false dcheck_aways_on=true"
+gn gen out/Release --sln=angle-release --ide=vs2019 --args="is_debug=false is_clang=false dcheck_aways_on=true"
+2. MAC编译
+第一步：先对Mac下的git代理（同window下的git）
+第二步：设置Mac系统代理 Mac Terminal Proxy
+// Execute one or both of the export commands for HTTP traffic. 
+export http_proxy=192.168.1.10:8080
+export HTTP_PROXY=192.168.1.10:8080
+// Same as with HTTP, use one or both the examples below for HTTPS traffic
+export https_proxy=192.168.1.10:8080
+export HTTPS_PROXY=192.168.1.10:8080
+第三步：配置depot_tools depot_tools
+// clone the tools
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+// set the tool path
+export PATH=$PATH:/path/to/depot_tools
+第四步：clone 代码
+git clone https://chromium.googlesource.com/angle/angle
+cd angle
+python scripts/bootstrap.py
+gclient sync
+git checkout master
+第五步：编译
+// use autoninja debug
+gn gen  out/Debug
+// use autoninja release
+gn gen  out/Release --args="is_debug=false"
+// use xcode build release
+gn gen out/xcodeRelease  --ide=xcode --xcode-project=angle --args="is_debug=false"
+// use xcode build debug
+gn gen out/xcodeDebug  --ide=xcode --xcode-project=angle
+
+C++11标准中常用到的各种算法汇总.
+在C++11标准中定义了很多算法，这些算法可以让我们很方便的操作各种容器和数组，这里要注意一下，这些算法操作的并非容器，而是迭代器，然后通过迭代器来操作容器中的数据，算法本身并不会关注容器中保存的数据的类型。
+以下是我对常识的算法的总结，这些算法大部分都在algorithm.h中，还有一些在numeric.h中。
+这里我们的容器都用这几个：
+vector<string> vec;
+vector<int> vec1;
+vec<string> vec2;
+1.find();
+   find()算法的作用是在指定的一段序列中查找某个数，包含三个参数，前两个参数是表示元素范围的迭代器，第三个参数是要查找的值。
+   例：fing(vec.begin(), vec.end(), val); //在vec中查找值val，该val可以是数字、字符串。
+2.count（）；
+   count()算法的作用是查看给定序列中给定值出现的次数，同样包含三个参数，前两个参数是表示元素范围的迭代器，第三个参数是要查找的值。
+   例：count(vec1.begin(), vec1.end(), 2);//在vec1中查看2出现的次数。
+3.accumulate（）；//该函数在numeric.h文件中
+   accumulate（）函数的作用是计算指定范围中各个数相加的和。包含三个参数，前两个参数是求和的序列范围，第三个参数是和的初始值。
+   例：accumulate(vec1.begin（）， vec1.end(), 0)；//计算vec1中各个数相加的总和，和的初始值为0；
+4.equal（）；
+   equal（）算法的作用是确定两个序列是否保存相同的值，此算法接受三个迭代器，前两个迭代器表示第一个序列中元素的范围，第三个迭代器表示第二个序列的手元素。如果相等，则返回true， 否则返回false；
+   equal（vec.begin(), vec.end(), vec2.begin()）;//比较vec和vec2中的元素是否相同。
+5.fill();
+   fill()算法的作用是对一个范围内的所有元素赋值，包含三个参数，前两个参数接受一对迭代器表示一个范围，第三个迭代器接受一个值。
+   例：fill（vec.begin(), vec.end(), "");//将vec中的所有元素都置为空。
+6.fill_n();
+   fill_n算法的作用是将给定值赋给迭代器指向的元素开始的指定个元素。第一个参数接受一个迭代器，第二个元素接受一个计数值，第三个迭代器接受一个值。
+   例：fill_n(vec.begin(), vec.size(), "");//将vec中的所有元素置为空。
+   注：这里介绍一下back_inserter，它是一种插入迭代器，是一种向容器中添加元素的迭代器，它定义在iterator.h中，每调用一次back_inserter,函数则会调用一    次push_back。
+   例：auto i = back_inseter(vec1);//通过它赋值会将元素添加到vec中
+        *i = 42;//vec1中现有有一个元素，值为42
+   这里back_inserter常用来创建一个迭代器作为算法的目的位置来使用。
+   例：fill_n(back_inserter(vec1), 10, 0);//向vec1的末尾添加10个元素，元素值为0；
+7.copy();
+   copy()算法将输入范围中的元素拷贝到目的序列中。包括三个参数，前两个表示一个输入范围，第三个表示序列的起始位置。
+   例：int a1[] = {0,1,2,3,4,5,6,7,8,9};
+        int a2[sizeof(a1)/sizeof(*a1)];
+        //ret指向拷贝到a2的为元素之后的位置
+        auto ret = copy(begin(a1), end(a1), a2);//把a1的内容拷贝到a2.
+8.replace();
+   replace()算法的作用是将给定序列中所有等会给定值的元素都改为另一个值，此算法接收四个参数，前两个是迭代器，表示输入序列范围，第三个是表示要搜索的      值，第四个是要换的新值。
+   例：replace(vec.begin(), vec.end(), "", "test");//将vec中的空字符串改为test。
+   如果我们需要保证原序列的值不变，则可以使用replace_copy()算法，使原序列不变，将改变后的序列值拷贝给新容器。
+   例：replace_copy(vec.begin(), vec.end()，back_inserter(vec2), "", "test");//将修改后的新序列保存到vec2中，原序列值不变。  
+9.sort（）；
+   sort()算法的作用是重新排列输入的序列中的元素，它是按照字典序列来重新排布序列。
+   例：vector<string> vec = {"the", "quick", "red", "for", "jump","over", "the", "slow", "red", "turtle"}；
+         sort(vec.begin(), vec.end());
+        执行完后的结果：for jump over quick red slow the the turtle
+10.unique（）；
+    unique（）算法的作用是重新排列输入的序列号，并使前面的每个单词都只出现一次，返回指向不重复区域之后一个位置的迭代器。
+    如9的vec，auto end_unique = unique(vec.begin(), vec.end());
+     执行完后的结果：for jump over quick red slow the  turtle the
+     这是如果我们需要得到一个不重复的序列，则只需要使用erase（）即可，即
+     vec.erase(end_unique, vec.end());
+      执行完后的结果：for jump over quick red slow the  turtle 
+注：为了讲后面的算法，这里先普及一下谓词，这里所谓的谓词并不是语言语法上的谓词，而是向算法传递的函数名。
+    例：bool isShort(const string &s1, const string &s2)
+      { return s1.size() < s2.size(); }
+     前面的sort()算法也是可以接收谓词的，如sort（vec.begin(), vec.end(), isShort）;
+     该语句的意思是重新排列序列，但是是按照字符串的长度从小到大的顺序排列。
+11.partiton（）；
+    partition()算法的作用是对输入的容器的内容进行划分，该算法返回一个迭代器，返回指向最后一个是谓词为true的元素之后的位置。接受三个
+    参数，前两个是元素的范围迭代器，后一个是划分标准。
+    例：bool bigger(const string &a)
+        { return a.size() > 5; }
+        partition(vec.begin(), vec.end(), bigger);//将vec划分开，前部分是长度大于5的字符串，后部分是长度小于等于5的字符串。
+注：这样再讲一下可调用对象lambda，格式[capture list](parameter list)->reture type{function boby}
+     其中capture list（捕获列表）是一个lambda所在函数中定义的局部变量的列表（通常为空），reture type、parameter list、function boby和其他的函数一      样，分别表示返回类型、参数列表、函数体。像11中的例子可以写成：
+     partition(vec.begin(), vec.end(), [](const string &a) {return a.size()>5;});//可以和上面达到一样的效果
+12.find_if();
+    find_if()算法的作用是在输入序列中查找第一个满足条件的元素，返回第一个指向满足条件的元素的迭代器。
+    例：auto wc = find_if(vec.begin(), vec.end(), [sz](const string &a){return a.size>=sz;});//其中sz为在使用find_if的函数内部定义的局部变量。
+    上诉算法得到的是第一个指向长度不小于sz的元素的迭代器，如果没有则返回vec.end();
+13.for_each();
+    for_each()算法的主要作用是打印输出序列。接收三个参数，前两个为打印元素的范围，后一个为一个可调用对象。
+    例：for_each(wc, vec.end(), [](const string &s){cout << s << " ";});
+         cout << endl;
+    上述程序的作用就是打印输出序列中从wc到vec.end（）中的元素。
+    
+
+题解决C++调用C函数同名问题
+我们在写C++类时，有时候需要调用C程序接口，这涉及到C++本身定义的成员函数名和C函数名重名的问题，如：
+Test::Test()
+{
+}
+int Test::open()
+{
+  int fd;
+  fd=open("dev/i2c-1", O_RDWR);
+  return 0;
+}
+其中Test::open()函数中调用的时系统open()函数，这样定义编译器就会报错，因为编译器认为你调用的是Test类的成员函数open()，当然解决方法有多种，比如我们把类的成员函数open()换个名称即可，但有时候为了函数命名规则及调用的明确化，我们可以这样（用到上述“2)全局作用域符号”的功能），如：
+Test::Test()
+{
+}
+int Test::open()
+{
+  int fd;
+  fd=::open("dev/i2c-1", O_RDWR);
+  return 0;
+}
+在被调用的C函数open()前加"::"，把C函数当作全局函数调用即可。
+
+Direct2D入门
+一. 资源管理(Resource management)
+和Direct3D一样，Direct2D程序需要处理设备丢失(Device lost)问题。Direct2D中的资源分为设备独立资源(Device independent resource)和设备依赖资源(Device dependent resource)。
+设备独立资源包括：
+ID2D1DrawingStateBlock
+ID2D1Factory
+ID2D1Geometry 和由此继承而来的接口
+ID2D1GeometrySink and ID2D1SimplifiedGeometrySink
+ID2D1StrokeStyle
+设备依赖资源包括：
+ID2D1Brush 和由此继承而来的接口
+ID2D1Layer
+ID2D1RenderTarget 和由此继承而来的接口
+二. Direct2D程序的结构
+在程序初始化函数处创建设备独立资源，如ID2D1Factory，IDWriteFactory等；
+创建设备依赖资源，如果运行过程中出现设备丢失，需要重新创建；
+响应WM_PAINT消息，在OnPaint()或OnDraw()等处，用创建的资源Render；
+响应WM_SIZE消息，在OnSize()处调用ID2D1RenderTarget::Resize();
+响应WM_ERASEBKGND，在OnEraseBkgnd()处返回FALSE，阻止GDI重绘客户区背景色，设置背景色的工作交给Direct2D在Render时设置，否则在Resize时会出现窗口闪烁的问题；
+退出程序前，清理资源。
+为提高程序的性能，尽量减少资源的创建和销毁操作，将能够重复利用的资源接口变量申明为View类的成员变量。
+三. Direct2D demo
+一个简单的MFC程序，用于演示Direct2D程序的结构和一些简单绘图操作。
+1.Direct2D prerequisite
+D2dPrerequisite.h，包含一些编译Direct2D程序所需要用到的头文件，lib库文件，帮助宏和预处理指令：
+  //D2dPrerequisite.h
+  #pragma once
+  //////////////////////////////////////////////////////////////////////////
+  //Header files and lib files for Direct2D and DirectWrite
+  #include <d2d1.h>                //Direct2D,for normal rendering task
+  #include <d2d1helper.h>        
+  #include <dwrite.h>                //DirectWrite,for drawing text
+  #include <wincodec.h>                //Windows imaging component,for image decoding
+ #pragma comment(lib,"d2d1.lib")
+ #pragma comment(lib,"dwrite.lib")
+ #pragma comment(lib,"windowscodecs.lib")
+ //////////////////////////////////////////////////////////////////////////
+ //Helper template for resource releasing
+ template<class Interface>
+ inlinevoid SafeRelease(Interface **ppInterfaceToRelease)
+ {
+         if (*ppInterfaceToRelease != NULL)
+         {
+                 (*ppInterfaceToRelease)->Release();
+                 (*ppInterfaceToRelease) = NULL;
+         }
+ }
+ #ifndef Assert
+ #if defined( DEBUG ) || defined( _DEBUG )
+ #define Assert(b) do {if (!(b)) {OutputDebugStringA("Assert: " #b "\n");}} while(0)
+ #else
+ #define Assert(b)
+ #endif //DEBUG || _DEBUG
+ #endif
+ #ifndef HINST_THISCOMPONENT
+ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+ #define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
+ #endif
+2.View类中的成员变量：
+  //View.h
+  private:
+          //Direct2D interface
+          ID2D1Factory* m_pD2d1Factory;
+          ID2D1HwndRenderTarget* m_pHwndRenderTarget;
+          ID2D1SolidColorBrush* m_pSolidColorBrush;
+          ID2D1LinearGradientBrush* m_pLinearGradientBrush;
+          ID2D1RadialGradientBrush* m_pRadialGradientBrush;
+         //DirectWrite interface
+         IDWriteFactory* m_pDWriteFactory;
+         IDWriteTextFormat* m_pTextFormat;
+3.创建设备独立资源
+  //View.cpp
+  BOOL CBasicView::CreateDeviceIndependentResource()
+  {
+          HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED,&m_pD2d1Factory);
+          ASSERT(hr == S_OK);
+          if (SUCCEEDED(hr))
+          {
+                  hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED,
+                         __uuidof(m_pDWriteFactory),
+                         reinterpret_cast<IUnknown**>(&m_pDWriteFactory));
+                 ASSERT(hr == S_OK);
+         }
+         //Create TextFormat object with IDWriteFactory
+         if (SUCCEEDED(hr))
+         {
+                 const CString fontName = _T("Verdana");
+                 const FLOAT fontSize = 32.0f;
+                 hr = m_pDWriteFactory->CreateTextFormat(
+                         fontName,
+                         NULL,
+                         DWRITE_FONT_WEIGHT_NORMAL,
+                         DWRITE_FONT_STYLE_NORMAL,
+                         DWRITE_FONT_STRETCH_NORMAL,
+                         fontSize,
+                         L"",        //locale
+                         &m_pTextFormat
+                         );
+                 ASSERT(hr == S_OK);
+                 if (SUCCEEDED(hr))
+                 {
+                         //Center alignment vertically and horizontally
+                         m_pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+                         m_pTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+                 }
+         }
+         return (hr == S_OK);
+ }
+4.创建设备依赖资源
+  //View.cpp
+  BOOL CBasicView::CreateDeviceDependentResource()
+  {
+          ASSERT(m_pD2d1Factory != NULL);
+          if (m_pHwndRenderTarget != NULL)        //There is no need to create render target
+                  return TRUE;
+          RECT rc;
+          GetClientRect(&rc);
+         D2D1_SIZE_U size = SizeU(rc.right-rc.left,rc.bottom-rc.top);
+         HRESULT hr = m_pD2d1Factory->CreateHwndRenderTarget(
+                 RenderTargetProperties(),
+                 HwndRenderTargetProperties(m_hWnd,size),//Bind the HwndRenderTarget to view window
+                 &m_pHwndRenderTarget);
+         ASSERT(hr == S_OK);
+         if (SUCCEEDED(hr))
+         {
+                 //Create solid color brush
+                 hr = m_pHwndRenderTarget->CreateSolidColorBrush(
+                         ColorF(ColorF::LightGreen),
+                         &m_pSolidColorBrush);
+                 ASSERT(hr == S_OK);
+                 //Create gradient stops collection,
+                 //used by linear gradient brush or radial gradient brush
+                 ID2D1GradientStopCollection* pGradientStops = NULL;
+                 D2D1_GRADIENT_STOP stops[2];
+                 stops[0].color = ColorF(ColorF::Yellow);
+                 stops[0].position = 0.0f;
+                 stops[1].color = ColorF(ColorF::Red);
+                 stops[1].position = 1.0f;
+                 HRESULT hr = m_pHwndRenderTarget->CreateGradientStopCollection(
+                         stops,
+                         2,
+                         D2D1_GAMMA_2_2,
+                         D2D1_EXTEND_MODE_CLAMP,
+                         &pGradientStops);
+                 ASSERT(hr == S_OK);
+                 //Create linear gradient brush
+                 hr = m_pHwndRenderTarget->CreateLinearGradientBrush(
+                         LinearGradientBrushProperties(Point2F(210,110),Point2F(290,190)),
+                         pGradientStops,
+                         &m_pLinearGradientBrush);
+                 ASSERT(hr == S_OK);
+                 //Create radial gradient brush
+                 hr = m_pHwndRenderTarget->CreateRadialGradientBrush(
+                         RadialGradientBrushProperties(Point2F(350,150),Point2F(0,0),50,50),
+                         pGradientStops,
+                         &m_pRadialGradientBrush);
+                 ASSERT(hr == S_OK);
+                 SafeRelease(&pGradientStops);
+         }
+         return (hr == S_OK);
+ }
+5.Render
+  //View.cpp
+  void CBasicView::Render()
+  {
+          ASSERT(m_pD2d1Factory != NULL);
+          if (!m_pHwndRenderTarget)        //Render target need to be recreated
+          {
+                  //Recreate device dependent resource
+                  BOOL succeeded = CreateDeviceDependentResource();
+                  if (!succeeded)
+                         return;
+         }
+         const D2D1_COLOR_F redColor = ColorF(ColorF::Red);
+         const D2D1_COLOR_F greenColor = ColorF(ColorF::Green);
+         const D2D1_COLOR_F blueColor = ColorF(ColorF::Blue);
+         const D2D1_COLOR_F yellowColor = ColorF(ColorF::Yellow);
+         const D2D1_COLOR_F pinkColor = ColorF(ColorF::Pink);
+         const D2D1_COLOR_F lightBlue = ColorF(ColorF::LightBlue);
+         const D2D1_COLOR_F lightGreen = ColorF(ColorF::LightGreen);
+         m_pHwndRenderTarget->BeginDraw();
+         m_pHwndRenderTarget->Clear(ColorF(ColorF::White));        //Clear the background
+         //Draw line
+         //We can set the color and opacity of solid color brush at any time,
+         //so there is no need to create brushes for different colors
+         m_pSolidColorBrush->SetColor(redColor);        
+         D2D1_POINT_2F startPoint = Point2F(10,10);
+         D2D1_POINT_2F endPoint = Point2F(90,90);
+         m_pHwndRenderTarget->DrawLine(startPoint,endPoint,m_pSolidColorBrush,5.0);
+         //Draw rectangle
+         m_pSolidColorBrush->SetColor(greenColor);
+         D2D1_RECT_F rect = RectF(110,10,190,90);
+         m_pHwndRenderTarget->DrawRectangle(rect,m_pSolidColorBrush,4.0f);
+         //Draw rounded rectangle
+         m_pSolidColorBrush->SetColor(blueColor);
+         rect = RectF(210,10,290,90);
+         D2D1_ROUNDED_RECT roundedRect = RoundedRect(rect,10,10);
+         m_pHwndRenderTarget->DrawRoundedRectangle(roundedRect,m_pSolidColorBrush,3.0f);
+         //Draw ellipse
+         m_pSolidColorBrush->SetColor(redColor);
+         D2D1_POINT_2F center = D2D1::Point2F(350,50);
+         D2D1_ELLIPSE ellipse = D2D1::Ellipse(center,40,30);
+         m_pHwndRenderTarget->DrawEllipse(ellipse,m_pSolidColorBrush,3.0f);
+         //Fill rectangle
+         m_pSolidColorBrush->SetColor(pinkColor);
+         rect = RectF(10,110,90,190);
+         m_pHwndRenderTarget->FillRectangle(rect,m_pSolidColorBrush);
+         //Fill rounded rectangle
+         m_pSolidColorBrush->SetColor(blueColor);
+         m_pSolidColorBrush->SetOpacity(0.3f);
+         rect = RectF(110,110,190,190);
+         roundedRect = RoundedRect(rect,20,20);
+         m_pHwndRenderTarget->FillRoundedRectangle(roundedRect,m_pSolidColorBrush);
+         //Fill rectangle with linear gradient brush
+         rect = RectF(210,110,290,190);
+         m_pHwndRenderTarget->FillRectangle(rect,m_pLinearGradientBrush);
+         //Fill ellipse with gradient brush
+         ellipse = D2D1::Ellipse(Point2F(350,150),40,40);
+         m_pHwndRenderTarget->FillEllipse(ellipse,m_pRadialGradientBrush);
+         //Draw text with a linear gradient brush
+         const CString text = _T("Text drawed with Direct2D & DWrite!");
+         rect = RectF(20,210,380,290);
+         m_pHwndRenderTarget->DrawTextW(
+                 text,
+                 text.GetLength(),
+                 m_pTextFormat,
+                 rect,
+                 m_pLinearGradientBrush);
+         HRESULT hr = m_pHwndRenderTarget->EndDraw();
+         if (hr == D2DERR_RECREATE_TARGET)        //Render target need to be recreated
+         {
+                 //Discard all device dependent resources,
+                 //and recreate them in the next render procedure
+                 DiscardDeviceDependentResource();
+         }
+ }
+6. 销毁设备依赖资源，以备下次Render时再次创建
+  //View.cpp
+  void CBasicView::DiscardDeviceDependentResource()
+  {
+          SafeRelease(&m_pRadialGradientBrush);
+          SafeRelease(&m_pLinearGradientBrush);
+          SafeRelease(&m_pSolidColorBrush);
+          SafeRelease(&m_pHwndRenderTarget);
+  }
+7.Resize
+  //View.cpp
+  void CBasicView::Resize(int width,int height)
+  {
+         if (m_pHwndRenderTarget)
+         {
+                 m_pHwndRenderTarget->Resize(SizeU(width,height));
+         }
+  }
+
+https://www.figma.com/file/HCMLMsZ0ZNoiVhptpWZQW0/%E5%9F%BA%E9%87%91%E8%82%A1%E7%A5%A8?type=design&node-id=1463-138&mode=design&t=n0XErCQyuKkFmCj2-0
+http://202.81.237.68:8092/swagger-ui.html
+http://202.81.237.68/#/fund/fundBuyRecord
+https://miuiver.com/miflash/
+https://www.123pan.com/s/NdTDVv-dgOn3.html Note12Turbo养老
+https://www.123pan.com/s/q4S8Vv-agrWv.html MOOS极限精简
+https://sourceforge.net/projects/eliteroms/files/MIUI-STABLE-UPDATES/MIUI-v14/ Elite欧版澎湃
+https://www.iyio.net/search/label/%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9
+https://nodefree.org/
+https://bbs.kanxue.com/thread-268175.htm
+https://bbs.kanxue.com/search-frida_E6_8C_81_E4_B9_85_E5_8C_96.htm
+https://bbs.kanxue.com/thread-261844.htm
+https://bbs.kanxue.com/thread-268256.htm
+https://bbs.kanxue.com/thread-266785.htm
+https://bbs.kanxue.com/thread-229970.htm
+https://blog.csdn.net/weixin_51111267/article/details/131303876
+https://mp.weixin.qq.com/s?__biz=MzI5ODYyMjk5NQ==&mid=2247484285&idx=1&sn=04bb0cd940c58d305d960b45fda316ad&chksm=eca24a01dbd5c317a3c7848636cf856b07ecf2852aa439cd6fedcfc8ce8fa4ad23dc25c18390&scene=21#wechat_redirect
+https://mp.weixin.qq.com/s?__biz=MzI5ODYyMjk5NQ==&mid=2247484277&idx=1&sn=72a0ddacbae9ed0010119bd0070549ab&chksm=eca24a09dbd5c31f0ec612b594f45dc926bfb29c582b768278daafb7b2bafaa1aa2b348b546d&scene=21#wechat_redirect
+https://github.com/telegramdesktop/tdesktop/releases
+https://github.com/frida/frida/releases
+https://github.com/ViRb3/magisk-frida/releases
+https://github.com/lico-n/ZygiskFrida/releases
+https://github.com/nitanmarcel/magisk-frida-inject
+https://github.com/rev1si0n/lamda
+https://github.com/hack0z/luject
+https://github.com/qiang/Riru-ModuleFridaGadget
+https://github.com/iGio90/FridaAndroidInjector
+https://github.com/LinkSheet/LinkSheet
+https://blog.csdn.net/Crazy__Hope/article/details/123113405
+https://blog.csdn.net/Y_morph/article/details/129534274
+https://blog.csdn.net/qq_43572758/article/details/127960298
+https://blog.csdn.net/qq_42805977/article/details/128562524
+https://www.52pojie.cn/thread-1189150-1-1.html?tdsourcetag=s_pcqq_aiomsg
+https://www.52pojie.cn/thread-1167681-1-1.html
+https://www.zhihu.com/tardis/bd/art/362925495?source_id=1001
+https://blog.csdn.net/freeking101/article/details/120775403
+https://github.com/GaoXiaoduo/gxd-robust
+https://github.com/WaterLow3206/RobustFix
+https://github.com/Meituan-Dianping/Robust
+https://zhuanlan.zhihu.com/p/88820991 如何5分钟让你的 SDK 拥有热修复能力（原理篇）
+https://blog.csdn.net/ljw124213/article/details/73844811 android热修复之Robust使用(真正的入门)
+https://www.jianshu.com/p/5dc24a4e45e8
+https://demon.blog.csdn.net/article/details/113585385 Android端FMOD&SoundTouch音频变声解决方案
+https://blog.csdn.net/DeMonliuhui/article/details/78269234 Android Apk加壳技术实战详解
+
+
+CentOS7 配置阿里云yum源
+//阿里源（推荐）：wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+//网易源：wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.163.com/.help/CentOS7-Base-163.repo
+cd  /etc/yum.repos.d/
+yum -y install wget
+wget  http://mirrors.aliyun.com/repo/Centos-7.repo
+mv  CentOs-Base.repo CentOs-Base.repo.bak
+mv Centos-7.repo CentOs-Base.repo
+yum clean all
+yum makecache
+yum update
+
+基于加固App，过App的root检测、frida检测等App安全检测(通用解决方案)
+常用命令，如下所示:
+adb reboot bootloader
+fastboot flashing unlock
+fastboot flash recovery twrp.img
+fastboot reboot
+Windows10/Ubuntu环境安装frida，如下所示:
+pip3 install numpy matplotlib
+pip3 install frida
+pip3 install frida-tools
+adb shell ps -Z |findstr "adbd"
+frida-ps -U
+
+Help -> Find Action -> Register -> ide.usages.page.size 10000 AS2022以前解除全局搜索限制
+Setting->Advanced Settings ->Find/Replace->Maximum number off results to show_channel_urls in Find in Files/Show Usages preview 20000  AS2022之后解除全局搜索限制
+Tomcat ->package:mine  过滤当前应用包数据
+
+mkdir bld&cd bld&cmake ..
+git config --global user.name
+git config --global user.email
+git config --global user.name "WaterLow3206"
+git config --global user.email "ruin52xl@outlook.com"
+git config --global user.name "NilNull818"
+git config --global user.email "diaosi.dev@gmail.com"
+git config --global user.name "allen.x.6032"
+git config --global user.email "allen.x.6032@gmail.com"
+git config --system http.sslbackend openssl
+git config --system https.sslbackend openssl
+git config --global url."https://github.moeyy.xyz/https://github.com".insteadOf https://github.com
+git config --global url."https://github.moeyy.xyz/https://github.com/".insteadOf git://github.com/
+git config --global url."https://mirrors.ustc.edu.cn/aosp".insteadOf https://android.googlesource.com
+git config --global url."https://mirrors.tuna.tsinghua.edu.cn/git/chromiumos".insteadOf https://chromium.googlesource.com
+git clone --depth=1 -b master http://github.com/cats-oss/android-gpuimage
+git clone  http://github.com/RikkaApps/Riru
+git submodule update --init --recursive
+
+Github高级搜索
+in:name <关键字> 根据仓库名称搜索仓库。
+in:description <关键字>：根据仓库描述搜索仓库。
+in:readme <关键字>：根据 README 文件内容搜索仓库。
+stars(fork): >(=) <数字> <关键字>：搜索 star 或 fork 数大于（或等于）指定数字的仓库，并包含关键字。
+stars(fork): 10..20 <关键词>：搜索 star 或 fork 数在 10 到 20 之间的仓库，并包含关键字。
+size:>=5000 <关键词>：搜索仓库大小≥ \geq≥ 5000KB，并包含关键字。
+pushed(created):>2023-7-1 <关键字>：搜索更新或创建日期在 2023 年 7 月 1 日之后的仓库，并包含关键字。
+license:mit <关键字>：搜索 LICENSE 为 MIT 的仓库，并包含关键字。
+language:Go <关键字>：搜索仓库语言为 Go 的仓库，并包含关键字。
+user:<用户名> <关键字>：查询某个用户的项目，并包含关键字。
+org:<组织名> <关键字>：查询某个组织的项目，并包含关键字。// org:EsotericSoftware
+repo:owner/name： 匹配特定仓库名称，例如repo:unique-pure/unique-pure.github.io
+is:public/private <关键字>：根据公有或私有仓库搜索，并包含关键字。当然，只有你具有访问权限的私有仓库才可以搜索到。
+topic:<关键字>：根据主题搜索仓库。//topic:animations
+topics:>5：搜索具有3个以上主题的仓库。
+followers:n：根据仓库关注者数量搜索仓库。
+
+rd /s /q %USER_FOLDER%#强制删除文件夹
+ftype txtfile=%SystemRoot%\system32\notepad.exe "%1" 
+ftype text="E:\Notepad3\Notepad3.exe" %1 修复textfile类型关联打开程序
+assoc .gradle=text 关联.gradle为textfile类型
+assoc .md=text 
+assoc .mjs=text 
+assoc .conf=text 
+assoc .patch=text 
+assoc .props=text 
+assoc .properties=text 
+assoc .pro=text 
+assoc .sh=text 
+assoc .mk=text
+assoc .h=text
+assoc .hpp=text
+assoc .c=text
+assoc .cpp=text
+assoc .js=text
+assoc .mjs=text
+assoc .ts=text
+assoc .py=text
+assoc .json=text
+assoc .xml=text
+assoc .ini=text
+assoc .log=text
+assoc .java=text
+assoc .kt=text
+assoc .lua=text
+assoc .dart=text
+assoc .css=text
+assoc .gitmodules=text
+assoc .iml=text
+assoc .m=text
+assoc .mm=text
+assoc .cc=text
+assoc .swift=text
+assoc .manifest=text
+assoc .yaml=text
+
+TlbbTools
+装备 EquipBase.txt      
+装备上的buff StandardImpact.txt
+buff说明     equipextraattr.txt
+buff的特效  ImpactDirectly.txt
+装备图标 WoWLookSkin.scheme.xml       .imageset.xml
+
+win10下vs2008编译32位qt4.8.7
+1.1 下载QT4.8.7的source code(qt-everywhere-opensource-src-4.8.7.zip)
+1.2 将其解压到目录：D:\Qt4.8.7
+1.3 从https://www.microsoft.com/en-us/download/confirmation.aspx?id=6812下载安装DirextX SDK
+1.4 编译qt>=4.8需要安装Perl,这里下载的是activeperl版本。http://www.perl.org/get.html
+2.1 开始  -> 所有程序 ->Micorsoft Visual Studio 2008->visual studio tools->Visual Studio 命令提示(2008)
+2.2 用cd命令 进入D:\Qt4.8.7
+2.3 设置如下环境变量：set QTDIR=D:\Qt4.8.7 set QMAKESPEC=win32-msvc2010
+2.4  配置编译QT的选项 (可利用configure -hlep命令查看各选项意义，自己选择编译模块) configure -platform win32-msvc2010 -opensource -fast -qt-style-windowsxp -qt-style-windowsvista -no-qt3support -qt-sql-odbc -no-phonon -no-phonon-backend -no-script -no-scripttools -no-multimedia -nomake examples -nomake demos
+2.5  使用nmake命令开始编译QT。编译完成后，可执行文件存放于 /bin， 具体的Release,Debug版本的库存放于/lib 目录下
+ 2.6  注意：编译一个多小时后会报以下错误：platform\DefaultLocalizationStrategy.cpp(327):error C2001：常量中有换行符platform\DefaultLocalizationStrategy.cpp(327):fatal error C1057:宏扩展中遇到意外的文件结束 NMAKE:fatal error U1077:"...(路径)\MSVS10.0\VC\BIN\cl.EXE":返回代码"0x2" Stop. NMAKE:fatal error U1077:"...(路径)\MSVS10.0\VC\BIN\nmake.EXE":返回代码"0x2" Stop. NMAKE:fatal error U1077:"cd":返回代码"0x2" Stop. NMAKE:fatal error U1077:"cd":返回代码"0x2" Stop. 解决方法：打开这个文件：<Qt Dir>\src\3rdparty\webkit\Source\WebCore\platform\DefaultLocalizationStrategy.cpp 按Ctrl+G定位 到 327 行，改为：return WEB_UI_STRING("Look Up \"<selection>\"", "Look Up context menu item with selected word").replace("<selection>",truncatedStringForLookupMenuItem(selectedString)); 注意第一个括号内look up 后的双引号。修改好后使用nmake重新编译。
+2.7 预估总编译需要3个小时左右
+3.1 把 qmake.cache(和configure.cache)备份到别的地方
+3.2 nmake confclean 
+3.3 把 qmake.cache(和configure.cache) 复制回原处如果不这样，安装 qt-vs-addin 后进行 Qt Versions 添加路径时将失败。
+4.1 运行qt-vs-addin-1.1.11-opensource.exe
+4.2  打开VS2010， 选择QT---->QT Options.在QTversions页面点击add, name中输入QT版本的名字，例如4.8.7，path中输入QT所在位置：D:\Qt4.8.74.3  环境变量path中添加D:\Qt4.8.7\bin
+4.4 新建QT项目，编译时可能会弹出以下错误：The following error occured: There's no Qt version assigned to this project for platform Win32. Please use the 'change Qt version' feature and choose a valid Qt version for this platform. 解决办法：右键项目solution，选择“Change Solution's QT Version”---->选择当前的QT版本4.8.7。
+
+编译FreePascal和Lazarus
+一，准备目录
+假设我们准备将整个FreePascal环境安装到D盘的fpc目录下，那么我们需要创建以下几个目录：
+d:\fpc_svn\bin
+d:\laz_svn
+二，准备环境
+1，安装SVN客户端TortoiseSVN和中文支持包，下载地址：http://tortoisesvn.net/downloads
+2，使用SVN客户端CheckOut以下数据：
+SVN URL：http://svn.freepascal.org/svn/fpcbuild/trunk/install/binw32
+目录：d:\fpc_svn\bin\i386-win32
+SVN URL：http://svn.freepascal.org/svn/fpcbuild/trunk/install/binw64
+目录：d:\fpc_svn\bin\x86_64-win64
+SVN URL：http://svn.freepascal.org/svn/fpc/trunk
+目录：d:\fpc_svn
+SVN URL：http://svn.freepascal.org/svn/lazarus/trunk
+目录：d:\laz_svn
+三，编译FPC
+1，下载一个编译器并解压至d:\fpc_svn\bin目录，
+   ftp://ftp.freepascal.org/pub/fpc/dist/2.6.2/bootstrap/i386-win32-ppc386.zip
+   ftp://ftp.freepascal.org/pub/fpc/dist/2.6.2/bootstrap/x86_64-win64-ppcx64.zip
+2，编写一个批处理，用以编译FPC：
+@echo on
+set myfpc=d:\fpc_svn
+set mybin=d:\fpc_svn\bin
+set PATH=%mybin%\i386-win32;%PATH%
+cd %myfpc%
+rd /s /q  %myfpc%\examples
+make clean all install INSTALL_PREFIX=%myfpc% PP=%mybin%\ppc386.exe DATA2INC=%myfpc%\utils\data2inc.exe
+pause
+//-----------------------------------------------------------------------------------------------------
+@echo on
+set myfpc=d:\fpc_svn
+set mybin=d:\fpc_svn\bin
+set PATH=%mybin%\x86_64-win64;%PATH%
+cd %myfpc%
+rd /s /q %myfpc%\examples
+make clean all install INSTALL_PREFIX=%myfpc% PP=%mybin%\ppcx64.exe DATA2INC=%myfpc%\utils\data2inc.exe
+pause
+3，将上面的命令保存为一个makefpcwin32.bat文件并运行，得到FPC的编译环境。
+   打开cmd窗口:
+   cd d:\fpc_svn
+   makefpcwin32          //makefpcwin64
+4，在命令行中运行以下命令，生成fpc.cfg文件：
+   cd /d d:\fpc_svn\bin\i386-win32    //cd /d d:\fpc_svn\bin\x86_64-win64
+   fpcmkcfg -d basepath=d:\fpc_svn -o .\fpc.cfg
+四，编译Lazarus
+   完成第三步后已经有一个FPC的编译环境了，我们还需要编译一个IDE环境：Lazarus。
+1，编写一个批处理，用以编译Lazarus
+@echo on
+set myfpc=d:\fpc_svn
+set mybin=d:\fpc_svn\bin
+set PATH=%mybin%\i386-win32;%PATH%
+cd d:\laz_svn
+make clean all OPT="-glw2"
+pause
+//--------------------------------------------------------------------------------------------------------
+set myfpc=d:\fpc_svn
+set mybin=d:\fpc_svn\bin
+set PATH=%mybin%\x86_64-win64;%PATH%
+cd d:\laz_svn
+make clean all OPT="-glw2"
+pause
+2，将上面的命令保存为makelazwin32.bat文件并运行，得到FPC的IDE环境Lazarus。
+   打开cmd窗口:
+   cd d:\fpc_svn
+   makelazwin32      //makelazwin64
+3，运行d:\laz_svn\lazarus.exe，即可打开IDE。
+警告:The FPC source directory "D:\fpc_svn\" does not 
+     look correct:
+     Found version ..1, expected 2.7.1
+   新建目录 d:\fpc_svn\source
+   复制 d:\fpc_svn\packages 到d:\fpc_svn\source
+   复制 d:\fpc_svn\rtl 到d:\fpc_svn\source  
+lazarus目录   D:\laz_svn\
+编译器路径    D:\fpc_svn\bin\i386-win32\fpc.exe
+FPC源代码目录 D:\fpc_svn\source
+Make文件目录  $Path($(CompPath))make.exe
+Gdb文件目录   $Path($(CompPath))gdb.exe
+注：以上过程完成后得到32位的FPC与Lazarus环境，如果要搭建64位环境的话，将相应代码中i386-win32改为x86_64-win64即可。
+win64启动时警告：win64位缺少gdb.exe,SVN未获取64位版本的gdb,暂时不用
+win64编译win32时，提示:compiler "D:\fpc_svn\bin\x86_64-win64\fpc.exe
+   does not support target i386-win32
+   将编译器路径改为 D:\fpc_svn\bin\i386-win32\fpc.exe
+-----------------------------------------------------------------------------------------
+制造绿色版的Lazarus:
+1、在安装目录里建一个新的目录，如：config ，则路径显示为： d:\laz_svn\config 。
+2、将目录：C:\Documents and Settings\Administrator\Local Settings\Application Data\lazarus
+   下的所有东西都剪切到 d:\laz_svn\config 里。
+6、在安装目录里建立一个批处理文件，如： run_lazarus.bat
+   D:\laz_svn\startlazarus.exe --pcp=D:\laz_svn\config
+7、运行 run_lazarus.bat 
+
+
+ Linux下安装lazarus及升級到最新SVN方法 
+ubuntu:
+   sudo apt-get install lazarus
+Fedora:
+  sudo yum install lazarus
+安装后升级到最新的开发版，因为官方是用SVN来管理源代码，所以要安装SVN工具：
+ubuntu:
+   sudo apt-get install subversion
+Fedora:
+  sudo yum install subversion
+下载lazarus源码：
+   svn co http://svn.freepascal.org/svn/lazarus/trunk lazarus
+下载fpc源码：
+[pre] svn co http://svn.freepascal.org/svn/fpc/trunk fpc
+然后编译,编译前还要下载一些库：
+sudo apt-get install libgpmg1-dev fakeroot libncurses5-dev build-essential
+cd lazarus/tools/install 
+./create_fpc_deb.sh fpc  /home/user/fpc 
+编译fpc源码及生成deb包，/home/user/fpc源码的路径
+完成后会生成一个fpc.tgz和fpc.deb包，如 fpc_2.5.1-101202_i386.deb fpc-2.5.1-101202.tar.gz
+安装fpc: 
+  sudo dpkg -i fpc_2.5.1-101202_i386.deb
+然后cd ../..退出lazars目录下：make clean all
+完成后使用./lazarus 打开
+进入后到
+Environment-&gt;Options
+              -&gt;Lazarus directory(default for all projects)
+               /home/user/lazarus/
+              -&gt;Compiler path(e.g.fpc) 
+               /usr/bin/fpc
+              -&gt;FPC source directory
+               /home/user/fpc/ 
+              -&gt;Make path
+                /usr/bin/make
+              -&gt;Directory for building test projects
+                /tmp 
+完成后就可以用了！
+以后再更新源碼就用：
+  svn update fpc
+  svn update lazarus
+再重新 ./create_fpc_deb.sh fpc  /home/user/fpc  
+      sudo dpkg -i fpc_2.5.1-101202_i386.deb
+      make clena all
+就可以了！Fedora 則要用 create_fpc_rpm.sh 了
+
+
+pip install -i https://mirrors.ustc.edu.cn/pypi/web/simple pip -U
+vim ~/.bashrc
+export PATH=~/repo:$PATH
+source ~/.bashrc
+curl -s https://gitee.com/oschina/repo/raw/fork_flow/repo-py3>repo
+sudo mv repo /usr/local/bin/repo
+sudo chmod a+x /usr/local/bin/repo
+repo init -u git@gitee.com:openharmony/manifest.git -b OpenHarmony-3.2-Release --no-repo-verify
+repo sync -c
+repo forall -c 'git lfs pull'
+1)        安装Anaconda3-5.1.0，并更新conda
+        conda update -n base conda
+2)        # 创建环境  conda create --name py36 python=3.6
+3)        # 进入环境  activate py36
+4)        # 检查Python版本，应该返回Python 3.6.X
+        python --version
+       >> Python 3.6.5
+      不在base环境下，可能需要重新安装conda install spyder=3.2.6
+5)        conda install tensorflow=1.2.1
+         # Python 验证tensorflow是否正常工作
+        import tensorflow as tf
+        hello = tf.constant('Hello, TensorFlow!')
+        sess = tf.Session()
+        print(sess.run(hello))
+6)        conda install -c conda-forge librosa
+7)        conda install Keras=2.1.2
+        PATH环境变量
+          C: \Anaconda3;
+          C:\Anaconda3\Scripts;
+          C:\Anaconda3\Library\mingw-w64\bin;
+          C:\Anaconda3\Library\usr\bin;
+          C:\Anaconda3\Library\bin;
+8)     设置Anaconda镜像，加速下载包
+        conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/c
+        conda config --set show_channel_urls yes
+        conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/`
+        conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/msys2/
+        
+gcc -c xxx.c 
+ar -crv libxxx.a -o xxx.o
+gcc -shared -fPIC -o libxxx.so xxx.o
+gcc xxx.c -shared -fPIC -o libxxx.so
+gcc -E  main.c -o main.i / gcc -E + main.c 预处理
+gcc -S main.i  -o main.s / gcc -S main.i 编译
+gcc -c main.s -o main.o /  as -c main.s  -o main.o 汇编
+gcc  main.o main 链接
+
+NuGet镜像
+https://mirrors.huaweicloud.com/repository/nuget/v3/index.json
+https://nuget.cnblogs.com/v3/index.json 
+https://api.nuget.org/v3/index.json
+Git-Mirror镜像
+https://gitee.com/mirrors/
+Pip镜像
+https://pypi.tuna.tsinghua.edu.cn/simple
+http://mirrors.aliyun.com/pypi/simple/
+https://pypi.mirrors.ustc.edu.cn/simple/
+临时使用
+pip install package -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+永久替换
+pip config set global.index-url http://mirrors.aliyun.com/pypi/simple/ 
+pip config set install.trusted-host mirrors.aliyun.com
+Android Maven镜像
+maven { url 'https://maven.aliyun.com/repository/xxx' } / central jcenter google gradle-plugin public
+
+cd D:\qemu && D: && qemu-system-x86_64 -enable-kvm -cpu host -m 2048 -device virtio-balloon -device virtio-keyboard -device virtio-tablet -device virtio-net,netdev=net -device virtio-scsi -device virtio-serial  -device virtio-vga -chardev stdio,id=cons -mon chardev=cons -drive if=none,id=hd,file=oasis-20170211.qcow2 -device scsi-hd,drive=hd -netdev user,id=net
+
+Android手机 闪存的格式化+trim 后，数据几乎很难找回来
+全自动化任务工具需要root Marcodroid tasker autox.js power automate
+
+ssh-keygen -t rsa -b 4096 -C "allen.x.6032@gmail.com" // 生成ssh密钥
+ssh -T git@github.com // 校验ssh密钥
+git config --global --list 
+git config --global user.name "xx" 
+git config --global user.email "x@x.x" 
+git config --global https.postBuffer 512m
+git config --global https.lowSpeedLimit 0
+git config --global https.lowSpeedTime 99
+git config --global core.editor emacs #编辑器 windows:"C:\Program Files\Typora\Typora.exe"
+git config --global pack.threads 1
+git config --global pack.deltaCacheSize 256m
+git config --global pack.windowMemory 512m
+git config --global https.proxy  http://127.0.0.1:7890
+git config --global https.https://github.com.proxy socks5://127.0.0.1:7890
+git config --global --unset https.https://github.com.proxy
+git config --global --unset https.proxy
+git config --global url."https://github.moeyy.xyz/https://github.com/".insteadOf https://github.com
+git config --global --unset url.https://github.com/.insteadof
+git clone --depth=1 ssh://git@ssh.github.com:443/MeowBoy326/
+git fetch --unshallow
+
+// #pragma comment(linker,”/entry:fn”) 修改函数入口为fn()
+// #pragma comment( linker, "/subsystem:windows /entry:maincrtstartup")
+// #pragma comment(linker, "/subsystem:console /entry:mainCRTStartup") (ANSI)
+// #pragma comment(linker, "/subsystem:console /entry:wmainCRTStartuup") (UNICODE)
+#pragma comment(linker, "/SUBSYSTEM:WINDOWS")//代码修改运行模式
+#pragma comment(linker, "/ENTRY:mainCRTStartup")//代码修改入口函数
+VS 常量$(LatestTargetPlatformVersion)$(DefaultPlatformToolset)$(SolutionDir)$(ProjectDir)$(Configuration)$(OutDir)$(ProjectName)$(Platform)$(IntDir)$(MSBuildProjectName)$(IncludePath)$(LibraryPath)
+VS 链接-> 命令行 ->其他 \verbose:lib查看链接过程 \utf-8编码支持[#pragma warning (disable:4819)]
+VS 链接 -> 清单文件 -> UAC执行级别 /level='requireAdministrator'
+VS dumpbin /exports xxx.lib > xxx.txt dumpbin 可以查看 lib 库中的所有导出符号
+VS undname ?XXX@XXX@XX undname方便查看未经过编译器处理的函数名
+Microsoft.Cpp.Win32.user.props Microsoft.Cpp.x64.user.props VS2010VC++目录
+Microsoft.Cpp.MSVC.Toolset.Win32.props Microsoft.Cpp.MSVC.Toolset.x64.props VS2022VC++目录
+Windows导出环境变量 set >> evn.reg
+
+Huggingface镜像站hf-mirror.com 大模型下载
+pip install -U huggingface_hub hf_transfer
+set HF_ENDPOINT=https://hf-mirror.com;set HF_HOME=D:/Work/hf-mirror/.cache/huggingface/hub;set TRANSFORMERS_CACHE=D:/Work/hf-mirror/.cache
+huggingface-cli download --resume-download xxx/xx --local-dir xx
+
+gradlew :app:dependencies > app.txt 依赖分析
+gradlew app:assembleRelease 模块编译
+设置GRADLE_USER_HOME环境变量 修改Gradle默认cache位置
+管理员运行cmd， rd /s c:\\$Recycle.Bin  强制清理回收站
+dupe:.vs dupe:ipch dupe:.git dupe:.gradle dupe:.idea dupe:gradle-build dupe:*.dir dupe:*.pdb dupe:*.idb dupe:*.exp dupe:*.cxx 
+删除 java 注释 /* */：    /\*{1,2}[\s\S]*?\*/
+删除 java 注释 //：        //[\s\S]*?\n  （谨慎操作，双斜线后面不一定是注释也会是路径）
+删除 xml 注释：             <!-[\s\S]*?-->
+删除空白行：               ^\s*\n
+
+D:\android-sdk\ndk\android-ndk-r13b\ndk-build 
+D:\crystax-ndk-10.3.2\ndk-build
+
+md/mkdir 创建文件夹
+rd/rmdir 删除文件夹
+type nul>x.x 创建文件
+echo x >x.x 写入文件
+Windows环境变量
+常用：
+%USERPROFILE% =C:\Users\用户名
+%SystemRoot% =C:\WINDOWS
+%SystemDrive% =C:
+%APPDATA% =C:\Users\用户名\AppData\Roaming
+%LOCALAPPDATA% =C:\Users\用户名\AppData\Local
+%windir% =C:\WINDOWS
+%Path% =C:\Windows\system32;C:\Windows; 
+%ProgramData% =C:\ProgramData
+%ProgramFiles% =C:\Program Files
+%ProgramFiles(x86)% =C:\Program Files (x86)
+其他：
+%ALLUSERSPROFILE% =C:\ProgramData
+%CommonProgramFiles% =C:\Program Files\Common Files
+%CommonProgramFiles(x86)% =C:\Program Files (x86)\Common Files
+%CommonProgramW6432% =C:\Program Files\Common Files
+%COMPUTERNAME% =MyPC
+%ComSpec% =C:\WINDOWS\system32\cmd.exe
+%HOMEDRIVE% =C:
+%HOMEPATH% =\Users\用户名
+%LOGONSERVER% =\\MicrosoftAccount
+%OS% =Windows_NT
+%ProgramW6432% =C:\Program Files  
+%PUBLIC% =C:\Users\Public 
+%TEMP% =C:\Users\用户名\AppData\Local\Temp
+%TMP% =C:\Users\用户名\AppData\Local\Temp
+%USERDOMAIN% =MyPC 
+%USERNAME% =用户名
+@echo off
+echo 当前盘符：%~d0
+echo 当前盘符和路径：%~dp0
+echo 当前批处理全路径：%~f0
+echo 当前盘符和路径的短文件名格式：%~sdp0
+echo 当前CMD默认目录：%cd%
+echo 目录中有空格也可以加入""避免找不到路径
+echo 当前盘符："%~d0"
+echo 当前盘符和路径："%~dp0"
+echo 当前批处理全路径："%~f0"
+echo 当前盘符和路径的短文件名格式："%~sdp0"
+echo 当前CMD默认目录："%cd%"
+pause
+
+启用 WSL(方法)
+wsl --install
+管理员身份打开 PowerShell 工具并运行 
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+Windows 10（2004）上启用虚拟机平台
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+Windows 10（1903，1909）上启用虚拟机平台
+Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart
+设置 WSL 2 为默认值
+wsl --set-default-version 2
+将 WSL 1 上的 Ubuntu 转换到 WSL 2
+wsl.exe --set-version Ubuntu 2
+启用 WSL(简略)
+wsl --install
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+wsl --set-default-version 2
+下载WSL2更新包
+wget https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
+修改Ubuntu20.04安装在位置
+Invoke-WebRequest -Uri https://wsldownload.azureedge.net/Ubuntu_2004.2020.424.0_x64.appx -OutFile Ubuntu20.04.appx -UseBasicParsing
+Rename-Item .\Ubuntu20.04.appx Ubuntu.zip
+Expand-Archive .\Ubuntu.zip -Verbose
+cd .\Ubuntu\
+.\ubuntu2004.exe
+
+wget https://gitee.com/lin-xi-269/tools/raw/master/os/QHubuntu20.04 && bash QHubuntu20.04
+创建文件.wslconfig 
+code %UserProfile%\.wslconfig 
+修改WSL内存和处理核心增加自动释放内存和缓存文件
+[wsl2]
+ processors=8
+ memory=2GB
+ swap=8GB
+ localhostForwarding=true
+ autoProxy=true
+ etworkingMode=mirrored
+ #dnsTunneling=true
+[experimental] 
+ #hostAddressLoopback=true
+ autoMemoryReclaim=gradual
+ sparseVhd=true
+ 
+wsl -l -o 列出可用在线系统
+wsl -l -v 列出已安装系统
+wsl --status 检查WSL状态
+wsl --update 更新WSL
+wsl --set-default xx 设置默认系统
+wsl -d xx -u root 指定用户登录
+wsl --set-version xx 2/1 修改WSL内核
+wsl --export xx xx.tar 导出到tar包
+wsl --import xx x:\xx xx.tar 导入tar包
+wsl --unregister xx 注销并卸载系统
+
+apt 换源
+Debian / Ubuntu 的官方源在国内访问很慢，咱们更换为清华大学 TUNA 的软件源镜像
+$ sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+$ sudo vim /etc/apt/sources.list 
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+# 预发布软件源，不建议启用
+# deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+$ sudo apt-get update
+$ sudo apt-get upgrade
+配置SSH服务器
+$ sudo service ssh stop
+$ sudo /usr/sbin/sshd -d
+$ sudo apt purge openssh-server
+$ sudo apt install openssh-server
+配置 /etc/ssh/sshd_config，用 sudo 权限运行 vim 修改如下三个关键字记得删除
+Port 22
+# 这两行允许了 root 账户和密码登录
+PermitRootLogin yes
+PasswordAuthentication yes
+$ sudo service ssh restart
+$ sudo service ssh status
+$ sudo passwd root
+安装 Docker-CE
+$ curl -skSL https://mirror.azure.cn/repo/install-docker-ce.sh | sh -s -- --mirror AzureChinaCloud
+$ sudo service docker start
+$ sudo docker version
+$ sudo docker run hello-world
+
+scons p=windows optimize=none target=editor
+python.exe -m pip install --upgrade pip
+git submodule update --init --recursive
+mkdir bld&cd bld&cmake -A x64 ..
+mkdir bld&cd bld&cmake ..
+git checkout -f HEAD
+
+管理员运行cmd， rd /s c:\\$Recycle.Bin  强制清理回收站
+
+gradlew app:dependencies --configuration releaseRuntimeClasspath > dependencies.txt
+
+copy /y $(OutDir)$(TargetFileName) $(Configuration)$(PlatformArchitecture)\lib\$(TargetFileName)
+
+subject='/C=CN/ST=HuNan/L=ChangSha/O=allen/OU=allen/CN=www.inoop.cn/emailAddress=203075064@qq.com'
+for x in releasekey platform shared media;
+do
+  ./development/tools/make_key build/target/product/security/$x "$subject";
+done
+
+https://www.peiluming.com/article/2
+https://developer.aliyun.com/mirror/debian?spm=a2c6h.13651102.0.0.3e221b11fAkFNB
+https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/
+https://www.htcp.net/741.html
+https://www.cnblogs.com/luoyesiqiu/p/10701419.html
+http://www.gaohaiyan.com/3747.html
+https://blog.csdn.net/qq_38844263/article/details/82153695
+ https://blog.csdn.net/CrazyTracer/article/details/130329855
+https://www.6hu.cc/archives/144932.html
+http://www.debuglive.cn/article/1091666763961073664
+https://www.yii666.com/blog/447194.html
+https://blog.csdn.net/ymxkybqw/article/details/100678617
+https://www.jianshu.com/p/0c1d07bfc45b
+https://blog.csdn.net/Qwertyuiop2016/article/details/130476079
+https://github.com/rev1si0n?tab=repositories
+https://github.com/rev1si0n/bxxt
+https://github.com/rev1si0n/android_kernel_oneplus_msm8998
+https://github.com/LineageOS/android_kernel_oneplus_msm8998
+https://github.com/LineageOS/android_device_oneplus_msm8998-common
+https://github.com/LineageOS/android_device_oneplus_cheeseburger
+https://github.com/LineageOS/android_hardware_oplus
+https://github.com/LineageOS/android_hardware_lineage_interfaces
+https://blog.csdn.net/qq_36059308/article/details/124785050
+https://download.lineageos.org/devices/cheeseburger/builds
+https://www.htcp.net/5016.html
+https://github.com/tiann/KernelSU
+https://www.htcp.net/741.html
+
+https://gh-proxy.com/https://raw.githubusercontent.com/mfuu/v2ray/master/v2ray
+https://gh-proxy.com/https://raw.githubusercontent.com/aiboboxx/v2rayfree/main/v2
+https://gh-proxy.com/https://raw.githubusercontent.com/freev2/free/main/v2
+https://gh-proxy.com/https://raw.githubusercontent.com/adiwzx/freenode/main/adispeed.txt
+https://gh-proxy.com/https://raw.githubusercontent.com/ermaozi01/free_clash_vpn/main/subscribe/v2ray.txt
+https://gh-proxy.com/https://raw.githubusercontent.com/ermaozi/get_subscribe/main/subscribe/v2ray.txt
+https://gh-proxy.com/https://raw.githubusercontent.com/a2470982985/getNode/main/v2ray.txt
+https://gh-proxy.com/https://raw.githubusercontent.com/codingbox/Free-Node-Merge/main/node.txt
+https://gh-proxy.com/https://raw.githubusercontent.com/ZywChannel/free/main/sub
+https://gh-proxy.com/https://raw.githubusercontent.com/ts-sf/fly/main/v2
+
+https://ffmpeg.xianwaizhiyin.net/compile-ffmpeg/static.html[FFmpeg静态编译—FFmpeg编译教程]
+https://www.cnblogs.com/bigben0123/p/12643839.html[跨平台：GN实践详解（ninja, 编译, windows/mac/android实战）]
+https://zhuanlan.zhihu.com/p/707298876[在windows上编译ffmpeg]
+https://www.gyan.dev/ffmpeg/builds/[FFmpeg Build binaries for Windows]
+https://blog.csdn.net/cpp_learner/article/details/142345860[Windows环境 源码编译 FFmpeg]
+
+cast from pointer to smaller type 'XX' (aka 'XX') loses information 
+(XX)(size_t)?
+
+VS2015下解决:无法解析的外部符号 __imp___vsnprintf 及__iob_func
+1、解决:无法解析的外部符号 __imp___vsnprintf
+在 vs2015 工程选项，链接器附加依赖项里面添加 legacy_stdio_definitions.lib 即可。
+出现这个问题的原因是 vs2015 默认编译时将许多标准库采用内联方式处理，因而没有可以链接的标准库文件，所以要专门添加标准库文件来链接标准库中的函数。
+2、解决:无法解析的外部符号__iob_func
+在使用 VS2015 下使用 libjpeg-turbo 静态库，编译时报错了：
+error LNK2019: 无法解析的外部符号 __iob_func，该符号在函数 output_message 中被引用
+根据关键字在网上找到一些文章描述了类似的错误，大都是找不到外部符号 __iob ,原因是VS2010上使用了 VC6 编译的 DLL 。虽然与我的情况不同，但是原理是一样的，我遇到的这个问题的原因是 VS2015 下使用VS2010编译的静态库，因为我用的libjpeg-turbo静态库是从官网下载编译好的版本(应该是vs2010这样的版本编译的)。
+其实 __iob_func 和 __iob 都是用来定义 stdin,stdout,stderr，只是不同的VC版本实现方式不同。
+下面是VS2015的头文件corecrt_wstdio.h中对stdin,stdout,stderr定义
+ACRTIMP_ALT FILE* __cdecl __acrt_iob_func(unsigned);
+#define stdin  (__acrt_iob_func(0))
+#define stdout (__acrt_iob_func(1))
+#define stderr (__acrt_iob_func(2))
+原来在 VS2015 中 __iob_func 改成了 __acrt_iob_func ,所以我参照《【LNK2019】 无法解析的外部符号 __iob》这篇文章的方法在自己的代码中增加了一个名为 __iob_func 转换函数：
+/*
+ * 当libjpeg-turbo为vs2010编译时，vs2015下静态链接libjpeg-turbo会链接出错:找不到__iob_func,
+ * 增加__iob_func到__acrt_iob_func的转换函数解决此问题,
+ * 当libjpeg-turbo用vs2015编译时，不需要此补丁文件
+ */
+#if _MSC_VER>=1900
+#include "stdio.h" 
+_ACRTIMP_ALT FILE* __cdecl __acrt_iob_func(unsigned); 
+#ifdef __cplusplus 
+extern "C" 
+#endif 
+FILE* __cdecl __iob_func(unsigned i) { 
+    return __acrt_iob_func(i); 
+}
+#endif /* _MSC_VER>=1900 */
+
+sol2 no member named 'construct' in 'optional<type-parameter-0-0 &>'
+// this->construct(std::forward<Args>(args)...);
+new (static_cast<void*>(this)) optional(std::in_place, std::forward<Args>(args)...);
+return **this;
+
+#pragma comment(lib, "comctl32.lib")
+#ifdef _UNICODE
+#if defined _M_IX86
+#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#elif defined _M_X64
+#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='amd64' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#else
+#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#endif
+#endif
+
+#ifdef _WIN64
+#define GWL_WNDPROC GWLP_WNDPROC
+#define GWL_HINSTANCE GWLP_HINSTANCE
+// #define GWL_HINSTANCE (-6)
+#endif
+
+mingw-gcc 编译出有 win10 风格的 win32 程序
+入口函数源文件加上
+[[
+#if defined _M_IX86  
+#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")  
+#elif defined _M_X64  
+#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='amd64' publicKeyToken='6595b64144ccf1df' language='*'\"")  
+#else  
+#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")  
+#endif 
+]]
+然后在程序输出目录下建一个 " 程序名.exe.manifest“ 的文件
+[[
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <assemblyIdentity
+  name="Microsoft.Windows.XXXX"
+  processorArchitecture="amd64"
+  version="5.1.0.0"
+  type="win32"/>
+  <description>Windows Shell</description>
+  <dependency>
+  <dependentAssembly>
+  <assemblyIdentity
+  type="win32"
+  name="Microsoft.Windows.Common-Controls"
+  version="6.0.0.0"
+  processorArchitecture="amd64"
+  publicKeyToken="6595b64144ccf1df"
+  language="*"
+   />
+  </dependentAssembly>
+  </dependency>
+  </assembly>
+]]
+这是 amd64
+processorArchitecture="amd64"
+如果是 x86 就改成 x86
+
+strndup函数实现
+char* strndup(const char* str, size_t n) {
+    char* ret = (char*)malloc(n + 1);
+    if (ret == NULL) return NULL;
+    memcpy(ret, str, n);
+    ret[n] = '\0'; // 确保字符串以null结尾
+    return ret;
+}
+
+drand48函数实现
+#ifndef DRAND48_H  
+#define DRAND48_H  
+#include <stdlib.h>  
+#define m 0x100000000LL  
+#define c 0xB16  
+#define a 0x5DEECE66DLL  
+static unsigned long long seed = 1;  
+double drand48(void)  
+{  
+    seed = (a * seed + c) & 0xFFFFFFFFFFFFLL;  
+    unsigned int x = seed >> 16;  
+    return  ((double)x / (double)m);  
+}  
+void srand48(unsigned int i)  
+{  
+    seed  = (((long long int)i) << 16) | rand();  
+}  
+#endif
+
+#define _USE_MATH_DEFINES
+#include <math.h>
+//#include <cmath>
+// #include <algorithm>
+#ifndef M_PI
+#define M_PI		3.14159265358979323846
+#define M_PI_2		1.57079632679489661923
+#define M_PI_4		0.78539816339744830962 
+#endif
+
+non-const lvalue reference to type 'xxx' cannot bind to a  temporary of type 'xxx'
+1. 对于base& ref3 = base();
+改为const base& ref3 = base();后此行代码编译通过
+C++11标准中引入了右值引用，临时变量属于右值，所以也可以写成：
+base&& ref3 = base();
+2. 对于base* p1 = &base();
+编译器报错：error: taking address of temporary [-fpermissive]|
+即标准C++禁止对临时变量取地址操作。
+将此行注释掉，编译通过。
+
+实现gguf量化模型的配置参数设置以及cpu+gpu的混合推理
+好的，用户想实现GGUF量化模型的配置参数设置以及CPU+GPU的混合推理。首先，我需要确认GGUF是什么。GGUF是GGML的新版本格式，用于量化模型，通常与llama.cpp一起使用。用户可能在使用像Llama这样的模型，并希望优化推理速度，同时利用CPU和GPU资源。
+接下来，配置参数设置。我需要回忆llama.cpp支持的参数，比如模型路径、线程数、上下文长度、批处理大小等。混合推理可能涉及到将部分计算分配给GPU，比如使用CUDA或Metal后端，而CPU处理其他部分。需要确保用户安装了正确版本的llama.cpp，支持GPU加速。
+然后，混合推理的具体实现。在llama.cpp中，通常通过指定层数分配到GPU，比如--n-gpu-layers 20。这需要用户有支持的GPU和相应的BLAS库，比如CUDA或OpenCL。同时，CPU线程的设置也会影响性能，需要合理分配线程数，可能将部分线程用于处理非GPU层。
+用户可能遇到的问题包括安装错误、GPU层数设置不当导致的性能问题，或者内存不足。需要提醒用户根据GPU显存调整层数，并监控资源使用情况。此外，不同的量化版本（如Q4_K_M）会影响模型精度和速度，需要权衡选择。
+最后，示例代码部分需要展示如何加载模型、设置参数，并执行推理。可能需要使用llama-cpp-python库，并确保其版本支持GPU。还要注意提示用户安装正确的依赖项，如cuBLAS或Metal。
+总结步骤：安装依赖，配置模型参数（线程、GPU层数、量化类型），编写推理代码，处理输入和输出，优化建议。需要检查所有参数的正确性，并确保用户了解如何根据自身硬件调整参数。
+以下是关于GGUF量化模型配置及CPU+GPU混合推理的详细指南，基于llama.cpp框架实现：
+1. 环境准备
+1.1 安装依赖
+bash
+复制代码
+# 编译支持GPU的llama.cpp
+git clone https://github.com/ggerganov/llama.cpp && cd llama.cpp
+make LLAMA_CUBLAS=1  # NVIDIA GPU
+# 或
+make LLAMA_METAL=1   # Apple M系列芯片
+1.2 Python包安装
+bash
+复制代码
+pip install llama-cpp-python[server] --force-reinstall --upgrade --no-cache-dir
+# 指定CUDA版本
+CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python
+2. GGUF模型配置参数
+2.1 核心参数说明
+python
+复制代码
+from llama_cpp import Llama
+llm = Llama(
+    model_path="mistral-7b-v0.1.Q4_K_M.gguf",  # GGUF模型路径
+    n_ctx=4096,           # 上下文长度（最大支持4096）
+    n_threads=8,          # CPU线程数（物理核心数）
+    n_gpu_layers=35,      # 分配到GPU的层数（根据显存调整）
+    n_batch=512,          # 批处理大小（提升吞吐量）
+    offload_kqv=True,     # 将注意力计算保留在GPU
+    main_gpu=0,           # 多GPU时选择主卡
+    seed=42,              # 随机种子
+    verbose=True          # 显示调试信息
+)
+3. 混合推理实现
+3.1 硬件资源分配策略
+GPU优先：通过n_gpu_layers将Transformer层卸载到GPU
+CPU辅助：处理剩余计算和内存管理
+显存优化：根据显存容量调整卸载层数：
+8GB显存：约20-25层
+24GB显存：可卸载全部40+层
+3.2 性能优化参数
+python
+复制代码
+# 高级配置示例
+llm = Llama(
+    ...
+    n_threads=6,          # 物理核心数（非超线程）
+    n_gpu_layers=28,      # RTX 3090 24GB设置
+    tensor_split=[0.5,0.5], # 多GPU显存分配比例
+    mul_mat_q=True,       # 启用矩阵乘法优化
+    rms_norm_eps=1e-6,    # 数值稳定性参数
+    flash_attn=True       # 启用FlashAttention加速
+)
+4. 推理示例
+4.1 基础文本生成
+python
+复制代码
+prompt = "如何制作法式薄饼？"
+output = llm.create_completion(
+    prompt,
+    max_tokens=256,
+    temperature=0.7,
+    top_p=0.95,
+    repeat_penalty=1.1,
+    stream=True
+)
+for chunk in output:
+    print(chunk["choices"][0]["text"], end="", flush=True)
+4.2 流式输出配置
+python
+复制代码
+response = llm(
+    prompt,
+    stream=True,
+    stop=["\n##", "<|endoftext|>"],
+    frequency_penalty=0.9,
+    presence_penalty=0.8
+)
+5. 性能监控与调优
+5.1 基准测试命令
+bash
+复制代码
+./main -m model.gguf -n 128 -p "巴黎是" -ngl 25 -t 8 -c 2048 -b 512 --temp 0.7
+5.2 关键性能指标
+指标	预期值	监控方法
+Tokens/s	>20 tokens/s	llama.cpp内置统计
+GPU利用率	>85%	nvidia-smi / ROCm
+内存占用	<90%	htop / sysmon
+推理延迟	<200ms/token	时间戳测量
+6. 常见问题解决
+6.1 CUDA内存不足
+python
+复制代码
+# 减少GPU卸载层数
+n_gpu_layers=20
+# 启用内存优化
+llm = Llama(..., vocab_only=True, use_mmap=True)
+6.2 性能瓶颈分析
+bash
+复制代码
+# 查看各层执行设备
+export LLAMA_DEBUG=1
+./main ... 2>&1 | grep -E 'llm_load_tensors|llama_graph_compute'
+7. 高级配置参考
+python
+复制代码
+# 多GPU负载均衡
+llm = Llama(
+    ...
+    tensor_split=[0.7, 0.3],  # GPU0:70%, GPU1:30%
+    n_gpu_layers=40,
+    offload_kqv=False,
+    numa=True  # 启用NUMA优化
+)
+# 量化参数优化
+llm.set_cache(
+    type="f16",       # 缓存精度
+    size=2048,        # 缓存槽位
+    freq_base=10000,
+    freq_scale=0.5
+)
+建议根据具体硬件配置调整参数，使用nvidia-smi和htop实时监控资源使用情况。不同量化版本（Q2_K, Q4_0, Q5_K_M）需进行精度-速度权衡测试。
+
+<bits/stdc++.h>
+// C++ includes used for precompiling -*- C++ -*-
+// Copyright (C) 2003-2014 Free Software Foundation, Inc. This file is part of the GNU ISO C++ Library.  This library is free// software; you can redistribute it and/or modify it under the// terms of the GNU General Public License as published by the// Free Software Foundation; either version 3, or (at your option)// any later version.
+// This library is distributed in the hope that it will be useful,// but WITHOUT ANY WARRANTY; without even the implied warranty of// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the// GNU General Public License for more details.
+// Under Section 7 of GPL version 3, you are granted additional// permissions described in the GCC Runtime Library Exception, version// 3.1, as published by the Free Software Foundation.
+// You should have received a copy of the GNU General Public License and// a copy of the GCC Runtime Library Exception along with this program;// see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see// <http://www.gnu.org/licenses/>.
+/** @file stdc++.h *  This is an implementation file for a precompiled header. */
+// 17.4.1.2 Headers
+// C
+#ifndef _GLIBCXX_NO_ASSERT
+#include <cassert>
+#endif
+#include <cctype>
+#include <cerrno>
+#include <cfloat>
+#include <ciso646>
+#include <climits>
+#include <clocale>
+#include <cmath>
+#include <csetjmp>
+#include <csignal>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+
+#if __cplusplus >= 201103L
+#include <ccomplex>
+#include <cfenv>
+#include <cinttypes>
+#include <cstdalign>
+#include <cstdbool>
+#include <cstdint>
+#include <ctgmath>
+#include <cwchar>
+#include <cwctype>
+#endif
+
+// C++
+#include <algorithm>
+#include <bitset>
+#include <complex>
+#include <deque>
+#include <exception>
+#include <fstream>
+#include <functional>
+#include <iomanip>
+#include <ios>
+#include <iosfwd>
+#include <iostream>
+#include <istream>
+#include <iterator>
+#include <limits>
+#include <list>
+#include <locale>
+#include <map>
+#include <memory>
+#include <new>
+#include <numeric>
+#include <ostream>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <stdexcept>
+#include <streambuf>
+#include <string>
+#include <typeinfo>
+#include <utility>
+#include <valarray>
+#include <vector>
+
+#if __cplusplus >= 201103L
+#include <array>
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <forward_list>
+#include <future>
+#include <initializer_list>
+#include <mutex>
+#include <random>
+#include <ratio>
+#include <regex>
+#include <scoped_allocator>
+#include <system_error>
+#include <thread>
+#include <tuple>
+#include <typeindex>
+#include <type_traits>
+#include <unordered_map>
+#include <unordered_set>
+#endif
+
+
+常用网站
+https://www.iopq.net/forum.php?mod=forumdisplay&fid=79&filter=author&orderby=dateline
+https://www.iopq.net/search.php?mod=forum&searchid=563&orderby=dateline&ascdesc=desc&searchsubmit=yes&kw=//霸道の縂裁帖子
+http://www.rexuexia.com/forum.php?mod=forumdisplay&fid=2&filter=author&orderby=dateline
+https://www.cangbaowan.vip/forum-54-1.html
+https://www.0du.net/forum.php?mod=forumdisplay&fid=2&filter=author&orderby=dateline
+https://forum.ragezone.com/
+https://www.iyio.net/search/label/%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9
+https://clashbk.github.io/
+https://bbs.pcbeta.com/
+https://www.wenxiaobai.com/chat
+https://askmany.cn/chat/
+https://chat.deepseek.com/a/chat
+https://chat.qwen.ai/
+https://leetcode.cn/problemset/algorithms
+https://pc.woozooo.com/mydisk.php
+https://huggingface.co/models?sort=trending&search=gguf
+https://modelscope.cn/models?name=gguf&page=1
+https://truthful-busby-322.notion.site/NathMath-LLM-18e45165050a80408586c3f2bf93ce68
+https://www.chiphell.com/forum.php?mod=forumdisplay&fid=26&filter=author&orderby=dateline
+https://bbs.nga.cn/thread.php?fid=498&page=2&order_by=postdatedesc
+https://www.cnbeta.com.tw/
+https://www.v2ex.com/mission/daily
+https://bbs.kanxue.com/new-digest-1.htm
+https://bbs.kanxue.com/forum-161-1.htm?orderby=desc&digest=1
+https://www.github-zh.com/top
+https://www.github.com/topics/ #2d-graphics canvas infinite-canvas canvas2d rougelike rougelike-game 2d-game 2d-game-engine 2d-graphics-library graphics-engine pixel-art sprites  graphics opengl cross-platform  game-development lua lua-script lua-engine javascript game-engine zero-dependency animation platform-game game-engine skeletal skeletal-animation assists spine spritekit skeleton skeleton-animation chromium miniblink49 blink gecko web-browser browser simd
+https://www.jitpack.io/
+https://developer.aliyun.com/mvn/search
+https://repo.maven.apache.org/maven2/
+https://segmentfault.com/
+https://yizezy.cn/
+https://www.xjyxi.com/forum.php
+https://src.cool/forum.php
+https://jiaobenwang.com/
+http://bbs.523play.com/
+https://fm.jzyu.com/ymzq?down_price=0
+https://www.gamecbg.com/forum.php?mod=forumdisplay&fid=36&filter=author&orderby=dateline
+https://search.bilibili.com/all?keyword=frida&from_source=video_tag#bilibili Tag搜索
