@@ -45,7 +45,6 @@
 
 #include <stdio.h>
 
-#include <basetsd.h>
 /*
  * We need memory copying and zeroing functions, plus strncpy().
  * ANSI and System V implementations declare these in <string.h>.

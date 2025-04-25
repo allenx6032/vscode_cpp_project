@@ -254,15 +254,15 @@ int SimulatorWin::run()
     parseCocosProjectConfig(_project);
 
     // load project config from command line args
-    vector<string> args;
-    for (int i = 0; i < __argc; ++i)
-    {
-        wstring ws(__wargv[i]);
-        string s;
-        s.assign(ws.begin(), ws.end());
-        args.push_back(s);
-    }
-    _project.parseCommandLine(args);
+    // vector<string> args;
+    // for (int i = 0; i < __argc; ++i)
+    // {
+    //     wstring ws(__wargv[i]);
+    //     string s;
+    //     s.assign(ws.begin(), ws.end());
+    //     args.push_back(s);
+    // }
+    _project.parseCommandLine("config.json");
 
     if (_project.getProjectDir().empty())
     {
@@ -623,26 +623,26 @@ void SimulatorWin::parseCocosProjectConfig(ProjectConfig &config)
     // get project directory
     ProjectConfig tmpConfig;
     // load project config from command line args
-    vector<string> args;
-    for (int i = 0; i < __argc; ++i)
-    {
-        wstring ws(__wargv[i]);
-        string s;
-        s.assign(ws.begin(), ws.end());
-        args.push_back(s);
-    }
+    // vector<string> args;
+    // for (int i = 0; i < __argc; ++i)
+    // {
+    //     wstring ws(__wargv[i]);
+    //     string s;
+    //     s.assign(ws.begin(), ws.end());
+    //     args.push_back(s);
+    // }
 
-    if (args.size() >= 2)
-    {
-        if (args.size() && args.at(1).at(0) == '/')
-        {
-            // FIXME:
-            // for Code IDE before RC2
-            tmpConfig.setProjectDir(args.at(1));
-        }
+    // if (args.size() >= 2)
+    // {
+    //     if (args.size() && args.at(1).at(0) == '/')
+    //     {
+    //         // FIXME:
+    //         // for Code IDE before RC2
+    //         tmpConfig.setProjectDir(args.at(1));
+    //     }
 
-        tmpConfig.parseCommandLine(args);
-    }
+        tmpConfig.parseCommandLine("config.json");
+    // }
 
     // set project directory as search root path
     FileUtils::getInstance()->setDefaultResourceRootPath(tmpConfig.getProjectDir().c_str());
