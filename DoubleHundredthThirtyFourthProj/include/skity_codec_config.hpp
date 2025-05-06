@@ -1,0 +1,8 @@
+#ifndef SKITY_CODEC_CONFIG_HPP
+#define SKITY_CODEC_CONFIG_HPP
+
+/* #undef SKITY_HAS_PNG */
+// #define SKITY_HAS_JPEG 1
+#define SKITY_HAS_PNG 1
+
+#endif  // SKITY_CODEC_CONFIG_HPP

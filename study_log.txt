@@ -4,7 +4,7 @@ rmdir "C:/Users"
 mklink /J "C:/Users" "D:/Users"
 
 ndkVersion "16.1.4479499"
-ndkVersion "22.1.7171670"
+ndkVersion "25.1.8937393"
 ndkVersion "21.4.7075529"
 mkdir bld&cd bld&cmake -G "Visual Studio 14" -A x86  ..&cmake --build . --config Release
 mkdir bld&cd bld&cmake -G "CodeBlocks - MinGW Makefiles" -A x86  ..
@@ -2655,16 +2655,87 @@ xxx代表相应的程序名。通过查看:xxxx/log/default.log 查看程序错�
 /etc/init.d/mysql {start|stop|restart|reload|force-reload|status}  [ MySQL server options ]
 
 
-
-
-
-
-
-
-
-
-
-
+ Maven 镜像配置
+ settings.xml 文件位于 Maven 安装目录的 conf 文件夹下
+ 在settings.xml文件中，找到mirrors节点。如果该节点不存在，可以在文件中添加一个。在mirrors节点中，需要添加一个或多个镜像配置。
+ 当设置了 Maven 镜像后，可以通过以下命令来验证是否生效：
+mvn help:effective-settings
+ <!-- 配置使用阿里云的Maven镜像 -->
+ <mirror>
+     <id>alimaven</id>
+     <mirrorof>*</mirrorof>
+     <name>阿里云镜像</name>
+     <url>https://maven.aliyun.com/repository/central</url>
+ </mirror>
+ <!-- 配置使用华为云的Maven镜像地址 -->
+ <mirror>
+     <id>huaweicloud</id>
+     <mirrorof>*</mirrorof>
+     <name>华为云镜像</name>
+     <url>https://mirrors.huaweicloud.com/repository/maven/central</url>
+ </mirror>
+ <!-- 配置使用Spring的Maven镜像地址 -->
+ <mirror>
+     <id>springcloud</id>
+     <mirrorof>*</mirrorof>
+     <name>spring云镜像</name>
+     <url>http://repo.spring.io/libs-milestone-local</url>
+ </mirror>
+ <!-- 配置使用SpringIo的Maven镜像地址 -->
+ <mirror>
+     <id>springiocloud</id>
+     <mirrorof>*</mirrorof>
+     <name>springio云镜像</name>
+     <url>https://repo.spring.io/libs-release-local</url>
+ </mirror>
+ <!-- 配置使用136的Maven镜像地址 -->
+ <mirror>
+     <id>163cloud</id>
+     <mirrorof>*</mirrorof>
+     <name>163云镜像</name>
+     <url>http://mirrors.163.com/maven/repository/maven-public/central/</url>
+ </mirror>
+ <!-- 配置使用tencent的Maven镜像地址 -->
+ <mirror>
+     <id>tencentcloud</id>
+     <mirrorof>*</mirrorof>
+     <name>tencent云镜像</name>
+     <url>http://mirrors.cloud.tencent.com/nexus/repository/maven-public/central/</url>
+ </mirror>
+ <!-- 配置使用oschina的Maven镜像地址 -->
+ <mirror>
+     <id>oschinacloud</id>
+     <mirrorof>*</mirrorof>
+     <name>oschina云镜像</name>
+     <url>http://maven.oschina.net/content/groups/public/central/</url>
+ </mirror>
+maven设置临时代理
+mvn clean compile -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=7890 -Dhttps.proxyHost=proxy.example.com -Dhttps.proxyPort=7890
+在<settings>标签内添加或修改<proxies>部分来配置代理
+<settings>
+  <proxies>
+    <proxy>
+      <id>http-proxy</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>127.0.0.1</host>
+      <port>7890</port>
+      <!-- username>proxyuser</username --> <!-- 如果不需要用户名和密码，可以省略 -->
+      <!-- password>proxypass</password --> <!-- 如果不需要用户名和密码，可以省略 -->
+      <nonProxyHosts>*.google.com|*.example.com</nonProxyHosts> <!-- 指定不需要代理的主机 -->
+    </proxy>
+    <proxy>
+      <id>https-proxy</id>
+      <active>true</active>
+      <protocol>https</protocol>
+      <host>127.0.0.1</host>
+      <port>7890</port>
+      <!-- username>proxyuser</username --> <!-- 如果不需要用户名和密码，可以省略 -->
+      <!-- password>proxypass</password --> <!-- 如果不需要用户名和密码，可以省略 -->
+      <nonProxyHosts>*.google.com|*.example.com</nonProxyHosts> <!-- 指定不需要代理的主机 -->
+    </proxy>
+  </proxies>
+</settings>
 
 
 Regexp正则表达式
@@ -4276,7 +4347,7 @@ https://www.v2ex.com/mission/daily
 https://bbs.kanxue.com/new-digest-1.htm
 https://bbs.kanxue.com/forum-161-1.htm?orderby=desc&digest=1
 https://www.github-zh.com/top
-https://www.github.com/topics/ #2d-graphics canvas infinite-canvas canvas2d rougelike rougelike-game 2d-game 2d-game-engine 2d-graphics-library graphics-engine pixel-art sprites  graphics opengl cross-platform  game-development lua lua-script lua-engine javascript game-engine zero-dependency animation platform-game game-engine skeletal skeletal-animation assists spine spritekit skeleton skeleton-animation chromium miniblink49 blink gecko web-browser browser simd
+https://www.github.com/topics/ #2d-graphics canvas infinite-canvas canvas2d rougelike rougelike-game 2d-game 2d-game-engine 2d-graphics-library graphics-engine pixel-art sprites  graphics opengl cross-platform  game-development lua lua-script lua-engine javascript game-engine zero-dependency animation platform-game game-engine skeletal skeletal-animation assists spine spritekit skeleton skeleton-animation chromium miniblink49 blink gecko web-browser browser simd pure-c
 https://www.jitpack.io/
 https://developer.aliyun.com/mvn/search
 https://repo.maven.apache.org/maven2/

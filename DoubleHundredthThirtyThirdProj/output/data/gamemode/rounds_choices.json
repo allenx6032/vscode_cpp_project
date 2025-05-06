@@ -1,0 +1,7 @@
+[
+    {
+        "isDefault": true,              // Is a default move added to character at start
+        "move": "Stand Light Punch",    // Name of move
+        "motion": "A"                   // Input to be associated
+    }
+]
