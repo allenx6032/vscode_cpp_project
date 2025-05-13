@@ -49,6 +49,7 @@
 #include LC_GRAPH_H
 
 #include "game.h"
+#include "cJSON.h"
 
 /**文件头部的标记文本 */
 #define HEADER_MARK_TEXT	"LC-GAMES Graphics Resource File"
