@@ -1,0 +1,2 @@
+D:/VscodiumZone/DoubleHundredthSixtyEighthProj/box2d/bld/CMakeFiles/edit_cache.dir
+D:/VscodiumZone/DoubleHundredthSixtyEighthProj/box2d/bld/CMakeFiles/rebuild_cache.dir

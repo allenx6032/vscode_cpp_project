@@ -1,0 +1,24 @@
+[2025-05-14 14:48:06] [INFO]:  Initialized logging.
+[2025-05-14 14:48:06] [INFO]:  Initialized Input Subsystem.
+[2025-05-14 14:48:06] [INFO]:  Detected editor mode.
+[2025-05-14 14:48:06] [INFO]:  Initialized ECS
+[2025-05-14 14:48:06] [INFO]:  Initialized mixer cache.
+[2025-05-14 14:48:06] [INFO]:  Initialized audio.
+[2025-05-14 14:48:06] [INFO]:  Initialized tricks
+[2025-05-14 14:48:06] [INFO]:  Engine Fully Initialized.
+[2025-05-14 14:48:06] [DEBUG]: wrote json file D:\VscodiumZone\DoubleHundredthFiftySixthProj\output\/settings.yoyo
+[2025-05-14 14:48:11] [DEBUG]: read json file D:\VscodiumZone\DoubleHundredthFiftySixthProj\output\/settings.yoyo
+[2025-05-14 14:48:18] [INFO]:  Shutting down engine...
+[2025-05-14 14:48:18] [INFO]:  Shut down ECS
+[2025-05-14 14:48:18] [INFO]:  Shut down timers.
+[2025-05-14 14:48:18] [INFO]:  Shut down cache.
+[2025-05-14 14:48:18] [INFO]:  Shut down TTF.
+[2025-05-14 14:48:18] [INFO]:  Shut down IMG.
+[2025-05-14 14:48:18] [INFO]:  Shut down UI
+[2025-05-14 14:48:18] [INFO]:  Shut down renderer.
+[2025-05-14 14:48:18] [INFO]:  Shut down window.
+[2025-05-14 14:48:18] [INFO]:  Shut down graphics.
+[2025-05-14 14:48:18] [INFO]:  Shut down audio.
+[2025-05-14 14:48:18] [INFO]:  Shut down audio.
+[2025-05-14 14:48:18] [INFO]:  Shut down input.
+[2025-05-14 14:48:18] [INFO]:  Shut down logging.

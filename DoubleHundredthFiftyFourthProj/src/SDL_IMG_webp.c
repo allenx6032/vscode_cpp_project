@@ -42,7 +42,7 @@
 #ifdef macintosh
 #define MACOS
 #endif
-#include <webp_decode.h>
+#include <webp/decode.h>
 
 static struct {
     int loaded;

@@ -6,6 +6,8 @@ mklink /J "C:/Users" "D:/Users"
 ndkVersion "16.1.4479499"
 ndkVersion "25.1.8937393"
 ndkVersion "21.4.7075529"
+D:/Android-SDK/ndk/16.1.4479499/ndk-build
+D:/Android-SDK/ndk/25.1.8937393/ndk-build
 mkdir bld&cd bld&cmake ..  -GNinja -DCMAKE_TOOLCHAIN_FILE=D:/Android-SDK/ndk/25.1.8937393/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a -DANDROID_PLATFORM=android-28 -DCMAKE_BUILD_TYPE=Release
 mkdir bld&cd bld&cmake ..  -GNinja -DCMAKE_TOOLCHAIN_FILE=D:/Android-SDK/ndk/25.1.8937393/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-28 -DCMAKE_BUILD_TYPE=Release
 mkdir bld&cd bld&cmake -G "Visual Studio 14" -A x86  ..&cmake --build . --config Release
@@ -13,6 +15,9 @@ mkdir bld&cd bld&cmake -G "CodeBlocks - MinGW Makefiles" -A x86  ..
 mkdir bld&cd bld&cmake -G "MinGW Makefiles" ..
 mkdir bld&cd bld&cmake -G "Ninja"  ..
 mkdir bld&cd bld&cmake  ..
+cmake --build release --config Release --target all
+cmake --build debug --config Debug --target all
+nm *.o >> symbols.txt //可以查看 obj文件中的所有导出符号
 
 VC万能头文件 <YVALS.H>
 
@@ -21,7 +26,25 @@ modelscope download --model=OpenBMB/MiniCPM3-4B --local_dir ./MiniCPM3-4B
 huggingface-cli download --resume-download jingyaogong/minimind-v1 --local-dir minimind-v1
 huggingface-cli download --resume-download runfuture/MiniCPM3-4B --local-dir MiniCPM3-4B
 git clone --depth=1 https://github.com/
-git submodule update --init --recursive --depth=1
+git submodule update --init --recursive --depth=1 --force
+git submodule update --remote  --force <路径/子模块目录>  #强制指定更新某个子模块
+git config --global submodule.fetchJobs 8  # 设置并行下载数
+git config --file .gitmodules --get-regexp "\.url" # 查看所有子模块的URL配置
+git config -f .gitmodules submodule.external/box2d.url <NEW_REPO_URL> #手动修正子模块URL
+git submodule sync  # 同步子模块远程URL
+git submodule foreach "git submodule update --init --recursive --depth=1 --force --checkout || :"
+git submodule foreach "git checkout -f" //强制更新所有子模块
+git submodule update --init --remote --force <subodule_name> //强制更新指定子模块
+git submodule update --init --recursive --depth=1 --force --checkout --jobs 8
+git submodule deinit --force --all //删除子模块同步记录
+rm -rf .git/modules  # 清除Git缓存的子模块元数据
+ git rm --cached #清理git缓存
+git submodule update --init --recursive --checkout //更新子模块
+
+git submodule update --init --recursive --depth=1 --force//同步不存在子模块时
+git submodule deinit -f <submodule> //删除子模块
+git rm --cache <submodule> //清理子模块缓存
+
 
 curl --proxy 127.0.0.1:7890 -O https://huggingface.co/karpathy/tinyllamas/resolve/main/stories15M.bin //通过代理下载模型
 curl https://hf-mirror/karpathy/tinyllamas/resolve/main/stories15M.bin //通过镜像下载模型
@@ -121,6 +144,7 @@ git config --global pack.deltaCacheSize 2560m
 git config --global pack.SizeLimit 2560m#设置一个包最大的压缩尺寸
 git config --global pack.windowMemory 5120m
 git config --global core.protectNTFS false #关闭NTFS 保护机制
+git config --global submodule.fetchJobs 8  # 设置并行下载数
 git-lfs filter-process
 git log 
 git show
@@ -129,17 +153,24 @@ git revert
 git reset --hard //重置历史修改
 git reset //在使用 git reset --hard 或者重写历史之后，一定要记得强制推送（--force），这样远程仓库的历史才会被更新。
 git filter-branch
-git checkout/swhitch ^Tag#命令切换到某一节点
-git reset –hard    # 切换到某一节点并丢弃当前改动
-git reset –mixed   # 切换到某一节点但保留当前改动
+git checkout/swhitch ^Tag/<commit-id> #命令切换到某一节点但保留之后的所有更改
+git reset --soft <commit-id>  #不改变工作目录和暂存区的内容，仅仅是重置HEAD到指定的commit
+git reset --hard <commit-id>   # 切换到某一节点并丢弃当前改动
+git reset --mixed <commit-id>  # 切换到某一节点但保留当前改动
+git revert <commit-id> #撤销指定commit (不改变历史)
+git revert -m 1 <commit-id> #撤销指定commit (不改变历史) 如果该commit不是最新的 指定-m选项来指定父提交
 git cherry-pick 
 git add .
 git commit -m ”“
 git checkout master
 git push origin master
 git pull --rebase
+git pull --rebase -i <commit-id> #彻底删除 Git 中的commit提交的内容
 git pull --rebase origin main
 git push -u origin main #推送新的“main”分支到远程仓库
+git reflog #显示可引用的历史版本记录. 找到要撤回的commit的前面的
+git push origin HEAD --force #将本地分支代码强制推送到远处分支
+
 git remote add origin <remote_repository_url> #关联远程仓库
 git merge dev
 git fetch
@@ -647,6 +678,25 @@ openssl req -new -key server.key -out server.csr -subj "/C=CN/ST=SX/L=XA/O=MORIS
 openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt
 其中3650为有效时长
   
+  
+  
+include(FetchContent)
+FetchContent_Declare(
+        AndroidImgui  # 第三方库名
+        GIT_REPOSITORY https://github.com/enenH/AndroidImgui.git  # GitHub库的URL
+        GIT_TAG v1.9 # 你想要的分支或标签
+)
+FetchContent_MakeAvailable(AndroidImgui)  # 下载并使库可用
+target_link_libraries(your_lib_name AndroidImgui)  # 链接库
+include(FetchContent)
+FetchContent_Declare(
+        curl_android
+        GIT_REPOSITORY https://github.com/enenH/curl-android.git
+        GIT_TAG v8.8.1
+)
+FetchContent_MakeAvailable(curl_android)
+target_link_libraries(your_lib_name curl::curl_static)
+  
  rm -f NUL 强制删除文件
  rmdir -f NUL 强制删除文件夹
 del /f/q/s *.* > NUL //强制删除文件 /F：强制删除只读文件 /Q：在模糊文件名匹配删除的时候，不询问是否删除 /S：删除当前目录和子目录中指定文件
@@ -656,6 +706,11 @@ VS 常量$(LatestTargetPlatformVersion)$(DefaultPlatformToolset)$(SolutionDir)$(
 VS 链接-> 命令行 ->其他 \verbose:lib查看链接过程 \utf-8编码支持[#pragma warning (disable:4819)]
 VS 链接 -> 清单文件 -> UAC执行级别 /level='requireAdministrator'
 VS dumpbin /exports xxx.lib > xxx.txt dumpbin 可以查看 lib 库中的所有导出符号
+VS dumpbin /archivemembers  xxx.lib > xxx.txt  可以查看 lib 库中成员的基本信息
+VS dumpbin /dependents  xxx.lib > xxx.txt  可以查看 lib 库中的所依赖的DLL
+VS dumpbin /disasm  xxx.lib > xxx.txt  可以查看 lib 库中的代码段反编译结果
+VS dumpbin /headers  xxx.lib > xxx.txt  可以查看文件所有段的头部信息 当文件为库文件时显示成员对象的头部信息
+VS dumpbin /imports  xxx.lib > xxx.txt  可以查看文件或DLL文件中导入的DLL文件和函数列表
 VS undname ?XXX@XXX@XX undname方便查看未经过编译器处理的函数名
 Microsoft.Cpp.Win32.user.props Microsoft.Cpp.x64.user.props VS2010VC++目录
 Microsoft.Cpp.MSVC.Toolset.Win32.props Microsoft.Cpp.MSVC.Toolset.x64.props VS2022VC++目录
@@ -4701,9 +4756,14 @@ void srand48(unsigned int i)
 //#include <cmath>
 // #include <algorithm>
 #ifndef M_PI
-#define M_PI		3.14159265358979323846
-#define M_PI_2		1.57079632679489661923
-#define M_PI_4		0.78539816339744830962 
+#define M_PI       3.14159265358979323846
+#define M_PI_2     1.57079632679489661923
+#define M_PI_4     0.785398163397448309616
+#define M_1_PI     0.318309886183790671538
+#define M_2_PI     0.636619772367581343076
+#define M_2_SQRTPI 1.12837916709551257390
+#define M_SQRT2    1.41421356237309504880
+#define M_SQRT1_2  0.707106781186547524401
 #endif
 
 non-const lvalue reference to type 'xxx' cannot bind to a  temporary of type 'xxx'

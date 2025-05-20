@@ -1,0 +1,11 @@
+newmtl Guard_03
+Kd 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+map_Kd Guard_03__diffuse.png
+map_Ks Guard_03__specular.png
+Ns 6.311791
+d 1.000000
+r 0
+map_Kn Guard_03__normal.png
