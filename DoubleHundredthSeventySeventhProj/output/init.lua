@@ -18,8 +18,34 @@ function DEBUG_TRACK(msg)
 	print("--------------------------")
 end
 
+function Sleep1(n)
+	print("Sleep1")
+    local t0 = os.clock()
+    while os.clock() - t0 <= n do end
+end
+
+function Sleep2(n)
+	print("Sleep2")
+    --os.execute("sleep " .. n)
+    os.execute("timeout /t " .. n)
+end
+
 background = {r = 0.3, g = 0.4 , b = 0.5}
 
-print(1)
-clua.sleep(5000)
-print(2)
+
+print(background)
+
+
+require("001_basic_window")
+
+Sleep2(3)
+
+require("002_2d_camera")
+
+Sleep2(3)
+
+require("codegen")
+
+-- print(1)
+-- clua.sleep(5000)
+-- print(2)
