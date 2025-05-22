@@ -18,6 +18,7 @@ mkdir bld&cd bld&cmake  ..
 cmake --build release --config Release --target all
 cmake --build debug --config Debug --target all
 nm *.o >> symbols.txt //可以查看 obj文件中的所有导出符号
+gcc -E main.c  -I../include > main.i //查看展开后的源文件
 
 VC万能头文件 <YVALS.H>
 
@@ -25,6 +26,7 @@ modelscope download --model=gongjy/minimind-v1 --local_dir ./minimind-v1
 modelscope download --model=OpenBMB/MiniCPM3-4B --local_dir ./MiniCPM3-4B
 huggingface-cli download --resume-download jingyaogong/minimind-v1 --local-dir minimind-v1
 huggingface-cli download --resume-download runfuture/MiniCPM3-4B --local-dir MiniCPM3-4B
+git clone --depth=1 https://github.com/allenx6032/vscode_cpp_project VscodiumZone
 git clone --depth=1 https://github.com/
 git submodule update --init --recursive --depth=1 --force
 git submodule update --remote  --force <路径/子模块目录>  #强制指定更新某个子模块
@@ -45,9 +47,20 @@ git submodule update --init --recursive --depth=1 --force//同步不存在子模
 git submodule deinit -f <submodule> //删除子模块
 git rm --cache <submodule> //清理子模块缓存
 
-
 curl --proxy 127.0.0.1:7890 -O https://huggingface.co/karpathy/tinyllamas/resolve/main/stories15M.bin //通过代理下载模型
 curl https://hf-mirror/karpathy/tinyllamas/resolve/main/stories15M.bin //通过镜像下载模型
+
+modelscope模型下载
+pip install modelscope #安装ModelScope
+modelscope download --model swift/Qwen3-30B-A3B-AWQ #下载完整模型库
+modelscope download --model swift/Qwen3-30B-A3B-AWQ README.md --local_dir ./dir #下载单个文件到指定本地文件夹（以下载README.md到当前路径下“dir”目录为例）
+#SDK模型下载
+from modelscope import snapshot_download
+model_dir = snapshot_download('swift/Qwen3-30B-A3B-AWQ')
+#Git模型下载
+git lfs install
+git clone https://www.modelscope.cn/swift/Qwen3-30B-A3B-AWQ.git
+GIT_LFS_SKIP_SMUDGE=1 git clone https://www.modelscope.cn/swift/Qwen3-30B-A3B-AWQ.git #跳过 lfs 大文件下载
 
 #if LUA_VERSION_NUM < 502
 #define luaL_newlib(L,l) (lua_newtable(L), luaL_register(L,NULL,l))
@@ -679,6 +692,178 @@ openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt
 其中3650为有效时长
   
   
+查看源文件预处理结果
+编译C/C++源代码时，源代码首先会被预处理器（preprocessor）进行预处理（preprocess）。
+预处理器执行源代码中的预处理指令，如：
+——文件包含
+#include
+——条件编译
+#if、 #ifdef、 #ifndef、 #elif、 #else、 #endif
+——宏
+#define、 #undef、宏标识符、宏扩展
+——其他
+#error、#line、#pragma
+……
+预处理之后的结果（即将提交给编译器）与程序员看到的源代码也许会有很大的差异。
+尤其在源代码中含有许多错综复杂的宏与条件编译时。
+当我们被这些狂乱的宏与条件编译折磨的时候， 如果能看到预处理的结果， 也许会有很大的帮助。
+下面将以一个示例说明msvc与gcc中得到预处理结果的方式。
+零、 示例
+假设我们需要查看 _MSC_VER 与 __GUNC__ 两个宏最终被扩展出的文本： 
+int main() {
+    int result = 
+#if defined(__GNUC__)
+__GNUC__
+#elif defined(_MSC_VER)
+_MSC_VER
+#else
+#error unknown compiler
+#endif
+;
+    return result;
+}
+该程序很简单， main函数返回一个result，然后立即退出。
+而result的值， 根据条件编译得到：
+1. 如果是GCC编译器， 那么result赋值为__GNUC__
+2. 否则如果是VC编译器， 那么result赋值为_MSC_VER
+3. 否则是一个未知的编译器， 错误
+接下来， 我们来看看_MSC_VER与__GNUC__这2个宏最终到底被扩展为什么文本。
+一、 GCC
+一.1、 -E 选项
+-E选项将把预处理的结果，写入stdout。
+也就是说， 执行如下命令：
+gcc -E preporcess_only.c
+就能在控制台中得到预处理后的结果，大致如下：
+# 1 "../preprocess_only.c"
+# 1 "<built-in>"
+# 1 "<command line>"
+# 1 "../preprocess_only.c"
+int main() {
+    int result =3;
+    return result;
+}
+可以看到， __GUNC__ 宏最终被扩展为整数字面量3（GCC 3）。
+如果源代码很长， 输出到命令行窗口中查看也许不方便。
+如何将其输出到一个文件中呢？
+一.1.1、 重定向
+因为-E是输出到stdout， 显然可以将其重定向到另一个文件， 如执行如下命令：
+gcc -E preprocess_only.c >stdout.txt
+那么stdout.txt中， 就能得到刚才命令行窗口中的内容。
+一.1.2、 -o （小写） 选项
+-o选项用于指定出文件名。
+对于-c， -o指定的是目标文件名。
+对于-S ，-o指定的是汇编文件名。
+对于-E， -o自然也可以指定预处理文件名， 如执行如下命令：
+gcc -E preprocess_only.c -o output.txt
+那么output.txt中会得到“一.1.1”中的stdout.txt和“一.1”中控制台窗口一样的结果。
+一.2、-save-temps 选项
+-save-temps选项将保留中间文件：如预处理后的结果文件、汇编代码文件与目标文件。
+其中的预处理结果文件（通常有.i后缀）是我们所需要的。
+举例：
+1、 gcc -save-temps -E preprocess_only.c
+0个中间文件。
+输出预处理结果， 同“一.1”一样， 输出到控制台窗口中。
+对比如下命令：
+1.1、 gcc -save-temps -E preprocess_only.c -o temp_output.txt
+1.2、 gcc -save-temps -E preprocess_only.c >temp_output.txt
+可以看出， -E选项不产生中间文件。 预处理结果就是最终结果。
+同时可以使用 -o选项或者重定向， 把结果保存到一个文件中。
+2、 gcc -save-temps -S preprocess_only.c
+1个中间文件： preprocess_only.i（预处理结果）
+1个输出文件：preprocess_only.s（汇编代码）
+对比如下命令：
+2.1、 gcc -save-temps -S preprocess_only.c -o unknown
+得到preprocess_only.i文件，内容是预处理结果，是中间文件。
+得到unknown文件，内容是汇编代码， 是最终结果文件。
+3、 gcc -save-temps -c preprocess_only.c
+2个中间文件： preprocess_only.i与preprocess_only.s。
+1个输出文件： preprocess_only.o（目标代码）
+对比如下命令：
+3.1、 gcc -save-temps -c preprocess_only.c -o unknown
+得到preprocess_only.i 与 preprocess_only.s文件，内容分别是预处理结果与汇编代码，是中间结果。
+unknown文件， 内容是目标代码，是最终结果文件。
+4、 gcc -save-temps preprocess_only.c
+3个中间文件： preprocess_only.i、preprocess_only.s、preprocess_only.o。
+1个输出文件： a.out（a.exe with mingw）。
+对比如下命令：
+4.1、 gcc -save-temps preprocess_only.c -o what
+得到上述3个文件， 是中间文件。
+what文件（what.exe with mingw）， 内容是可执行代码， 是最终结果文件。
+二、 MSVC
+VC6、8、9中与查看预处理相关的选项可以通过如下命令查看：
+cl /help
+在输出中， 找 -PREPROCESSOR- 这个类别。
+其中与预处理结果相关的有如下一些选项：
+二.1、/E 选项
+/E preprocess to stdout
+/E 将预处理定向到 stdout
+显然， 这和“一.1”是等价的， 如：
+cl /E preprocess_only.c
+在命令行窗口中将得到类似结果：
+#line 1 "preprocess_only.c"
+int main() {
+    int result = 
+#line 6 "preprocess_only.c"
+1200
+#line 10 "preprocess_only.c"
+;
+    return result;
+}
+可以看到， _MSC_VER宏最终被扩展为整数字面值1200（VC6）。
+对于较长的源文件， 我们同样希望将结果输出到一个文件中。
+二.1.1、重定向
+执行：
+cl /E preprocess_only.c >stdout.txt
+stdout.txt将保存上面的结果。
+注意： 在msvc中，没有“一.1.2”的对应物。
+执行：
+cl /help
+在输出中找到-OUTPUT FILES-类别， 可以看到没有命名预处理结果的方式。有两个相似的选项：
+/Fe 命名可执行文件。
+/Fp 命名预编译头文件。
+但不是我们需要的选项。
+也许VC认为通过 “/E + 重定向”就可以达到命名输出文件的目的。
+所以就没有设计达到此目的的另一种方法。
+二.2、/P 选项
+/P preprocess to file
+/P 预处理到文件
+执行：
+cl /P preprocess_only.c
+将得到 preprocess_only.i
+/P会将对 xxx.suffix 的预处理结果输出到 xxx.i 文件中。
+没有指定文件名的方式。 如果需要指定输出文件名， 可以使用 “/E + 重定向”
+二.3 /EP 选项
+/E与/P选项都将保留一部分（源文件）行信息，如“二.1”所示。
+如果这是不需要的， 可以使用 /EP选项。
+/EP preprocess to stdout, no #line
+/EP 预处理到标准输出，没有 #line
+如：
+cl /EP preprocess_only.c
+将得到如下输出：
+int main() {
+    int result = 1200;
+    return result;
+}
+同样， 如果需要输出到指定文件， 可以使用重定向。
+二.4 其他一些有趣的选项
+1. /C （大写）
+don't strip comments（不抽出注释）
+如果保留注释对理解预处理结果有帮助， 可以使用这个选项。
+2. /U /u
+/u remove all predefined macros
+/u 移除所有预定义的宏
+/U<name> remove predefined macro
+/U<name> 移除预定义的宏
+比如可以通过：
+cl /u preprocess_only.c
+cl /U_MSC_VER preprocess_only.c
+来得到一个 unknown complier错误囧……
+3. /D
+/D<name>{=|#}<text> define macro
+/D<name>{=|#}<text> 定义宏
+可以通过：
+cl /D__GUNC__=3 preprocess_only.c
+来假装gcc编译器囧……
   
 include(FetchContent)
 FetchContent_Declare(
