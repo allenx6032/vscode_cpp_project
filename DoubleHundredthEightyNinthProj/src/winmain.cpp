@@ -154,7 +154,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEMOVE:
 		if (!game.IsHumanTurn() || game.GetStatus() != DISCARD)
 			return 0;
-
 		point.x = LOWORD(lParam);
 		point.y = HIWORD(lParam);
 		if (wParam & MK_LBUTTON)

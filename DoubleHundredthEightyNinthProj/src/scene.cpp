@@ -263,45 +263,37 @@ void Scene::DrawComputerCards(void)
 	}
 
 	if (game->player[0]->nodiscard){//显示“不出”
-		TransparentBlt(hdcScene, (sceneSize.cx - 62) / 2, sceneSize.cy - 200,
-			63, 27, hdcNoDiscard, 0, 0, 63, 27, RGB(255, 255, 255));
+		TransparentBlt(hdcScene, (sceneSize.cx - 62) / 2, sceneSize.cy - 200,63, 27, hdcNoDiscard, 0, 0, 63, 27, RGB(255, 255, 255));
 	}
 	else{
 		i = 0;
 		c = game->player[0]->discard.count;
 		for (auto rb = game->player[0]->discard.cards.rbegin();
 			rb != game->player[0]->discard.cards.rend(); ++rb){//显示打出的牌
-			TransparentBlt(hdcScene, (sceneSize.cx - cardSize.cx - 20 * c + 20) / 2 + 20 * i,
-				sceneSize.cy - cardSize.cy - 135, cardSize.cx, cardSize.cy, hdcCards,
-				cardSize.cx * *rb, 0, cardSize.cx, cardSize.cy, RGB(0, 0, 255));
+			TransparentBlt(hdcScene, (sceneSize.cx - cardSize.cx - 20 * c + 20) / 2 + 20 * i,sceneSize.cy - cardSize.cy - 135, cardSize.cx, cardSize.cy, hdcCards,cardSize.cx * *rb, 0, cardSize.cx, cardSize.cy, RGB(0, 0, 255));
 			++i;
 		}
 	}
 	if (game->player[1]->nodiscard){//显示“不出”
-		TransparentBlt(hdcScene, sceneSize.cx - 168, 200, 63, 27,
-			hdcNoDiscard, 0, 0, 63, 27, RGB(255, 255, 255));
+		TransparentBlt(hdcScene, sceneSize.cx - 168, 200, 63, 27,hdcNoDiscard, 0, 0, 63, 27, RGB(255, 255, 255));
 	}
 	else{
 		i = 0;
 		c = game->player[1]->discard.count;
 		for (auto rb = game->player[1]->discard.cards.rbegin();
 			rb != game->player[1]->discard.cards.rend(); ++rb){//显示打出的牌
-			TransparentBlt(hdcScene, sceneSize.cx - cardSize.cx - 20 * c - 85 + 20 * i,
-				160, cardSize.cx, cardSize.cy, hdcCards, cardSize.cx * *rb, 0,
-				cardSize.cx, cardSize.cy, RGB(0, 0, 255));
+			TransparentBlt(hdcScene, sceneSize.cx - cardSize.cx - 20 * c - 85 + 20 * i, 160, cardSize.cx, cardSize.cy, hdcCards, cardSize.cx * *rb, 0, cardSize.cx, cardSize.cy, RGB(0, 0, 255));
 			++i;
 		}
 	}
 	if (game->player[2]->nodiscard){//显示“不出”
-		TransparentBlt(hdcScene, 105, 200, 63, 27,
-			hdcNoDiscard, 0, 0, 63, 27, RGB(255, 255, 255));
+		TransparentBlt(hdcScene, 105, 200, 63, 27,hdcNoDiscard, 0, 0, 63, 27, RGB(255, 255, 255));
 	}
 	else{
 		i = 0;
 		for (auto rb = game->player[2]->discard.cards.rbegin();
 			rb != game->player[2]->discard.cards.rend(); ++rb){//显示打出的牌
-			TransparentBlt(hdcScene, 105 + 20 * i, 160, cardSize.cx, cardSize.cy, hdcCards,
-				cardSize.cx * *rb, 0, cardSize.cx, cardSize.cy, RGB(0, 0, 255));
+			TransparentBlt(hdcScene, 105 + 20 * i, 160, cardSize.cx, cardSize.cy, hdcCards,cardSize.cx * *rb, 0, cardSize.cx, cardSize.cy, RGB(0, 0, 255));
 			++i;
 		}
 	}
@@ -317,13 +309,11 @@ void Scene::DrawHumanCards(HDC hdc, int highlight)
 		y = 128 - cardSize.cy - 15;
 
 	for (auto rb = game->player[0]->cards.rbegin(); rb != game->player[0]->cards.rend(); ++rb){//显示玩家手牌
-		if (game->player[0]->selection.cards.find(*rb) !=
-			game->player[0]->selection.cards.end())//将已选择的牌上移一段，突出显示
+		if (game->player[0]->selection.cards.find(*rb) !=game->player[0]->selection.cards.end())//将已选择的牌上移一段，突出显示
 			y1 = y - 15;
 		else
-			y1 = y;
-		TransparentBlt(hdcHumanCards, x + 22 * i, y1, cardSize.cx, cardSize.cy, hdcCards,
-			cardSize.cx * *rb, 0, cardSize.cx, cardSize.cy, RGB(0, 0, 255));
+			y1 = y ;
+		TransparentBlt(hdcHumanCards, x + 22 * i, y1, cardSize.cx, cardSize.cy, hdcCards,cardSize.cx * *rb, 0, cardSize.cx, cardSize.cy, RGB(0, 0, 255));
 		//if (mem == highlight){
 		//	HPEN pen = CreatePen(PS_SOLID, 3, RGB(0, 255, 255));
 		//	HPEN oldpen = (HPEN)SelectObject(hdcScene, pen);
@@ -390,8 +380,7 @@ void Scene::DrawChars()
 		oldfont = (HFONT)SelectObject(hdcScene, hfont);
 		textalign = SetTextAlign(hdcScene, TA_CENTER);
 
-		TextOut(hdcScene, 50, sceneSize.cy - cardSize.cy, szText,
-			wsprintf(szText, TEXT("%s"), TEXT("玩家")));
+		TextOut(hdcScene, 50, sceneSize.cy - cardSize.cy, szText,wsprintf(szText, TEXT("%s"), TEXT("玩家")));
 		TextOut(hdcScene, sceneSize.cx - 50, 10, szText, wsprintf(szText, TEXT("%s"), TEXT("电脑")));
 		TextOut(hdcScene, 50, 10, szText, wsprintf(szText, TEXT("%s"), TEXT("电脑")));
 
@@ -407,21 +396,16 @@ void Scene::DrawChars()
 		oldfont = (HFONT)SelectObject(hdcScene, hfont);
 		textalign = SetTextAlign(hdcScene, TA_CENTER);
 
-		TextOut(hdcScene, 50, sceneSize.cy - cardSize.cy, szText,
-			wsprintf(szText, TEXT("%s"), game->landlord == game->player[0] ?
-			TEXT("地主") : TEXT("农民")));
-		TextOut(hdcScene, sceneSize.cx - 50, 10, szText, wsprintf(szText, TEXT("%s"),
-			game->landlord == game->player[1] ? TEXT("地主") : TEXT("农民")));
-		TextOut(hdcScene, 50, 10, szText, wsprintf(szText, TEXT("%s"),
-			game->landlord == game->player[2] ? TEXT("地主") : TEXT("农民")));
+		TextOut(hdcScene, 50, sceneSize.cy - cardSize.cy, szText,wsprintf(szText, TEXT("%s"), game->landlord == game->player[0] ?TEXT("地主") : TEXT("农民")));
+		TextOut(hdcScene, sceneSize.cx - 50, 10, szText, wsprintf(szText, TEXT("%s"),game->landlord == game->player[1] ? TEXT("地主") : TEXT("农民")));
+		TextOut(hdcScene, 50, 10, szText, wsprintf(szText, TEXT("%s"),game->landlord == game->player[2] ? TEXT("地主") : TEXT("农民")));
 		SelectObject(hdcScene, oldfont);
 		DeleteObject(hfont);
 
 		hfont = CreateFont(20, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, TEXT("宋体"));
 		oldfont = (HFONT)SelectObject(hdcScene, hfont);
 
-		TextOut(hdcScene, sceneSize.cx / 2, 15 + cardSize.cy, szText,
-			wsprintf(szText, TEXT("%d分 %d倍"), game->basescore, game->times));
+		TextOut(hdcScene, sceneSize.cx / 2, 15 + cardSize.cy, szText,wsprintf(szText, TEXT("%d分 %d倍"), game->basescore, game->times));
 
 		SetTextAlign(hdcScene, textalign);
 		SelectObject(hdcScene, oldfont);
@@ -433,12 +417,9 @@ void Scene::DrawChars()
 	oldfont = (HFONT)SelectObject(hdcScene, hfont);
 	textalign = SetTextAlign(hdcScene, TA_CENTER);
 	//各玩家分数
-	TextOut(hdcScene, 50, sceneSize.cy - 66, szText,
-		wsprintf(szText, TEXT("%d"), game->player[0]->score));
-	TextOut(hdcScene, sceneSize.cx - 50, 36, szText,
-		wsprintf(szText, TEXT("%d"), game->player[1]->score));
-	TextOut(hdcScene, 50, 36, szText,
-		wsprintf(szText, TEXT("%d"), game->player[2]->score));
+	TextOut(hdcScene, 50, sceneSize.cy - 66, szText,wsprintf(szText, TEXT("%d"), game->player[0]->score));
+	TextOut(hdcScene, sceneSize.cx - 50, 36, szText,wsprintf(szText, TEXT("%d"), game->player[1]->score));
+	TextOut(hdcScene, 50, 36, szText,wsprintf(szText, TEXT("%d"), game->player[2]->score));
 
 	SetTextAlign(hdcScene, textalign);
 	SelectObject(hdcScene, oldfont);
