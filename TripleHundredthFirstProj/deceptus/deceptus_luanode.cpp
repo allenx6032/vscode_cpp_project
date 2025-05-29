@@ -1,0 +1,2874 @@
+// base
+#include "deceptus_luanode.h"
+
+#include <iostream>
+#include <lua.hpp>
+#include <sstream>
+#include <thread>
+
+// game
+#include "deceptus_sfmlmath.h"
+#include "deceptus_log.h"
+#include "deceptus_timer.h"
+#include "deceptus_animationplayer.h"
+#include "deceptus_audio.h"
+#include "deceptus_constants.h"
+#include "deceptus_debugdraw.h"
+#include "deceptus_texturepool.h"
+#include "deceptus_fixturenode.h"
+#include "deceptus_level.h"
+#include "deceptus_luaconstants.h"
+#include "deceptus_luainterface.h"
+#include "deceptus_physicsconfiguration.h"
+#include "deceptus_player.h"
+#include "deceptus_savestate.h"
+#include "deceptus_gun.h"
+#include "deceptus_projectilehitaudio.h"
+#include "deceptus_weaponfactory.h"
+
+namespace
+{
+uint16_t category_bits_default = CategoryEnemyWalkThrough;         // I am a ...
+uint16_t mask_bits_default = CategoryBoundary | CategoryFriendly;  // I collide with ...
+int16_t group_index_default = 0;                                   // 0 is default
+
+#define OBJINSTANCE LuaInterface::instance().getObject(state)
+
+/**
+ * @brief updateProperties
+ * @param state lua state
+ *    param 1 key
+ *    param 2 value
+ *    param n key
+ *    param n + 1 value
+ * @return error code
+ */
+int32_t updateProperties(lua_State* state)
+{
+   lua_pushnil(state);
+
+   while (lua_next(state, -2) != 0)
+   {
+      std::string key = lua_tostring(state, -2);
+
+      if (lua_isboolean(state, -1))  // bool
+      {
+         OBJINSTANCE->_properties[key] = static_cast<bool>(lua_toboolean(state, -1));
+      }
+      if (lua_isnumber(state, -1))
+      {
+         if (lua_isinteger(state, -1))  // int64
+         {
+            OBJINSTANCE->_properties[key] = static_cast<int64_t>(lua_tointeger(state, -1));
+         }
+         else  // double
+         {
+            OBJINSTANCE->_properties[key] = lua_tonumber(state, -1);
+         }
+      }
+      else if (lua_isstring(state, -1))  // string
+      {
+         OBJINSTANCE->_properties[key] = std::string(lua_tostring(state, -1));
+      }
+
+      lua_pop(state, 1);
+   }
+
+   OBJINSTANCE->synchronizeProperties();
+
+   return 0;
+}
+
+/**
+ * @brief addHitBox add a hitbox to the enemy
+ * @param state lua state
+ *    param 1: x position relative to where the object has been placed
+ *    param 2: y position relative to where the object has been placed
+ *    param 3: hitbox width
+ *    param 4: hitbox height
+ * @return error code
+ */
+int32_t addHitbox(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 4)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto x_px = static_cast<int32_t>(lua_tointeger(state, 1));
+   const auto y_px = static_cast<int32_t>(lua_tointeger(state, 2));
+   const auto w_px = static_cast<int32_t>(lua_tointeger(state, 3));
+   const auto h_px = static_cast<int32_t>(lua_tointeger(state, 4));
+   node->addHitbox(x_px, y_px, w_px, h_px);
+
+   return 0;
+}
+
+int32_t addDebugRect(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 0)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   node->addDebugRect();
+
+   return 0;
+}
+
+/**
+ * @brief updateDebugRect add a debug rect to the enemy
+ * @param state lua state
+ *    param 1: index of the debug rect
+ *    param 2: rect x position
+ *    param 3: rect y position
+ *    param 4: rect width
+ *    param 5: rect height
+ * @return error code
+ */
+int32_t updateDebugRect(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 5)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto index = static_cast<int32_t>(lua_tointeger(state, 1));
+   const auto x_px = static_cast<float>(lua_tonumber(state, 2));
+   const auto y_px = static_cast<float>(lua_tonumber(state, 3));
+   const auto w_px = static_cast<float>(lua_tonumber(state, 4));
+   const auto h_px = static_cast<float>(lua_tonumber(state, 5));
+   node->updateDebugRect(index, x_px, y_px, w_px, h_px);
+
+   return 0;
+}
+
+/**
+ * @brief addAudioRange add an audio range to the enemy
+ * @param state lua state
+ *    param 1: far distance in px
+ *    param 2: far volume from 0..1
+ *    param 3: near distance in px
+ *    param 4: near volume from 0..1
+ * @return error code
+ */
+int32_t addAudioRange(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 4)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto far_distance = static_cast<float>(lua_tonumber(state, 1));
+   const auto far_volume = static_cast<float>(lua_tonumber(state, 2));
+   const auto near_distance = static_cast<float>(lua_tonumber(state, 3));
+   const auto near_volume = static_cast<float>(lua_tonumber(state, 4));
+   node->addAudioRange(far_distance, far_volume, near_distance, near_volume);
+
+   return 0;
+}
+
+/**
+ * @brief setAudioUpdateBehavior change audio update behavior
+ * @param state lua state
+ *    param 1: update behavior
+ * @return error code
+ */
+int32_t setAudioUpdateBehavior(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 1)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto audio_update_behavior = static_cast<AudioUpdateBehavior>(lua_tointeger(state, 1));
+   node->setAudioUpdateBehavior(audio_update_behavior);
+
+   return 0;
+}
+
+/**
+ * @brief setReferenceVolume the volume to use when no audio range is used
+ * @param state lua state
+ *    param 1: update behavior
+ * @return error code
+ */
+int32_t setReferenceVolume(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 1)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto reference_volume = static_cast<float>(lua_tonumber(state, 1));
+   node->setReferenceVolume(reference_volume);
+
+   return 0;
+}
+
+/**
+ * @brief updateSpriteRect update node's sprite rect
+ * @param state lua state
+ *    param 1: id of sprite
+ *    param 2: x position of sprite
+ *    param 3: y position of sprite
+ *    param 4: sprite width
+ *    param 5: sprite height
+ * @return error code
+ */
+int32_t updateSpriteRect(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+
+   if (argc != 5)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto id = static_cast<int32_t>(lua_tointeger(state, 1));
+   const auto x_px = static_cast<int32_t>(lua_tointeger(state, 2));
+   const auto y_px = static_cast<int32_t>(lua_tointeger(state, 3));
+   const auto w_px = static_cast<int32_t>(lua_tointeger(state, 4));
+   const auto h_px = static_cast<int32_t>(lua_tointeger(state, 5));
+   node->updateSpriteRect(id, x_px, y_px, w_px, h_px);
+
+   return 0;
+}
+
+/**
+ * @brief setSpriteColor change a sprite's color
+ * @param state lua state
+ *    param 1: id of sprite
+ *    param 2: r part in uint8
+ *    param 3: g part in uint8
+ *    param 4: b part in uint8
+ *    param 5: a part in uint8
+ * @return error code
+ */
+int32_t setSpriteColor(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 5)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto id = static_cast<int32_t>(lua_tointeger(state, 1));
+   const auto r = static_cast<uint8_t>(lua_tointeger(state, 2));
+   const auto g = static_cast<uint8_t>(lua_tointeger(state, 3));
+   const auto b = static_cast<uint8_t>(lua_tointeger(state, 4));
+   const auto a = static_cast<uint8_t>(lua_tointeger(state, 5));
+   node->setSpriteColor(id, r, g, b, a);
+
+   return 0;
+}
+
+/**
+ * @brief intersectsWithPlayer check if a rectangle intersects with the player's bounding rect
+ * @param state lua state
+ *    param 1: rect x
+ *    param 2: rect y
+ *    param 3: rect width
+ *    param 4: rect height
+ *    return hit count
+ * @return 1 if there is an intersection, 0 if no intersection
+ */
+int32_t intersectsWithPlayer(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 4)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto x = static_cast<float>(lua_tonumber(state, 1));
+   const auto y = static_cast<float>(lua_tonumber(state, 2));
+   const auto width = static_cast<float>(lua_tonumber(state, 3));
+   const auto height = static_cast<float>(lua_tonumber(state, 4));
+
+   sf::FloatRect rect{{x, y}, {width, height}};
+   const auto player_rect = Player::getCurrent()->getPixelRectFloat();
+
+   const auto intersection = player_rect.findIntersection(rect);
+   lua_pushboolean(state, intersection.has_value());
+
+   return 1;
+}
+
+/**
+ * @brief queryAABB do an aabb query
+ * @param state lua state
+ *    param 1: aabb x1
+ *    param 2: aabb y1
+ *    param 3: aabb x2
+ *    param 4: aabb y2
+ *    return hit count
+ * @return 1 if hit, 0 if no hit
+ */
+int32_t queryAABB(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 4)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto x1 = static_cast<float>(lua_tointeger(state, 1) * MPP);
+   const auto y1 = static_cast<float>(lua_tointeger(state, 2) * MPP);
+   const auto x2 = static_cast<float>(lua_tointeger(state, 3) * MPP);
+   const auto y2 = static_cast<float>(lua_tointeger(state, 4) * MPP);
+
+   b2AABB aabb;
+   b2Vec2 lower;
+   b2Vec2 upper;
+   lower.Set(x1, y1);
+   upper.Set(x2, y2);
+   aabb.lowerBound = lower;
+   aabb.upperBound = upper;
+
+   const auto hit_count = node->queryAABB(aabb);
+   lua_pushinteger(state, hit_count);
+
+   return 1;
+}
+
+/**
+ * @brief queryRayCast do a raycast and see if we hit something
+ * @param state lua state
+ *    param 1 x1
+ *    param 2 y1
+ *    param 3 x2
+ *    param 4 y2
+ *    return number of objects hit
+ * @return exit code
+ */
+int32_t queryRayCast(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+
+   if (argc != 4)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto x1 = static_cast<float>(lua_tointeger(state, 1) * MPP);
+   const auto y1 = static_cast<float>(lua_tointeger(state, 2) * MPP);
+   const auto x2 = static_cast<float>(lua_tointeger(state, 3) * MPP);
+   const auto y2 = static_cast<float>(lua_tointeger(state, 4) * MPP);
+
+   b2Vec2 p1;
+   b2Vec2 p2;
+   p1.Set(x1, y1);
+   p2.Set(x2, y2);
+
+   const auto hit_count = node->queryRaycast(p1, p2);
+   lua_pushinteger(state, hit_count);
+   return 1;
+}
+
+/**
+ * @brief setDamageToPlayer set the damage of this lua node
+ * @param state lua state
+ *    param damage amount of damage (0..100)
+ * @return error code
+ */
+int32_t setDamageToPlayer(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 1)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto damage_amount = static_cast<int32_t>(lua_tointeger(state, 1));
+   node->setDamageToPlayer(damage_amount);
+
+   return 0;
+}
+
+/**
+ * @brief setZ set the z layer of this node
+ * @param state lua state
+ *    param 1: z layer
+ * @return exit code
+ */
+int32_t setZIndex(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 1)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto z = static_cast<int32_t>(lua_tointeger(state, 1));
+   node->setZ(z);
+
+   return 0;
+}
+
+/**
+ * @brief makeDynamic make this object a dynamic box2d object
+ * @param state lua state
+ * @return exit code
+ */
+int32_t makeDynamic(lua_State* state)
+{
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   node->makeDynamic();
+   return 0;
+}
+
+/**
+ * @brief makeStatic make this object a static box2d object
+ * @param state lua state
+ * @return exit code
+ */
+int32_t makeStatic(lua_State* state)
+{
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   node->makeStatic();
+   return 0;
+}
+
+/**
+ * @brief setGravityScale set the gravity scale of this node
+ * @param state lua state
+ *    param 1: gravity scale (0..1)
+ * @return error code
+ */
+int32_t setGravityScale(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 1)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto scale = static_cast<float>(lua_tonumber(state, 1));
+   node->setGravityScale(scale);
+
+   return 0;
+}
+
+/**
+ * @brief setActive set this node active/inactive
+ * @param state lua state
+ *    param 1: active flag
+ * @return error code
+ */
+int32_t setActive(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc == 1)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto active = static_cast<bool>(lua_toboolean(state, 1));
+   node->setActive(active);
+
+   return 0;
+}
+
+/**
+ * @brief isPhsyicsPathClear check if a given path hits objects inside the tmx
+ * @param state lua state
+ *    param 1: x0
+ *    param 2: y0
+ *    param 3: x1
+ *    param 4: y1
+ *    return \c true on collision
+ * @return error code
+ */
+int32_t isPhsyicsPathClear(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 4)
+   {
+      return 0;
+   }
+
+   // the lua scripts think in pixels; the physics grid has a resolution of 8x8 for each tile.
+   // so that needs to be scaled first.
+   const auto x0 = static_cast<int32_t>(lua_tonumber(state, 1) / PIXELS_PER_PHYSICS_TILE);
+   const auto y0 = static_cast<int32_t>(lua_tonumber(state, 2) / PIXELS_PER_PHYSICS_TILE);
+   const auto x1 = static_cast<int32_t>(lua_tonumber(state, 3) / PIXELS_PER_PHYSICS_TILE);
+   const auto y1 = static_cast<int32_t>(lua_tonumber(state, 4) / PIXELS_PER_PHYSICS_TILE);
+
+   // check map for collision
+   const auto collides = Level::getCurrentLevel()->isPhysicsPathClear({x0, y0}, {x1, y1});
+   lua_pushboolean(state, !collides);
+
+   return 1;
+}
+
+/**
+ * @brief getLinearVelocity reads the linear velocity of this object
+ * @param state lua state
+ *    return table
+ *       1: velocity x
+ *       2: velocity y
+ * @return error code
+ */
+int32_t getLinearVelocity(lua_State* state)
+{
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto velocity = node->getLinearVelocity();
+
+   lua_createtable(state, 2, 0);
+
+   auto table = lua_gettop(state);
+   auto index = 1;
+
+   lua_pushnumber(state, static_cast<double>(velocity.x));
+   lua_rawseti(state, table, index++);
+   lua_pushnumber(state, static_cast<double>(velocity.y));
+   lua_rawseti(state, table, index++);
+
+   return 1;
+}
+
+/**
+ * @brief getGravity reads the world's gravity
+ * @param state lua state
+ *    return table
+ *       1: velocity x
+ *       2: velocity y
+ * @return error code
+ */
+int32_t getGravity(lua_State* state)
+{
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto gravity = PhysicsConfiguration::getInstance()._gravity;
+   lua_pushnumber(state, gravity);
+
+   return 1;
+}
+
+/**
+ * @brief setLinearVelocity setter for linear velocity
+ * @param state lua state
+ *    param 1: velocity x
+ *    param 2: velocity y
+ * @return error code
+ */
+int32_t setLinearVelocity(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 2)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto vx = static_cast<float>(lua_tonumber(state, 1));
+   const auto vy = static_cast<float>(lua_tonumber(state, 2));
+   node->setLinearVelocity(b2Vec2{vx, vy});
+
+   return 0;
+}
+
+/**
+ * @brief applyLinearImpulse apply an impulse on the object
+ * @param state lua state
+ *    param 1: impulse x
+ *    param 2: impulse y
+ * @return error code
+ */
+int32_t applyLinearImpulse(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 2)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto vx = static_cast<float>(lua_tonumber(state, 1));
+   const auto vy = static_cast<float>(lua_tonumber(state, 2));
+   node->applyLinearImpulse(b2Vec2{vx, vy});
+
+   return 0;
+}
+
+/**
+ * @brief applyForce apply a force on the object
+ * @param state lua state
+ *    param 1: force x
+ *    param 2: force y
+ * @return error code
+ */
+int32_t applyForce(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 2)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto vx = static_cast<float>(lua_tonumber(state, 1));
+   const auto vy = static_cast<float>(lua_tonumber(state, 2));
+
+   node->applyForce(b2Vec2{vx, vy});
+
+   return 0;
+}
+
+// todo: document
+/**
+ * @brief setVisible
+ * @param state lua state
+ *    param 1: visible flag
+ * @return error code
+ */
+int32_t setVisible(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 1)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto visible = lua_toboolean(state, 1);
+   node->_visible = visible;
+
+   return 0;
+}
+
+/**
+ * @brief damage the node sets some damage to the player
+ * @param state lua state
+ *    param 1: amount of damage from 0..100
+ *    param 2: dx damage direction x
+ *    param 3: dy damage direction y
+ * @return error code
+ */
+int32_t damage(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 3)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto damage_amount = static_cast<int32_t>(lua_tonumber(state, 1));
+   const auto dx = static_cast<float>(lua_tonumber(state, 2));
+   const auto dy = static_cast<float>(lua_tonumber(state, 3));
+   node->damagePlayer(damage_amount, dx, dy);
+
+   Log::Info() << "damage: " << damage_amount << " dx: " << dx << " dy: " << dy;
+
+   return 0;
+}
+
+/**
+ * @brief damage the node damages the palyer if he's within a given radius
+ * @param state lua state
+ *    param 1: amount of damage from 0..100
+ *    param 2: dx damage direction x
+ *    param 3: dy damage direction y
+ *    param 4: radius damage radius
+ * @return error code
+ */
+int32_t damageRadius(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 4)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto damage_amount = static_cast<int32_t>(lua_tonumber(state, 1));
+   const auto x = static_cast<float>(lua_tonumber(state, 2));
+   const auto y = static_cast<float>(lua_tonumber(state, 3));
+   const auto radius = static_cast<float>(lua_tonumber(state, 4));
+   node->damagePlayerInRadius(damage_amount, x, y, radius);
+
+   return 0;
+}
+
+/**
+ * @brief setTransform set the object's transform
+ * @param state lua state
+ *    param 1: x translation
+ *    param 2: y translation
+ *    param 3: z rotation
+ * @return error code
+ */
+int32_t setTransform(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 3)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto x = static_cast<float>(lua_tonumber(state, 1));
+   const auto y = static_cast<float>(lua_tonumber(state, 2));
+   const auto angle = static_cast<float>(lua_tonumber(state, 3));
+   b2Vec2 pos{x / PPM, y / PPM};
+   node->setTransform(pos, angle);
+
+   return 0;
+}
+
+/**
+ * @brief addSprite add another (empty) sprite to this node
+ * @param state lua state
+ * @return error code
+ */
+int32_t addSprite(lua_State* state)
+{
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   node->addSprite();
+
+   return 0;
+}
+
+/**
+ * @brief setSpriteOrigin set origin of a given sprite
+ * @param state lua state
+ *    param 1: sprite id
+ *    param 2: x position
+ *    param 3: y position
+ * @return error code
+ */
+int32_t setSpriteOrigin(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 3)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto id = static_cast<int32_t>(lua_tointeger(state, 1));
+   const auto x = static_cast<float>(lua_tonumber(state, 2));
+   const auto y = static_cast<float>(lua_tonumber(state, 3));
+   node->setSpriteOrigin(id, x, y);
+
+   return 0;
+}
+
+/**
+ * @brief setSpriteOffset sets the offset for a given sprite
+ * @param state lua state
+ *    param 1: sprite id
+ *    param 2: x position
+ *    param 3: y position
+ * @return error code
+ */
+int32_t setSpriteOffset(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 3)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto id = static_cast<int32_t>(lua_tointeger(state, 1));
+   const auto x = static_cast<float>(lua_tonumber(state, 2));
+   const auto y = static_cast<float>(lua_tonumber(state, 3));
+   node->setSpriteOffset(id, x, y);
+
+   return 0;
+}
+
+/**
+ * @brief boom make the game go booom
+ * @param state lua state
+ *    param 1: detonation center x
+ *    param 2: detonation center y
+ *    param 3: boom intensity
+ * @return error code
+ */
+int32_t boom(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 3)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto x = static_cast<float>(lua_tonumber(state, 1));
+   const auto y = static_cast<float>(lua_tonumber(state, 2));
+   const auto intensity = static_cast<float>(lua_tonumber(state, 3));
+   node->boom(x, y, intensity);
+
+   return 0;
+}
+
+/**
+ * @brief play a detonation animation
+ * @param state lua state
+ *    param 1: detonation center x
+ *    param 2: detonation center y
+ * @return error code
+ */
+int32_t playDetonationAnimation(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   if (argc == 2)
+   {
+      const auto x = static_cast<float>(lua_tonumber(state, 1));
+      const auto y = static_cast<float>(lua_tonumber(state, 2));
+      node->playDetonationAnimationHuge(x, y);
+   }
+
+   constexpr auto detonation_ring_param_count = 7;
+   if (argc % detonation_ring_param_count == 0)
+   {
+      // 1: detonation_count (int)
+      // 2: center_x (float)
+      // 3: center_y (float)
+      // 4: radius (float)
+      // 5: speed_variance (float)
+      // 6: variance_pos_x (float)
+      // 7: variance_pos_y (float)
+
+      std::vector<DetonationAnimation::DetonationRing> rings;
+      for (auto i = 0; i < argc / detonation_ring_param_count; i++)
+      {
+         DetonationAnimation::DetonationRing ring;
+         int32_t index = i * detonation_ring_param_count;
+
+         const auto detonation_count = static_cast<int32_t>(lua_tointeger(state, index + 1));
+         const auto center_x = static_cast<float>(lua_tonumber(state, index + 2));
+         const auto center_y = static_cast<float>(lua_tonumber(state, index + 3));
+         const auto radius = static_cast<float>(lua_tonumber(state, index + 4));
+         const auto variance_animation_speed = static_cast<float>(lua_tonumber(state, index + 5));
+         const auto variance_pos_x = static_cast<float>(lua_tonumber(state, index + 6));
+         const auto variance_pos_y = static_cast<float>(lua_tonumber(state, index + 7));
+
+         ring._detonation_count = detonation_count;
+         ring._center.x = center_x;
+         ring._center.y = center_y;
+         ring._radius = radius;
+         ring._variance_animation_speed = variance_animation_speed;
+         ring._variance_position.x = variance_pos_x;
+         ring._variance_position.y = variance_pos_y;
+
+         rings.push_back(ring);
+      }
+
+      node->playDetonationAnimation(rings);
+   }
+
+   return 0;
+}
+
+/**
+ * @brief addShapeCircle add a circle shape to the node
+ * @param state lua state
+ *    param 1: circle radius
+ *    param 2: circle x position
+ *    param 3: circle y position
+ * @return error code
+ */
+int32_t addShapeCircle(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 3)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto r = static_cast<float>(lua_tonumber(state, 1));
+   const auto x = static_cast<float>(lua_tonumber(state, 2));
+   const auto y = static_cast<float>(lua_tonumber(state, 3));
+   node->addShapeCircle(r, x, y);
+
+   return 0;
+}
+
+/**
+ * @brief addShapeRect add a rectangular shape to the node
+ * @param state lua state
+ *    param 1: rect width
+ *    param 2: rect height
+ *    param 3: x offset
+ *    param 4: y offset
+ * @return error code
+ */
+int32_t addShapeRect(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 4)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto width = static_cast<float>(lua_tonumber(state, 1));
+   const auto height = static_cast<float>(lua_tonumber(state, 2));
+   const auto x = static_cast<float>(lua_tonumber(state, 3));
+   const auto y = static_cast<float>(lua_tonumber(state, 4));
+   node->addShapeRect(width, height, x, y);
+
+   return 0;
+}
+
+/**
+ * @brief addShapeRect add a rectangular shape to the node
+ * @param state lua state
+ *    param 1: rect width
+ *    param 2: rect height
+ *    param 3: amount of bevel
+ *    param 4: x offset
+ *    param 5: y offset
+ * @return error code
+ */
+int32_t addShapeRectBevel(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 5)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto width = static_cast<float>(lua_tonumber(state, 1));
+   const auto height = static_cast<float>(lua_tonumber(state, 2));
+   const auto bevel = static_cast<float>(lua_tonumber(state, 3));
+   const auto offset_x = static_cast<float>(lua_tonumber(state, 4));
+   const auto offset_y = static_cast<float>(lua_tonumber(state, 5));
+
+   node->addShapeRectBevel(width, height, bevel, offset_x, offset_y);
+
+   return 0;
+}
+
+/**
+ * @brief addShapePoly add a polygonal shape to the node
+ * @param state lua state
+ *    param n x coordinate
+ *    param n + 1 y coordinate
+ * @return error code
+ */
+int32_t addShapePoly(lua_State* state)
+{
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto argc = lua_gettop(state);
+   if (argc >= 2 && (argc % 2 == 0))
+   {
+      const auto size = argc / 2;
+      auto poly = new b2Vec2[static_cast<uint32_t>(size)];
+      auto poly_index = 0;
+      for (auto i = 0; i < argc; i += 2)
+      {
+         const auto x = static_cast<float>(lua_tonumber(state, i));
+         const auto y = static_cast<float>(lua_tonumber(state, i + 1));
+         poly[poly_index].Set(x, y);
+         poly_index++;
+      }
+
+      node->addShapePoly(poly, size);
+   }
+
+   return 0;
+}
+
+/**
+ * @brief addWeapon add a weapon instance to the player
+ * @param state lua state
+ *    param 1: weapon type (enum)
+ *    param 2: fire interval in ms
+ *    param 3: damage for single hit (0..100)
+ *    param 4: bullet radius
+ *    param 4..n: polygon x and y parameters if not a radial bullet
+ * @return error code
+ */
+int32_t addWeapon(lua_State* state)
+{
+   const auto argc = static_cast<size_t>(lua_gettop(state));
+   if (argc < 4)
+   {
+      Log::Error() << "bad parameters for addWeapon";
+      exit(1);
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   std::unique_ptr<b2Shape> shape;
+
+   const auto weapon_type = static_cast<WeaponType>(lua_tointeger(state, 1));
+   const auto fire_interval = static_cast<int>(lua_tointeger(state, 2));
+   const auto damage_value = static_cast<int>(lua_tointeger(state, 3));
+   const auto gravity_scale = static_cast<float>(lua_tonumber(state, 4));
+
+   // add weapon with projectile radius only
+   if (argc == 5)
+   {
+      shape = std::make_unique<b2CircleShape>();
+
+      const auto radius = static_cast<float>(lua_tonumber(state, 5));
+      dynamic_cast<b2CircleShape*>(shape.get())->m_radius = radius;
+   }
+
+   // add weapon with polygon projectile shape
+   if (argc >= 6 && ((argc - 6) % 2 == 0))
+   {
+      shape = std::make_unique<b2PolygonShape>();
+
+      constexpr auto parameter_count = 2u;
+      auto poly = new b2Vec2[(argc - parameter_count) / 2];
+      auto poly_index = 0;
+
+      for (auto i = parameter_count + 1; i < argc - parameter_count; i += 2u)
+      {
+         const auto x = static_cast<float>(lua_tonumber(state, i));
+         const auto y = static_cast<float>(lua_tonumber(state, i + 1));
+         poly[poly_index].Set(x, y);
+         poly_index++;
+      }
+
+      dynamic_cast<b2PolygonShape*>(shape.get())->Set(poly, poly_index);
+   }
+
+   WeaponProperties properties;
+   properties._parent_body = node->_body;
+   properties._shape = std::move(shape);
+
+   properties._properties["damage"] = damage_value;
+   properties._properties["use_interval_ms"] = fire_interval;
+   properties._properties["gravity_scale"] = gravity_scale;
+
+   auto weapon = WeaponFactory::create(weapon_type, properties);
+   node->addWeapon(std::move(weapon));
+
+   return 0;
+}
+
+/**
+ * @brief useGun fire a weapon
+ * @param state lua state
+ *    param 1: index of the weapon
+ *    param 2: x position where the shot comes from
+ *    param 3: y position where the shot comes from
+ *    param 4: x direction
+ *    param 5: y direction
+ * @return error code
+ */
+int32_t useGun(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 5)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto index = static_cast<size_t>(lua_tointeger(state, 1));
+   const auto pos_x = static_cast<float>(lua_tonumber(state, 2)) * MPP;
+   const auto pos_y = static_cast<float>(lua_tonumber(state, 3)) * MPP;
+   const auto dir_x = static_cast<float>(lua_tonumber(state, 4));
+   const auto dir_y = static_cast<float>(lua_tonumber(state, 5));
+   node->useGun(index, {pos_x, pos_y}, {dir_x, dir_y});
+
+   return 0;
+}
+
+/**
+ * @brief updateProjectileTexture change the texture of a projectile
+ * @param state lua state
+ *    param 1: index of the weapon
+ *    param 2: path of the texture
+ *    param 3: x position of the texture rect
+ *    param 4: y position of the texture rect
+ *    param 5: width of the texture rect
+ *    param 6: height of the texture rect
+ * @return error code
+ */
+int32_t updateProjectileTexture(lua_State* state)
+{
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto argc = lua_gettop(state);
+   const auto valid = (argc >= 2);
+
+   auto index = 0u;
+   std::string path;
+
+   if (valid)
+   {
+      index = static_cast<uint32_t>(lua_tointeger(state, 1));
+      path = lua_tostring(state, 2);
+   }
+
+   sf::Rect<int32_t> rect;
+   if (argc == 6)
+   {
+      const auto x1 = static_cast<int32_t>(lua_tointeger(state, 3));
+      const auto y1 = static_cast<int32_t>(lua_tointeger(state, 4));
+      const auto width = static_cast<int32_t>(lua_tointeger(state, 5));
+      const auto height = static_cast<int32_t>(lua_tointeger(state, 6));
+
+      rect.position.x = x1;
+      rect.position.y = y1;
+      rect.size.x = width;
+      rect.size.y = height;
+   }
+
+   if (valid)
+   {
+      const auto& texture = TexturePool::getInstance().get(path);
+      dynamic_cast<Gun&>(*node->_weapons[index]).setProjectileAnimation(texture, rect);
+   }
+
+   return 0;
+}
+
+/**
+ * @brief updateProjectileAnimation set projectile animation for a given weapon
+ * @param state lua state
+ *    param 1: weapon index
+ *    param 2: texture path
+ *    param 3: width of one frame
+ *    param 4: height of one frame
+ *    param 5: x origin of the frame
+ *    param 6: y origin of the frame
+ *    param 7: time for each frame in seconds
+ *    param 8: frame count
+ *    param 9: frames per row
+ *    param 10: start frame
+ * @return error code
+ */
+int32_t updateProjectileAnimation(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 10)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto weapon_index = static_cast<uint32_t>(lua_tointeger(state, 1));
+   const std::filesystem::path path = lua_tostring(state, 2);
+   const auto frame_width = static_cast<uint32_t>(lua_tointeger(state, 3));
+   const auto frame_height = static_cast<uint32_t>(lua_tointeger(state, 4));
+   const auto frame_origin_x = static_cast<float>(lua_tointeger(state, 5));
+   const auto frame_origin_y = static_cast<float>(lua_tointeger(state, 6));
+   const auto time_per_frame_s = static_cast<float>(lua_tonumber(state, 7));
+   const auto frame_count = static_cast<uint32_t>(lua_tointeger(state, 8));
+   const auto frames_per_row = static_cast<uint32_t>(lua_tointeger(state, 9));
+   const auto start_frame = static_cast<uint32_t>(lua_tointeger(state, 10));
+   const auto texture = TexturePool::getInstance().get(path);
+   const sf::Vector2f frame_origin{frame_origin_x, frame_origin_y};
+
+   // assume identical frame times for now
+   std::vector<sf::Time> frame_times_s;
+   for (auto i = 0u; i < frame_count; i++)
+   {
+      frame_times_s.push_back(sf::seconds(time_per_frame_s));
+   }
+
+   AnimationFrameData frame_data(texture, frame_origin, frame_width, frame_height, frame_count, frames_per_row, frame_times_s, start_frame);
+
+   dynamic_cast<Gun&>(*node->_weapons[weapon_index]).setProjectileAnimation(frame_data);
+
+   return 0;
+}
+
+/**
+ * @brief timer start a timer
+ * @param state lua state
+ *    param 1: delay of the timer
+ *    param 2: id of the timer in milliseconds
+ * @return error code
+ */
+int32_t timer(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 2)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto delay = static_cast<int32_t>(lua_tointeger(state, 1));
+   const auto timer_id = static_cast<int32_t>(lua_tointeger(state, 2));
+
+   Timer::add(
+      std::chrono::milliseconds(delay),
+      [node, timer_id]() { node->luaTimeout(timer_id); },
+      Timer::Type::Singleshot,
+      Timer::Scope::UpdateIngame,
+      nullptr,
+      node
+   );
+
+   return 0;
+}
+
+/**
+ * @brief addSample add a sample to be played later
+ * @param state lua state
+ *    param 1: name of the sample
+ * @return error code
+ */
+int32_t addSample(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 1)
+   {
+      return 0;
+   }
+
+   const auto sample = lua_tostring(state, 1);
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   node->addSample(sample);
+   return 0;
+}
+
+/**
+ * @brief playSample play a sample
+ * @param state lua state
+ *    param 1: name of the sample to play
+ *    param 2: volume (0..1)
+ * @return
+ */
+int32_t playSample(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 2)
+   {
+      return 0;
+   }
+
+   const auto sample = lua_tostring(state, 1);
+   const auto volume = static_cast<float>(lua_tonumber(state, 2));
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   node->playSample(sample, volume);
+
+   return 0;
+}
+
+/**
+ * @brief debug output a debug message to stdout
+ * @param state lua state
+ *    param 1: debug message
+ * @return error code
+ */
+int32_t debug(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 1)
+   {
+      return 0;
+   }
+
+   const auto message = lua_tostring(state, 1);
+   Log::Info() << message;
+
+   return 0;
+}
+
+/**
+ * @brief registerHitAnimation register a hit animation for a given weapon
+ * @param state lua state
+ *    param 1: weapon index
+ *    param 2: texture path
+ *    param 3: width of one frame
+ *    param 4: height of one frame
+ *    param 5: frame count
+ *    param 6: frames per row
+ *    param 7: start frame
+ * @return error code
+ */
+int32_t registerHitAnimation(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 8)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto weapon_index = static_cast<uint32_t>(lua_tointeger(state, 1));
+   const std::filesystem::path path = lua_tostring(state, 2);
+   const auto frame_width = static_cast<uint32_t>(lua_tointeger(state, 3));
+   const auto frame_height = static_cast<uint32_t>(lua_tointeger(state, 4));
+   const auto time_per_frame_s = static_cast<float>(lua_tonumber(state, 5));
+   const auto frame_count = static_cast<uint32_t>(lua_tointeger(state, 6));
+   const auto frames_per_row = static_cast<uint32_t>(lua_tointeger(state, 7));
+   const auto start_frame = static_cast<uint32_t>(lua_tointeger(state, 8));
+
+   ProjectileHitAnimation::addReferenceAnimation(
+      path,
+      frame_width,
+      frame_height,
+      std::chrono::duration<float, std::chrono::seconds::period>{time_per_frame_s},
+      frame_count,
+      frames_per_row,
+      start_frame
+   );
+
+   dynamic_cast<Gun&>(*node->_weapons[weapon_index]).setProjectileIdentifier(path.string());
+
+   return 0;
+}
+
+/**
+ * @brief registerHitSamples register a hit animation for a given weapon
+ * @param state lua state
+ *    param 1: animation path / identifier
+ *    param 2: sample 1
+ *    param n: sample n
+ * @return error code
+ */
+int32_t registerHitSamples(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc < 3)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto path = lua_tostring(state, 1);
+
+   std::vector<ProjectileHitAudio::ProjectileHitSample> samples;
+   for (auto index = 2; index <= argc; index++)
+   {
+      const auto sample_path = lua_tostring(state, index);
+
+      auto volume = 1.0f;
+      if (index + 1 <= argc)
+      {
+         if (lua_isnumber(state, index + 1))
+         {
+            volume = static_cast<float>(lua_tonumber(state, index + 1));
+            index++;
+         }
+      }
+
+      samples.push_back({sample_path, volume});
+   }
+
+   ProjectileHitAudio::addReferenceSamples(path, samples);
+   return 0;
+}
+
+/**
+ * @brief updateKeysPressed fire keypressed events to the node instance
+ * @param state lua state
+ *    param 1: keypressed bitmask
+ * @return error code
+ */
+int32_t updateKeysPressed(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 1)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto keys_pressed = static_cast<int32_t>(lua_tointeger(state, 1));
+   node->_keys_pressed = keys_pressed;
+
+   return 0;
+}
+
+/**
+ * @brief die let the node die
+ * @param state lua state
+ * @return error code
+ */
+int32_t die(lua_State* state)
+{
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   node->die();
+   return 0;
+}
+
+/**
+ * @brief addPlayerSkill add a skill to the player
+ * @param state lua state
+ *    param 1: skill to add
+ * @return error code
+ */
+int32_t addPlayerSkill(lua_State* state)
+{
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto argc = lua_gettop(state);
+   if (argc != 1)
+   {
+      return 0;
+   }
+
+   const auto skill = static_cast<int32_t>(lua_tointeger(state, 1));
+
+   node->addPlayerSkill(skill);
+   return 0;
+}
+
+/**
+ * @brief removePlayerSkill add a skill to the player
+ * @param state lua state
+ *    param 1: skill to add
+ * @return error code
+ */
+int32_t removePlayerSkill(lua_State* state)
+{
+   const auto argc = lua_gettop(state);
+   if (argc != 1)
+   {
+      return 0;
+   }
+
+   auto node = OBJINSTANCE;
+   if (!node)
+   {
+      return 0;
+   }
+
+   const auto skill = static_cast<int32_t>(lua_tointeger(state, 1));
+
+   node->removePlayerSkill(skill);
+   return 0;
+}
+
+[[noreturn]] void error(lua_State* state, const char* /*scope*/ = nullptr)
+{
+   // the error message is on top of the stack.
+   // fetch it, print32_t it and then pop it off the stack.
+   std::stringstream os;
+   os << lua_tostring(state, -1);
+
+   Log::Error() << os.str();
+
+   lua_pop(state, 1);
+
+   exit(1);
+}
+
+}  // namespace
+
+void LuaNode::setupTexture()
+{
+   // assume the texture is only configured once
+   if (_texture)
+   {
+      return;
+   }
+
+   const auto sprite_name = std::get<std::string>(_properties["sprite"]);
+   _texture = TexturePool::getInstance().get(sprite_name);
+   addSprite();
+}
+
+LuaNode::LuaNode(GameNode* parent, const std::string& filename) : GameNode(parent), _script_name(filename)
+{
+   _z_index = static_cast<int32_t>(ZDepth::Player);
+
+   setClassName(typeid(LuaNode).name());
+
+   // create instances
+   _body_def = new b2BodyDef();
+   _body = Level::getCurrentLevel()->getWorld()->CreateBody(_body_def);
+}
+
+LuaNode::~LuaNode()
+{
+   // Log::Info() << "stopping script: " << _script_name << " address: " << this;
+   stopScript();
+}
+
+void LuaNode::deserializeEnemyDescription()
+{
+   _object_id = _enemy_description._id;
+   _name = _enemy_description._name;
+
+   // set up patrol path
+   if (!_enemy_description._path.empty())
+   {
+      std::vector<sf::Vector2f> patrol_path;
+
+      for (auto i = 0u; i < _enemy_description._path.size(); i += 2)
+      {
+         auto pos =
+            sf::Vector2f(static_cast<float_t>(_enemy_description._path.at(i)), static_cast<float_t>(_enemy_description._path.at(i + 1)));
+
+         // by default the path is given is tiles.
+         // if we override it, we're setting pixel positions which are already transformed
+         if (_enemy_description._position_in_tiles)
+         {
+            pos.x *= PIXELS_PER_TILE;
+            pos.y *= PIXELS_PER_TILE;
+            pos.x += PIXELS_PER_TILE / 2;
+            pos.y += PIXELS_PER_TILE / 2;
+         }
+
+         patrol_path.push_back(pos);
+      }
+
+      _movement_path_px = patrol_path;
+   }
+
+   // set up start position
+   if (!_enemy_description._start_position.empty())
+   {
+      _start_position_px = sf::Vector2f(
+         static_cast<float_t>(_enemy_description._start_position.at(0)), static_cast<float_t>(_enemy_description._start_position.at(1))
+      );
+
+      if (_enemy_description._position_in_tiles)
+      {
+         _start_position_px.x *= PIXELS_PER_TILE;
+         _start_position_px.y *= PIXELS_PER_TILE;
+         _start_position_px.x += PIXELS_PER_TILE / 2;
+         _start_position_px.y += PIXELS_PER_TILE / 2;
+      }
+
+      _position_px = _start_position_px;
+   }
+}
+
+void LuaNode::initialize()
+{
+   deserializeEnemyDescription();
+   setupLua();
+   setupBody();
+
+   if (!_flash_shader.loadFromFile("./shaders/flash.frag", sf::Shader::Type::Fragment))
+   {
+      Log::Error() << "error loading flash shader";
+   }
+
+   _flash_shader.setUniform("texture", sf::Shader::CurrentTexture);
+   _flash_shader.setUniform("flash", _hit_flash);
+}
+
+void LuaNode::setupLua()
+{
+   _lua_state = luaL_newstate();
+
+   // register callbacks
+   lua_register(_lua_state, "addAudioRange", ::addAudioRange);
+   lua_register(_lua_state, "addDebugRect", ::addDebugRect);
+   lua_register(_lua_state, "addHitbox", ::addHitbox);
+   lua_register(_lua_state, "addPlayerSkill", ::addPlayerSkill);
+   lua_register(_lua_state, "addSample", ::addSample);
+   lua_register(_lua_state, "addShapeCircle", ::addShapeCircle);
+   lua_register(_lua_state, "addShapeRect", ::addShapeRect);
+   lua_register(_lua_state, "addShapeRectBevel", ::addShapeRectBevel);
+   lua_register(_lua_state, "addShapePoly", ::addShapePoly);
+   lua_register(_lua_state, "addSprite", ::addSprite);
+   lua_register(_lua_state, "addWeapon", ::addWeapon);
+   lua_register(_lua_state, "applyForce", ::applyForce);
+   lua_register(_lua_state, "applyLinearImpulse", ::applyLinearImpulse);
+   lua_register(_lua_state, "boom", ::boom);
+   lua_register(_lua_state, "damage", ::damage);
+   lua_register(_lua_state, "damageRadius", ::damageRadius);
+   lua_register(_lua_state, "die", ::die);
+   lua_register(_lua_state, "getLinearVelocity", ::getLinearVelocity);
+   lua_register(_lua_state, "getGravity", ::getGravity);
+   lua_register(_lua_state, "intersectsWithPlayer", ::intersectsWithPlayer);
+   lua_register(_lua_state, "isPhsyicsPathClear", ::isPhsyicsPathClear);
+   lua_register(_lua_state, "log", ::debug);
+   lua_register(_lua_state, "makeDynamic", ::makeDynamic);
+   lua_register(_lua_state, "makeStatic", ::makeStatic);
+   lua_register(_lua_state, "playDetonationAnimation", ::playDetonationAnimation);
+   lua_register(_lua_state, "playSample", ::playSample);
+   lua_register(_lua_state, "queryAABB", ::queryAABB);
+   lua_register(_lua_state, "queryRayCast", ::queryRayCast);
+   lua_register(_lua_state, "registerHitAnimation", ::registerHitAnimation);
+   lua_register(_lua_state, "registerHitSamples", ::registerHitSamples);
+   lua_register(_lua_state, "removePlayerSkill", ::removePlayerSkill);
+   lua_register(_lua_state, "setActive", ::setActive);
+   lua_register(_lua_state, "setAudioUpdateBehavior", ::setAudioUpdateBehavior);
+   lua_register(_lua_state, "setDamage", ::setDamageToPlayer);
+   lua_register(_lua_state, "setGravityScale", ::setGravityScale);
+   lua_register(_lua_state, "setLinearVelocity", ::setLinearVelocity);
+   lua_register(_lua_state, "setReferenceVolume", ::setReferenceVolume);
+   lua_register(_lua_state, "setSpriteColor", ::setSpriteColor);
+   lua_register(_lua_state, "setSpriteOffset", ::setSpriteOffset);
+   lua_register(_lua_state, "setSpriteOrigin", ::setSpriteOrigin);
+   lua_register(_lua_state, "setTransform", ::setTransform);
+   lua_register(_lua_state, "setVisible", ::setVisible);
+   lua_register(_lua_state, "setZ", ::setZIndex);
+   lua_register(_lua_state, "timer", ::timer);
+   lua_register(_lua_state, "updateDebugRect", ::updateDebugRect);
+   lua_register(_lua_state, "updateKeysPressed", ::updateKeysPressed);
+   lua_register(_lua_state, "updateProjectileAnimation", ::updateProjectileAnimation);
+   lua_register(_lua_state, "updateProjectileTexture", ::updateProjectileTexture);
+   lua_register(_lua_state, "updateProperties", ::updateProperties);
+   lua_register(_lua_state, "updateSpriteRect", ::updateSpriteRect);
+   lua_register(_lua_state, "useGun", ::useGun);
+
+   // make standard libraries available in the Lua object
+   luaL_openlibs(_lua_state);
+
+   // load program
+   auto result = luaL_loadfile(_lua_state, _script_name.c_str());
+   if (result == LUA_OK)
+   {
+      // execute program
+      result = lua_pcall(_lua_state, 0, LUA_MULTRET, 0);
+
+      if (result != LUA_OK)
+      {
+         error(_lua_state);
+      }
+      else
+      {
+         luaSetStartPosition();
+         luaMovedTo();
+         luaRetrieveProperties();
+         luaInitialize();
+         luaSendPatrolPath();
+      }
+   }
+   else
+   {
+      error(_lua_state);
+   }
+
+   // register properties
+   for (const auto& prop : _enemy_description._properties)
+   {
+      luaWriteProperty(prop._name, prop._value);
+   }
+}
+
+void LuaNode::synchronizeProperties()
+{
+   // evaluate property map
+   //
+   //   int32_t i = std::get<int>(variant);
+   //   w = std::get<int>(variant);
+   //   w = std::get<0>(variant);
+
+   // as soon as the texture is known, it can be set up
+   setupTexture();
+}
+
+/**
+ * @brief LuaNode::luaInitialize called to call the initialize function inside the lua script
+ * callback name: initialize
+ */
+void LuaNode::luaInitialize()
+{
+   lua_getglobal(_lua_state, FUNCTION_INITIALIZE);
+   const auto result = lua_pcall(_lua_state, 0, 0, 0);
+
+   if (result != LUA_OK)
+   {
+      error(_lua_state, FUNCTION_INITIALIZE);
+   }
+}
+
+/**
+ * @brief LuaNode::luaUpdate update the lua node
+ * @param dt delta time, passed to luanode in seconds
+ * callback name: update
+ */
+void LuaNode::luaUpdate(const sf::Time& dt)
+{
+   lua_getglobal(_lua_state, FUNCTION_UPDATE);
+   lua_pushnumber(_lua_state, dt.asSeconds());
+
+   const auto result = lua_pcall(_lua_state, 1, 0, 0);
+
+   if (result != LUA_OK)
+   {
+      error(_lua_state, FUNCTION_UPDATE);
+   }
+}
+
+/**
+ * @brief LuaNode::luaWriteProperty write a property of the luanode
+ * @param key property key
+ * @param value property value
+ * callback name: writeProperty
+ */
+void LuaNode::luaWriteProperty(const std::string& key, const std::string& value)
+{
+   lua_getglobal(_lua_state, FUNCTION_WRITE_PROPERTY);
+   if (lua_isfunction(_lua_state, -1))
+   {
+      lua_pushstring(_lua_state, key.c_str());
+      lua_pushstring(_lua_state, value.c_str());
+
+      const auto result = lua_pcall(_lua_state, 2, 0, 0);
+
+      if (result != LUA_OK)
+      {
+         error(_lua_state, FUNCTION_WRITE_PROPERTY);
+      }
+   }
+}
+
+/**
+ * @brief LuaNode::luaHit luanode got hit by something
+ * @param damage amount of damage from 0..100 while 100 is fatal
+ * callback name: hit
+ */
+void LuaNode::luaHit(int32_t damage)
+{
+   // Log::Info() << "thing was hit: " << damage;
+   _hit_time = std::chrono::high_resolution_clock::now();
+   _damage_from_player = damage;
+
+   lua_getglobal(_lua_state, FUNCTION_HIT);
+   if (lua_isfunction(_lua_state, -1))
+   {
+      lua_pushinteger(_lua_state, damage);
+
+      const auto result = lua_pcall(_lua_state, 1, 0, 0);
+      if (result != LUA_OK)
+      {
+         error(_lua_state, FUNCTION_HIT);
+      }
+   }
+}
+
+/**
+ * @brief LuaNode::luaCollisionWithPlayer indicate collision with player
+ * callback name: collisionWithPlayer
+ */
+void LuaNode::luaCollisionWithPlayer()
+{
+   lua_getglobal(_lua_state, FUNCTION_COLLISION_WITH_PLAYER);
+   if (lua_isfunction(_lua_state, -1))
+   {
+      const auto result = lua_pcall(_lua_state, 0, 0, 0);
+      if (result != LUA_OK)
+      {
+         error(_lua_state, FUNCTION_COLLISION_WITH_PLAYER);
+      }
+   }
+}
+
+/**
+ * @brief LuaNode::luaSendPatrolPath sends the patrol path coordinates to the lua script
+ * callback name: setPath
+ */
+void LuaNode::luaSendPatrolPath()
+{
+   if (_movement_path_px.empty())
+   {
+      return;
+   }
+
+   lua_getglobal(_lua_state, FUNCTION_SET_PATH);
+
+   lua_pushstring(_lua_state, "path");
+   luaSendPath(_movement_path_px);
+
+   // vec.size + 1 args, 0 result
+   const auto result = lua_pcall(_lua_state, 2, 0, 0);
+
+   if (result != LUA_OK)
+   {
+      error(_lua_state, FUNCTION_SET_PATH);
+   }
+}
+
+/**
+ * @brief LuaNode::luaDie lua script is told to die
+ */
+void LuaNode::die()
+{
+   _dead = true;
+
+   // resetting the body will get it removed from the luainterface class
+   Level::getCurrentLevel()->getWorld()->DestroyBody(_body);
+   _body = nullptr;
+}
+
+#include "deceptus_tmxobject.h"
+#include "deceptus_tmxparser.h"
+
+/*
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="2" height="2" tilewidth="24"
+tileheight="24" infinite="0" nextlayerid="4" nextobjectid="11"> <tileset firstgid="1" source="enemy_spiky.tsx"/> <layer id="1" name="Tile
+Layer 1" width="2" height="2"> <data encoding="csv"> 1,2, 25,26
+</data>
+ </layer>
+ <objectgroup id="2" name="shapes">
+  <object id="1" name="spikes" x="12" y="35.7205">
+   <polygon points="0,0 1.11372,-5.05742
+-1.91447,-12.4563 8.22697,-14.7191 12.5569,-19.9376 16.4601,-15.1081 25.9507,-13.4288 22.7777,-6.19701 24.1353,0.166728"/>
+  </object>
+  <object id="9" name="bottom_2" x="6" y="36" width="12" height="12">
+   <ellipse/>
+  </object>
+  <object id="10" name="bottom_1" x="28" y="36" width="12" height="12">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="hitboxes">
+  <object id="6" name="hitbox_3" x="10.1504" y="16.4098" width="28.2556" height="21.6053"/>
+  <object id="7" name="hitbox_2" x="4.87596" y="35.2406" width="16.1879" height="12.5827"/>
+  <object id="8" name="hitbox_1" x="26.079" y="35.3816" width="16.1879" height="12.5827"/>
+ </objectgroup>
+</map>
+
+ */
+
+#include "deceptus_tmxpolygon.h"
+#include "deceptus_tmxpolyline.h"
+
+void LuaNode::loadShapesFromTmx(const std::string& tmxFile)
+{
+   TmxParser tmx_parser;
+   tmx_parser.parse(tmxFile);
+
+   const auto& elements = tmx_parser.getElements();
+   for (const auto& element : elements)
+   {
+      if (element->_type == TmxElement::Type::TypeObjectGroup)
+      {
+         auto objectGroup = std::dynamic_pointer_cast<TmxObjectGroup>(element);
+         for (const auto& object_pair : objectGroup->_objects)
+         {
+            const auto& object = object_pair.second;
+
+            // if (object->getShape() == TmxObject::Shape::Rectangle)
+            // {
+            //    // Convert rectangle to Box2D rectangle
+            //    addShapeRect(
+            //       object->getAABB().size.x * MPP, object->getAABB().size.y * MPP, object->getAABB().position.x * MPP, object->getAABB().position.y *
+            //       MPP
+            //    );
+            // }
+            // else if (object->getShape() == TmxObject::Shape::Ellipse)
+            // {
+            //    // Convert ellipse to Box2D circle
+            //    addShapeCircle(
+            //       object->getAABB().size.x / 2 * MPP,
+            //       (object->getAABB().position.x + object->getAABB().size.x / 2) * MPP,
+            //       (object->getAABB().position.y + object->getAABB().size.y / 2) * MPP
+            //    );
+            // }
+            /*else*/ if (object->_polygon != nullptr)
+            {
+               const auto& points = object->_polygon->_polyline;
+               std::vector<b2Vec2> b2Points;
+               for (const auto& point : points)
+               {
+                  b2Points.emplace_back(point.x * MPP, point.y * MPP);
+               }
+               addShapePoly(b2Points.data(), static_cast<int32_t>(b2Points.size()));
+            }
+            else if (object->_polyline != nullptr)
+            {
+               const auto& points = object->_polyline->_polyline;
+               std::vector<b2Vec2> b2Points;
+               for (const auto& point : points)
+               {
+                  b2Points.emplace_back(point.x * MPP, point.y * MPP);
+               }
+               addShapePoly(b2Points.data(), static_cast<int32_t>(b2Points.size()));
+            }
+         }
+      }
+   }
+}
+
+void LuaNode::loadHitboxesFromTmx(const std::string& tmxFile)
+{
+   TmxParser tmx_parser;
+   tmx_parser.parse(tmxFile);
+
+   const auto& elements = tmx_parser.getElements();
+   for (const auto& element : elements)
+   {
+      if (element->_type == TmxElement::Type::TypeObjectGroup)
+      {
+         auto objectGroup = std::dynamic_pointer_cast<TmxObjectGroup>(element);
+         if (objectGroup->_name == "Hitboxes")
+         {
+            for (const auto& object_pair : objectGroup->_objects)
+            {
+               const auto& object = object_pair.second;
+               // if (object->getShape() == TmxObject::Shape::Rectangle)
+               // {
+               //    addHitbox(
+               //       static_cast<int32_t>(object->getAABB().position.x),
+               //       static_cast<int32_t>(object->getAABB().position.y),
+               //       static_cast<int32_t>(object->getAABB().size.x),
+               //       static_cast<int32_t>(object->getAABB().size.y)
+               //    );
+               // }
+            }
+         }
+      }
+   }
+}
+
+/**
+ * @brief LuaNode::luaMovedTo tell lua script where the engine moved it to
+ * callback name: movedTo
+ * lua param x: x position (double)
+ * lua param y: y position (double)
+ */
+void LuaNode::luaMovedTo()
+{
+   const auto x = _position_px.x;
+   const auto y = _position_px.y;
+
+   lua_getglobal(_lua_state, FUNCTION_MOVED_TO);
+
+   if (lua_isfunction(_lua_state, -1))
+   {
+      lua_pushnumber(_lua_state, static_cast<double>(x));
+      lua_pushnumber(_lua_state, static_cast<double>(y));
+
+      const auto result = lua_pcall(_lua_state, 2, 0, 0);
+
+      if (result != LUA_OK)
+      {
+         error(_lua_state, FUNCTION_MOVED_TO);
+      }
+   }
+}
+
+/**
+ * @brief LuaNode::luaSetStartPosition
+ * callback name: setStartPosition
+ * lua param x: x position of start position (double)
+ * lua param y: y position of start position (double)
+ */
+void LuaNode::luaSetStartPosition()
+{
+   const auto x = _start_position_px.x;
+   const auto y = _start_position_px.y;
+
+   lua_getglobal(_lua_state, FUNCTION_SET_START_POSITION);
+
+   if (lua_isfunction(_lua_state, -1))
+   {
+      lua_pushnumber(_lua_state, static_cast<double>(x));
+      lua_pushnumber(_lua_state, static_cast<double>(y));
+
+      const auto result = lua_pcall(_lua_state, 2, 0, 0);
+
+      if (result != LUA_OK)
+      {
+         error(_lua_state, FUNCTION_SET_START_POSITION);
+      }
+   }
+}
+
+/**
+ * @brief LuaNode::luaPlayerMovedTo engine moved player to a certain position
+ * callback name: playerMovedTo
+ * lua param x: x position of player position (double)
+ * lua param y: y position of player position (double)
+ */
+void LuaNode::luaPlayerMovedTo()
+{
+   const auto& pos = Player::getCurrent()->getPixelPositionFloat();
+
+   lua_getglobal(_lua_state, FUNCTION_PLAYER_MOVED_TO);
+
+   if (lua_isfunction(_lua_state, -1))
+   {
+      lua_pushnumber(_lua_state, pos.x);
+      lua_pushnumber(_lua_state, pos.y);
+
+      const auto result = lua_pcall(_lua_state, 2, 0, 0);
+
+      if (result != LUA_OK)
+      {
+         error(_lua_state, FUNCTION_PLAYER_MOVED_TO);
+      }
+   }
+}
+
+/**
+ * @brief LuaNode::luaRetrieveProperties instruct lua node to retrieve properties now
+ * callback name: retrieveProperties
+ */
+void LuaNode::luaRetrieveProperties()
+{
+   lua_getglobal(_lua_state, FUNCTION_RETRIEVE_PROPERTIES);
+
+   // 0 args, 0 result
+   const auto result = lua_pcall(_lua_state, 0, 0, 0);
+
+   if (result != LUA_OK)
+   {
+      error(_lua_state, FUNCTION_RETRIEVE_PROPERTIES);
+   }
+}
+
+/**
+ * @brief LuaNode::luaTimeout timeout timer fired
+ * @param timerId timer id of timeout timer
+ * callback name: timeout
+ * lua param timerId: id of timeout timer
+ */
+void LuaNode::luaTimeout(int32_t timerId)
+{
+   lua_getglobal(_lua_state, FUNCTION_TIMEOUT);
+   lua_pushinteger(_lua_state, timerId);
+
+   const auto result = lua_pcall(_lua_state, 1, 0, 0);
+
+   if (result != LUA_OK)
+   {
+      error(_lua_state, FUNCTION_TIMEOUT);
+   }
+}
+
+/**
+ * @brief LuaNode::luaSendPath inject a path into the current lua state
+ * @param vec vector of 2d vectors
+ */
+void LuaNode::luaSendPath(const std::vector<sf::Vector2f>& vec)
+{
+   lua_newtable(_lua_state);
+
+   int32_t i = 0;
+   for (const auto& v : vec)
+   {
+      lua_pushnumber(_lua_state, v.x);  // push x
+      lua_rawseti(_lua_state, -2, ++i);
+      lua_pushnumber(_lua_state, v.y);  // push y
+      lua_rawseti(_lua_state, -2, ++i);
+   }
+}
+
+void LuaNode::damagePlayerInRadius(int32_t damage, float x, float y, float radius)
+{
+   sf::Vector2f node_position{x, y};
+   const auto player_position = Player::getCurrent()->getPixelPositionFloat();
+
+   auto dist = (player_position - node_position);
+   auto len = SfmlMath::length(dist);
+
+   if (len <= radius)
+   {
+      // does it really make sense to normalize this vector?
+      Player::getCurrent()->damage(damage, SfmlMath::normalize(-dist));
+   }
+}
+
+void LuaNode::damagePlayer(int32_t damage, float forceX, float forceY)
+{
+   Player::getCurrent()->damage(damage, sf::Vector2f(forceX, forceY));
+}
+
+b2Vec2 LuaNode::getLinearVelocity() const
+{
+   b2Vec2 velocity;
+   velocity.SetZero();
+
+   if (_body)
+   {
+      velocity = _body->GetLinearVelocity();
+   }
+
+   return velocity;
+}
+
+void LuaNode::setLinearVelocity(const b2Vec2& vel)
+{
+   if (!_body)
+   {
+      return;
+   }
+
+   _body->SetLinearVelocity(vel);
+}
+
+void LuaNode::applyLinearImpulse(const b2Vec2& vel)
+{
+   if (!_body)
+   {
+      return;
+   }
+
+   _body->ApplyLinearImpulse(vel, _body->GetWorldCenter(), true);
+}
+
+void LuaNode::applyForce(const b2Vec2& force)
+{
+   if (!_body)
+   {
+      return;
+   }
+
+   _body->ApplyForceToCenter(force, true);
+}
+
+void LuaNode::boom(float x, float y, float intensity)
+{
+   Level::getCurrentLevel()->getBoomEffect().boom(x, y, BoomSettings{intensity, 1.0f});
+}
+
+void LuaNode::playDetonationAnimationHuge(float x, float y)
+{
+   auto detonation = DetonationAnimation::makeHugeExplosion(sf::Vector2f{x, y});
+   AnimationPlayer::getInstance().add(detonation.getAnimations());
+}
+
+void LuaNode::playDetonationAnimation(const std::vector<DetonationAnimation::DetonationRing>& rings)
+{
+   DetonationAnimation detonation{rings};
+   AnimationPlayer::getInstance().add(detonation.getAnimations());
+}
+
+void LuaNode::setGravityScale(float scale)
+{
+   _body->SetGravityScale(scale);
+}
+
+void LuaNode::setTransform(const b2Vec2& position, float angle)
+{
+   _body->SetTransform(position, angle);
+}
+
+void LuaNode::addSprite()
+{
+   auto sprite = std::make_unique<sf::Sprite>(*_texture);
+   _sprites.emplace_back(std::move(sprite));
+   _sprite_offsets_px.emplace_back();
+}
+
+void LuaNode::setSpriteOrigin(int32_t id, float x, float y)
+{
+   _sprites[id]->setOrigin({x, y});
+}
+
+void LuaNode::setSpriteOffset(int32_t id, float x, float y)
+{
+   _sprite_offsets_px[id].x = x;
+   _sprite_offsets_px[id].y = y;
+}
+
+void LuaNode::setActive(bool active)
+{
+   _body->SetEnabled(active);
+}
+
+void LuaNode::setDamageToPlayer(int32_t damage)
+{
+   for (auto fixture = _body->GetFixtureList(); fixture; fixture = fixture->GetNext())
+   {
+      auto user_data = fixture->GetUserData().pointer;
+      if (!user_data)
+      {
+         continue;
+      }
+
+      auto fixture_node = static_cast<FixtureNode*>(user_data);
+      fixture_node->setProperty("damage", damage);
+   }
+}
+
+void LuaNode::makeDynamic()
+{
+   _body->SetType(b2_dynamicBody);
+}
+
+void LuaNode::makeStatic()
+{
+   _body->SetType(b2_staticBody);
+}
+
+class LuaQueryCallback : public b2QueryCallback
+{
+public:
+   std::vector<b2Body*> _bodies;
+
+   bool ReportFixture(b2Fixture* fixture) override
+   {
+      _bodies.push_back(fixture->GetBody());
+
+      // to keep going to find all fixtures in the query area
+      return true;
+   }
+};
+
+int32_t LuaNode::queryAABB(const b2AABB& aabb)
+{
+   LuaQueryCallback query_callback;
+   Level::getCurrentLevel()->getWorld()->QueryAABB(&query_callback, aabb);
+
+   // Log::Info() << queryCallback.mBodies.size();
+   return static_cast<int32_t>(query_callback._bodies.size());
+}
+
+class LuaRaycastCallback : public b2RayCastCallback
+{
+public:
+   std::vector<b2Body*> _bodies;
+
+   float ReportFixture(
+      b2Fixture* fixture,
+      const b2Vec2& /*point*/,
+      const b2Vec2& /*normal*/,
+      float /*fraction*/
+   ) override
+   {
+      _bodies.push_back(fixture->GetBody());
+      return 0.0f;
+   }
+};
+
+int32_t LuaNode::queryRaycast(const b2Vec2& point1, const b2Vec2& point2)
+{
+   LuaRaycastCallback query_callback;
+   Level::getCurrentLevel()->getWorld()->RayCast(&query_callback, point1, point2);
+
+   // Log::Info() << queryCallback.mBodies.size();
+   return static_cast<int32_t>(query_callback._bodies.size());
+}
+
+bool LuaNode::getPropertyBool(const std::string& key, bool default_value)
+{
+   auto value = default_value;
+   auto it = _properties.find(key);
+   if (it != _properties.end())
+   {
+      value = std::get<bool>(it->second);
+   }
+   return value;
+}
+
+double LuaNode::getPropertyDouble(const std::string& key, double default_value)
+{
+   auto value = default_value;
+   auto it = _properties.find(key);
+   if (it != _properties.end())
+   {
+      value = std::get<double>(it->second);
+   }
+   return value;
+}
+
+int64_t LuaNode::getPropertyInt64(const std::string& key, int64_t default_value)
+{
+   auto value = default_value;
+   auto it = _properties.find(key);
+   if (it != _properties.end())
+   {
+      value = std::get<int64_t>(it->second);
+   }
+   return value;
+}
+
+void LuaNode::setupBody()
+{
+   const auto static_body = getPropertyBool("static_body");
+   const auto restitution = static_cast<float>(getPropertyDouble("restitution", 0.0f));
+   const auto density = static_cast<float>(getPropertyDouble("density", 1.0f));
+   const auto friction = static_cast<float>(getPropertyDouble("friction", 0.0f));
+   const auto damage = static_cast<int32_t>(getPropertyInt64("damage"));
+   const auto sensor = static_cast<bool>(getPropertyBool("sensor"));
+   const auto collides_with_player = static_cast<bool>(getPropertyBool("collides_with_player", true));
+   const auto mask_bits = getPropertyBool("walk_through", true);
+   const auto restitution_threshold = static_cast<float>(getPropertyDouble("restitution_threshold", 1.0f * b2_lengthUnitsPerMeter));
+
+   _body->SetTransform(b2Vec2{_start_position_px.x * MPP, _start_position_px.y * MPP}, 0.0f);
+   _body->SetFixedRotation(true);
+   _body->SetType(static_body ? b2_staticBody : b2_dynamicBody);
+
+   for (auto shape : _shapes_m)
+   {
+      b2FixtureDef fd;
+      fd.density = density;
+      fd.friction = friction;
+      fd.restitution = restitution;
+      fd.restitutionThreshold = restitution_threshold;
+      fd.shape = shape;
+
+      // apply default filter
+      // http://www.iforce2d.net/b2dtut/collision-filtering
+      fd.filter.categoryBits = (mask_bits ? category_bits_default : CategoryEnemyCollideWith);
+      fd.filter.maskBits = (collides_with_player ? mask_bits_default : CategoryBoundary);
+      fd.filter.groupIndex = group_index_default;
+
+      auto fixture = _body->CreateFixture(&fd);
+      auto fixture_node = new FixtureNode(this);
+      fixture_node->setType(ObjectTypeEnemy);
+      fixture_node->setProperty("damage", damage);
+      fixture_node->setCollisionCallback([this]() { luaCollisionWithPlayer(); });
+      fixture->SetUserData(static_cast<void*>(fixture_node));
+
+      if (sensor)
+      {
+         fixture->SetSensor(true);
+      }
+   }
+
+   // mBody->Dump();
+}
+
+void LuaNode::addShapeCircle(float radius, float x, float y)
+{
+   auto shape = new b2CircleShape();
+   shape->m_p.Set(x, y);
+   shape->m_radius = radius;
+   _shapes_m.push_back(shape);
+}
+
+void LuaNode::addShapeRect(float width, float height, float x, float y)
+{
+   auto shape = new b2PolygonShape();
+   shape->SetAsBox(width, height, b2Vec2(x, y), 0.0f);
+   _shapes_m.push_back(shape);
+}
+
+void LuaNode::addShapeRectBevel(float width, float height, float bevel, float offset_x, float offset_y)
+{
+   auto shape = new b2PolygonShape();
+
+   std::array<b2Vec2, 8> vertices{
+      b2Vec2{bevel + offset_x, 0.0f + offset_y},
+      b2Vec2{0.0f + offset_x, bevel + offset_y},
+      b2Vec2{0.0f + offset_x, height - bevel + offset_y},
+      b2Vec2{bevel + offset_x, height + offset_y},
+      b2Vec2{width - bevel + offset_x, height + offset_y},
+      b2Vec2{width + offset_x, height - bevel + offset_y},
+      b2Vec2{width + offset_x, bevel + offset_y},
+      b2Vec2{width - bevel + offset_x, 0.0f + offset_y},
+   };
+
+   shape->Set(vertices.data(), static_cast<int32_t>(vertices.size()));
+   _shapes_m.push_back(shape);
+}
+
+void LuaNode::addShapePoly(const b2Vec2* points, int32_t size)
+{
+   auto shape = new b2PolygonShape();
+   shape->Set(points, size);
+   _shapes_m.push_back(shape);
+}
+
+void LuaNode::addWeapon(const std::shared_ptr<Weapon>& weapon)
+{
+   _weapons.push_back(weapon);
+}
+
+void LuaNode::useGun(size_t index, b2Vec2 from, b2Vec2 to)
+{
+   auto& gun = dynamic_cast<Gun&>(*_weapons[index]);
+   gun.setParentAudioUpdateData(_audio_update_data);
+   gun.useInIntervals(Level::getCurrentLevel()->getWorld(), from, to);
+}
+
+void LuaNode::addPlayerSkill(int32_t skill_type)
+{
+   SaveState::getPlayerInfo()._extra_table._skills._skills |= static_cast<int32_t>(skill_type);
+}
+
+void LuaNode::removePlayerSkill(int32_t skill_type)
+{
+   SaveState::getPlayerInfo()._extra_table._skills._skills &= ~static_cast<int32_t>(skill_type);
+}
+
+void LuaNode::stopScript()
+{
+   if (_lua_state)
+   {
+      lua_close(_lua_state);
+      _lua_state = nullptr;
+   }
+}
+
+int32_t LuaNode::getDamageFromPlayer() const
+{
+   return _damage_from_player;
+}
+
+const std::optional<LuaNode::HighResTimePoint> LuaNode::getHitTime() const
+{
+   return _hit_time;
+}
+
+void LuaNode::updateVelocity()
+{
+   if (!_body)
+   {
+      return;
+   }
+
+   std::optional<double> velocity_max;
+   std::optional<double> acceleration;
+
+   const auto velocity_it = _properties.find("velocity_walk_max");
+   if (velocity_it != _properties.end())
+   {
+      velocity_max = *std::get_if<double>(&(velocity_it->second));
+   }
+
+   const auto acceleration_it = _properties.find("acceleration_ground");
+   if (acceleration_it != _properties.end())
+   {
+      acceleration = *std::get_if<double>(&(acceleration_it->second));
+   }
+
+   if (!velocity_max.has_value())
+   {
+      return;
+   }
+
+   if (!acceleration.has_value())
+   {
+      return;
+   }
+
+   auto desired_velocity = 0.0f;
+   const auto velocity = _body->GetLinearVelocity();
+
+   if (_keys_pressed & KeyPressedLeft)
+   {
+      desired_velocity = static_cast<float>(b2Max(velocity.x - acceleration.value(), -velocity_max.value()));
+   }
+
+   if (_keys_pressed & KeyPressedRight)
+   {
+      desired_velocity = static_cast<float>(b2Min(velocity.x + acceleration.value(), velocity_max.value()));
+   }
+
+   // calc impulse, disregard time factor
+   const auto velocity_change = desired_velocity - velocity.x;
+   const auto impulse = _body->GetMass() * velocity_change;
+
+   _body->ApplyLinearImpulse(b2Vec2(impulse, 0.0f), _body->GetWorldCenter(), true);
+}
+
+void LuaNode::updateWeapons(const sf::Time& dt)
+{
+   for (auto& w : _weapons)
+   {
+      w->update({dt, Level::getCurrentLevel()->getWorld()});
+   }
+}
+
+void LuaNode::updateHitboxOffsets()
+{
+   for (auto& hitbox : _hitboxes)
+   {
+      hitbox._rect_px.position.x = _position_px.x;
+      hitbox._rect_px.position.y = _position_px.y;
+   }
+}
+
+void LuaNode::updatePosition()
+{
+   if (!_body)
+   {
+      return;
+   }
+
+   auto x_px = _body->GetPosition().x * PPM;
+   auto y_px = _body->GetPosition().y * PPM;
+
+   _position_px.x = x_px;
+   _position_px.y = y_px;
+
+   updateHitboxOffsets();
+}
+
+void LuaNode::updateSpriteRect(int32_t id, int32_t x_px, int32_t y_px, int32_t w_px, int32_t h_px)
+{
+   _sprites[id]->setTextureRect(sf::IntRect({x_px, y_px}, {w_px, h_px}));
+}
+
+void LuaNode::setSpriteColor(int32_t id, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+{
+   _sprites[id]->setColor({r, g, b, a});
+}
+
+void LuaNode::updateDebugRect(int32_t index, float left_px, float top_px, float width_px, float height_px)
+{
+   auto& rect = _debug_rects[index];
+   rect.position.x = left_px;
+   rect.position.y = top_px;
+   rect.size.x = width_px;
+   rect.size.y = height_px;
+}
+
+void LuaNode::addDebugRect()
+{
+   _debug_rects.emplace_back();
+}
+
+void LuaNode::addHitbox(int32_t left_px, int32_t top_px, int32_t width_px, int32_t height_px)
+{
+   sf::FloatRect rect{{_position_px.x, _position_px.y}, {static_cast<float>(width_px), static_cast<float>(height_px)}};
+   sf::Vector2f offset{static_cast<float>(left_px), static_cast<float>(top_px)};
+   Hitbox box{rect, offset};
+   _hitboxes.push_back(box);
+
+   // re-calculate bounding box
+   auto left = box.getRectTranslated().position.x;
+   auto right = box.getRectTranslated().position.x + box.getRectTranslated().size.x;
+   auto top = box.getRectTranslated().position.y;
+   auto bottom = box.getRectTranslated().position.y + box.getRectTranslated().size.y;
+   for (const auto& hitbox : _hitboxes)
+   {
+      const auto other = hitbox.getRectTranslated();
+      left = std::min(left, other.position.x);
+      top = std::min(top, other.position.y);
+      right = std::max(right, other.position.x + other.size.x);
+      bottom = std::max(bottom, other.position.y + other.size.y);
+   }
+
+   sf::FloatRect bounding_box;
+   bounding_box.position.x = left;
+   bounding_box.position.y = top;
+   bounding_box.size.x = right - left;
+   bounding_box.size.y = bottom - top;
+
+   _bounding_box = bounding_box;
+
+   // even though the node might probably be moving, it's safe to used a fixed chunk with the current bounding box
+   _chunks.clear();
+   addChunks(bounding_box);
+}
+
+void LuaNode::addAudioRange(float far_distance, float far_volume, float near_distance, float near_volume)
+{
+   AudioRange audio_range;
+   audio_range._radius_far_px = far_distance;
+   audio_range._volume_far = far_volume;
+   audio_range._radius_near_px = near_distance;
+   audio_range._volume_near = near_volume;
+   _audio_update_data._range = audio_range;
+
+   if (_hitboxes.empty())
+   {
+      Log::Warning() << "no hitboxes defined for " << _script_name;
+   }
+}
+
+void LuaNode::addSample(const std::string& sample)
+{
+   Audio::getInstance().addSample(sample);
+   _has_audio = true;
+}
+
+void LuaNode::playSample(const std::string& sample, float volume)
+{
+   if (!_audio_enabled)
+   {
+      return;
+   }
+
+   Audio::getInstance().playSample({sample, volume * _reference_volume});
+}
+
+void LuaNode::draw(sf::RenderTarget& target, sf::RenderTarget& /*normal*/)
+{
+   if (!_visible)
+   {
+      return;
+   }
+
+   if (_hit_time.has_value())
+   {
+      // using namespace std::chrono_literals;
+      std::chrono::duration<float> hit_duration_s = (std::chrono::high_resolution_clock::now() - _hit_time.value());
+      constexpr auto hit_duration_max_s = 0.3f;
+      if (hit_duration_s.count() > hit_duration_max_s)
+      {
+         _hit_time.reset();
+         _hit_flash = 0.0f;
+      }
+      else
+      {
+         _hit_flash = 1.0f - (hit_duration_s.count() / hit_duration_max_s);
+      }
+
+      _flash_shader.setUniform("flash", _hit_flash);
+   }
+
+   // draw sprite on top of projectiles
+   for (auto& weapon : _weapons)
+   {
+      weapon->draw(target);
+   }
+
+   for (auto i = 0u; i < _sprites.size(); i++)
+   {
+      auto& sprite = _sprites[i];
+      const auto& offset = _sprite_offsets_px[i];
+      const auto center = sf::Vector2f(sprite->getTextureRect().size.x / 2.0f, sprite->getTextureRect().size.y / 2.0f);
+      sprite->setPosition(_position_px - center + offset);
+      target.draw(*sprite, &_flash_shader);
+   }
+
+   // draw debug rectangles if they were added
+   for (const auto& debug_rect : _debug_rects)
+   {
+      DebugDraw::drawRect(target, debug_rect);
+   }
+}
+
+std::optional<sf::FloatRect> LuaNode::getBoundingBoxPx()
+{
+   return _bounding_box;
+}

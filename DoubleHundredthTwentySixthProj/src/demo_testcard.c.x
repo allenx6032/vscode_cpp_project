@@ -16,7 +16,7 @@ S2D_Text   *txt_b;
 S2D_Text   *fps;
 S2D_Text   *fps_val;
 
-const char *font = "media/bitstream_vera/vera.ttf";
+const char *font = "./media/bitstream_vera/vera.ttf";
 int font_size = 20;
 
 typedef struct {
@@ -365,7 +365,7 @@ int main() {
 
   window = S2D_CreateWindow("Simple 2D — Test Card", 600, 500, update, render, S2D_RESIZABLE);
 
-  window->icon          = "media/s2d_icon.png";
+  window->icon          = "./media/s2d_icon.png";
   window->on_key        = on_key;
   window->on_mouse      = on_mouse;
   window->on_controller = on_controller;
@@ -376,19 +376,19 @@ int main() {
   //   window->viewport.mode = S2D_SCALE;  // Default
   //   window->viewport.mode = S2D_STRETCH;
 
-  img_png = S2D_CreateImage("media/image.png");
+  img_png = S2D_CreateImage("./media/image.png");
   img_png->x = 300;
   img_png->y = 0;
 
-  img_jpg = S2D_CreateImage("media/image.jpg");
+  img_jpg = S2D_CreateImage("./media/image.jpg");
   img_jpg->x = 400;
   img_jpg->y = 0;
 
-  img_bmp = S2D_CreateImage("media/image.bmp");
+  img_bmp = S2D_CreateImage("./media/image.bmp");
   img_bmp->x = 500;
   img_bmp->y = 0;
 
-  img_r = S2D_CreateImage("media/colors.png");
+  img_r = S2D_CreateImage("./media/colors.png");
   img_r->x = 400;
   img_r->y = 200;
   img_r->width  = 50;
@@ -398,7 +398,7 @@ int main() {
   img_r->color.b = 0.3;
   img_r->color.a = 1.0;
 
-  img_g = S2D_CreateImage("media/colors.png");
+  img_g = S2D_CreateImage("./media/colors.png");
   img_g->x = 400;
   img_g->y = 225;
   img_g->width  = 25;
@@ -408,7 +408,7 @@ int main() {
   img_g->color.b = 0.3;
   img_g->color.a = 1.0;
 
-  img_b = S2D_CreateImage("media/colors.png");
+  img_b = S2D_CreateImage("./media/colors.png");
   img_b->x = 425;
   img_b->y = 225;
   img_b->width  = 25;
@@ -418,7 +418,7 @@ int main() {
   img_b->color.b = 1.0;
   img_b->color.a = 1.0;
 
-  spr = S2D_CreateSprite("media/sprite_sheet.png");
+  spr = S2D_CreateSprite("./media/sprite_sheet.png");
   spr->x = 450;
   spr->y = 200;
   // Change size of sprite:

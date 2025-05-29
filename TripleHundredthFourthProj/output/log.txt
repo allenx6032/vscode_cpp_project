@@ -1,0 +1,30 @@
+
+TIME : [0.179069]	TYPE : INIT_VSYNC : true	| FILE : GLGame_Game.cpp	LINE : [663]	
+
+TIME : [0.195081]	TYPE : VERTEX_SHADER_ERROR	
+	VERTEX_SHADER PTH : PASSED_VIA_DATA
+
+	---------------------------GL INFO LOG---------------------------
+	0(8) : error C7538: OpenGL does not allow 'flat' after 'inout'
+0(9) : error C7538: OpenGL does not allow 'flat' after 'inout'
+
+	| FILE : GLGame_Shader.cpp	LINE : [44]
+
+TIME : [0.196366]	TYPE : FRAGMENT_SHADER_ERROR	
+	FRAGMENT_SHADER PTH : PASSED_VIA_DATA
+
+	---------------------------GL INFO LOG---------------------------
+	0(7) : error C7538: OpenGL does not allow 'flat' after 'inout'
+0(10) : error C7538: OpenGL does not allow 'flat' after 'inout'
+
+	| FILE : GLGame_Shader.cpp	LINE : [55]
+
+TIME : [0.210726]	TYPE : CREATE_SHADER	ELAPSED TIME : 0.0308911
+	VERTEX PTH : PASSED_VIA_DATA
+	FRAGMENT PTH : PASSED_VIA_DATA
+	| FILE : GLGame_Shader.cpp	LINE : [77]
+
+TIME : [0.213354]	TYPE : CREATE_SHADER	ELAPSED TIME : 0.0010495
+	VERTEX PTH : 
+	FRAGMENT PTH : 
+	| FILE : GLGame_Shader.cpp	LINE : [77]

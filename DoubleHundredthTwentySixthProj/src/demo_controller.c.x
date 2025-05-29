@@ -325,7 +325,7 @@ int main() {
 
   S2D_Diagnostics(true);
 
-  S2D_AddControllerMappingsFromFile("media/controllerdb.txt");
+  S2D_AddControllerMappingsFromFile("./media/controllerdb.txt");
 
   window = S2D_CreateWindow(
     "Simple 2D — Controller", 600, 425, NULL, render, 0
@@ -334,7 +334,7 @@ int main() {
   window->on_key        = on_key;
   window->on_controller = on_controller;
 
-  controller = S2D_CreateImage("media/controller.png");
+  controller = S2D_CreateImage("./media/controller.png");
 
   S2D_Show(window);
   S2D_FreeWindow(window);

@@ -122,11 +122,11 @@ int main() {
 
   window->on_key = on_key;
 
-  snd1 = S2D_CreateSound("media/sound.wav");
-  snd2 = S2D_CreateSound("media/music.ogg");
+  snd1 = S2D_CreateSound("./media/sound.wav");
+  snd2 = S2D_CreateSound("./media/music.ogg");
 
-  mus1 = S2D_CreateMusic("media/sound.wav");
-  mus2 = S2D_CreateMusic("media/music.ogg");
+  mus1 = S2D_CreateMusic("./media/sound.wav");
+  mus2 = S2D_CreateMusic("./media/music.ogg");
 
   print_help();
 

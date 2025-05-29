@@ -53,9 +53,9 @@ int main() {
   // Images ////////////////////////////////////////////////////////////////////
 
   start_test("(S2D_CreateImage) create images with supported formats");
-  S2D_Image *img1 = S2D_CreateImage("media/image.bmp");
-  S2D_Image *img2 = S2D_CreateImage("media/image.jpg");
-  S2D_Image *img3 = S2D_CreateImage("media/image.png");
+  S2D_Image *img1 = S2D_CreateImage("./media/image.bmp");
+  S2D_Image *img2 = S2D_CreateImage("./media/image.jpg");
+  S2D_Image *img3 = S2D_CreateImage("./media/image.png");
   end_test(img1 != NULL && img2 != NULL && img3 != NULL);
 
   start_test("(S2D_CreateImage) bad image file path (expect errors)");
@@ -76,9 +76,9 @@ int main() {
   // Sprites ///////////////////////////////////////////////////////////////////
 
   start_test("(S2D_CreateSprite) create sprites with supported formats");
-  S2D_Sprite *spr1 = S2D_CreateSprite("media/image.bmp");
-  S2D_Sprite *spr2 = S2D_CreateSprite("media/image.jpg");
-  S2D_Sprite *spr3 = S2D_CreateSprite("media/image.png");
+  S2D_Sprite *spr1 = S2D_CreateSprite("./media/image.bmp");
+  S2D_Sprite *spr2 = S2D_CreateSprite("./media/image.jpg");
+  S2D_Sprite *spr3 = S2D_CreateSprite("./media/image.png");
   end_test(spr1 != NULL && spr2 != NULL && spr3 != NULL);
 
   start_test("(S2D_CreateSprite) bad sprite image file path (expect errors)");
@@ -106,7 +106,7 @@ int main() {
 
   start_test("(S2D_CreateText) good font file path");
   S2D_Text *txt1 = S2D_CreateText("./media/bitstream_vera/vera.ttf", "Hello World", 20);
-  S2D_Text *txt2 = S2D_CreateText("media/bitstream_vera/vera.ttf", "Hello World", 20);
+  S2D_Text *txt2 = S2D_CreateText("./media/bitstream_vera/vera.ttf", "Hello World", 20);
   end_test(txt1 != NULL && txt2 != NULL);
 
   start_test("(S2D_CreateText) bad font file path (expect errors)");
@@ -116,8 +116,8 @@ int main() {
   end_test(txt3 == NULL && txt4 == NULL && txt5 == NULL);
 
   start_test("(S2D_CreateText) empty text message");
-  S2D_Text *txt6 = S2D_CreateText("media/bitstream_vera/vera.ttf", "", 20);
-  S2D_Text *txt7 = S2D_CreateText("media/bitstream_vera/vera.ttf", NULL, 20);
+  S2D_Text *txt6 = S2D_CreateText("./media/bitstream_vera/vera.ttf", "", 20);
+  S2D_Text *txt7 = S2D_CreateText("./media/bitstream_vera/vera.ttf", NULL, 20);
   end_test(txt6 != NULL && txt7 != NULL);
 
   start_test("(S2D_SetText) empty text message");
@@ -139,10 +139,10 @@ int main() {
   // Sound /////////////////////////////////////////////////////////////////////
 
   start_test("(S2D_CreateSound) create sound with supported formats");
-  S2D_Sound *snd1 = S2D_CreateSound("media/sound.wav");
-  S2D_Sound *snd2 = S2D_CreateSound("media/sound.mp3");
-  S2D_Sound *snd3 = S2D_CreateSound("media/sound.ogg");
-  S2D_Sound *snd4 = S2D_CreateSound("media/sound.flac");
+  S2D_Sound *snd1 = S2D_CreateSound("./media/sound.wav");
+  S2D_Sound *snd2 = S2D_CreateSound("./media/sound.mp3");
+  S2D_Sound *snd3 = S2D_CreateSound("./media/sound.ogg");
+  S2D_Sound *snd4 = S2D_CreateSound("./media/sound.flac");
   end_test(snd1 != NULL && snd2 != NULL && snd3 != NULL && snd4 != NULL);
 
   start_test("(S2D_CreateSound) bad sound file path (expect errors)");
@@ -164,10 +164,10 @@ int main() {
   // Music /////////////////////////////////////////////////////////////////////
 
   start_test("(S2D_CreateMusic) create music with supported formats");
-  S2D_Music *mus1 = S2D_CreateMusic("media/music.wav");
-  S2D_Music *mus2 = S2D_CreateMusic("media/music.mp3");
-  S2D_Music *mus3 = S2D_CreateMusic("media/music.ogg");
-  S2D_Music *mus4 = S2D_CreateMusic("media/music.flac");
+  S2D_Music *mus1 = S2D_CreateMusic("./media/music.wav");
+  S2D_Music *mus2 = S2D_CreateMusic("./media/music.mp3");
+  S2D_Music *mus3 = S2D_CreateMusic("./media/music.ogg");
+  S2D_Music *mus4 = S2D_CreateMusic("./media/music.flac");
   end_test(mus1 != NULL && mus2 != NULL && mus3 != NULL && mus4 != NULL);
 
   start_test("(S2D_CreateMusic) bad music file path (expect errors)");
