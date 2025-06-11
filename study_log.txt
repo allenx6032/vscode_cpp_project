@@ -3,6 +3,9 @@ https://gitdl.cn/https://raw.githubusercontent.com/ clash/v2ray常用订阅加�
 rmdir "C:/Users"
 mklink /J "C:/Users" "D:/Users"
 
+https://dl.google.com/android/repository/android-ndk-r21e-windows-x86_64.zip
+https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zip
+
 ndkVersion "16.1.4479499"
 ndkVersion "25.1.8937393"
 ndkVersion "21.4.7075529"
@@ -62,6 +65,58 @@ git lfs install
 git clone https://www.modelscope.cn/swift/Qwen3-30B-A3B-AWQ.git
 GIT_LFS_SKIP_SMUDGE=1 git clone https://www.modelscope.cn/swift/Qwen3-30B-A3B-AWQ.git #跳过 lfs 大文件下载
 
+
+/build.gradle.kts
+maven { url = uri("https://maven.aliyun.com/repository/google") }
+maven { url = uri("https://maven.aliyun.com/repository/public") }
+maven { url = uri("https://maven.aliyun.com/repository/central") }
+maven { url = uri("https://maven.aliyun.com/repository/jcenter") }
+maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
+maven { url = uri("https://maven.aliyun.com/repository/grails-core") }
+maven { url = uri("https://maven.aliyun.com/repository/apache-snapshots") 
+allprojects{ buildDir = file("${rootDir}/gradle-build/${project.name}") }
+applicationVariants.all {
+    outputs.all {
+        val ver = defaultConfig.versionName
+        val minSdk = project.extensions.getByType(BaseAppModuleExtension::class.java).defaultConfig.minSdk
+        val abi = filters.find{it.filterType == "ABI"}?.identifier ?:"all"
+        (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
+            "${project.name}-$ver-${abi}-sdk$minSdk.apk";
+    }
+}
+/build.gradle
+maven { url 'https://maven.aliyun.com/repository/google' }
+maven { url 'https://maven.aliyun.com/repository/public' }
+maven { url 'https://maven.aliyun.com/repository/central' }
+maven { url 'https://maven.aliyun.com/repository/jcenter' }
+maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+maven { url 'https://maven.aliyun.com/repository/grails-core' }
+maven { url 'https://maven.aliyun.com/repository/apache-snapshots' }
+tasks.withType(JavaCompile).configureEach {
+    // 设置全局编码
+    options.encoding = 'UTF-8'
+}
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charset', 'UTF-8')
+}
+buildDir = new File(rootDir, "gradle-build/${path.replaceAll(':', '/')}")
+android.applicationVariants.all {
+    variant ->
+        variant.outputs.all {
+            //指定文件输出路径
+            outputFileName = "Silkswap-${variant.name}.apk"
+        }
+}
+/gradle-wrapper.properties
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+distributionUrl=https://mirrors.cloud.tencent.com/gradle/gradle-7.5-bin.zip
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+
+
 #if LUA_VERSION_NUM < 502
 #define luaL_newlib(L,l) (lua_newtable(L), luaL_register(L,NULL,l))
 #endif
@@ -69,6 +124,17 @@ GIT_LFS_SKIP_SMUDGE=1 git clone https://www.modelscope.cn/swift/Qwen3-30B-A3B-AW
 //#define luaL_setfuncs(L,f,n) luaL_register(L,NULL,f)
 //#define luaL_newlib(L,f) luaL_register(L,"lpeg",f)
 //#endif
+
+//202002L c++20 201703L c++17 201402L c++14 201103L c++11
+#if __cplusplus >=  201703L //c++17
+std::cout << "Compiled as C++17 or later" << std::endl;
+#elif __cplusplus >= 201402L //c++14
+std::cout << "Compiled as C++14" << std::endl;
+#elif __cplusplus >= 201103L //c++11
+std::cout << "Compiled as C++11" << std::endl;
+#else
+std::cout << "Compiled as pre-C++11" << std::endl;
+#endif
 
 gcc 编译在 int main() 前添加#undef main
 gcc 64位 (int) -> (int)(size_t)
@@ -79,6 +145,11 @@ set http_proxy=http://127.0.0.1:[端口] & set https_proxy=http://127.0.0.1:[端
 #define _XXX_H_
 #endif
 
+强制结束进程
+taskkill /im main.exe /f
+wmic process where name='main.exe' delete
+taskkill /f /t /im 1 <PID>
+
 #make指定makefile文件编译
 make -f makefilename
 make -f makefilename clean
@@ -88,9 +159,11 @@ gcc/g++ -Wall[打印所有日志] -w[打印警告/错误日志] -fsyntax-only[�
 
 set PROMTP=$p$_$+$g /m //缩短cmd路径显示
 set JAVA_HOME=U:\android-studio\jre 临时用户变量
-set /m JAVA_HOME=U:\android-studio\jre 临时系统变量
-setx "JAVA_HOME" "U:\android-studio\jre" 永久用户变量
+setx "JAVA_HOME" "U:\android-studio\jre" 临时系统变量
 setx /m "JAVA_HOME" "U:\android-studio\jre" 永久系统变量
+setx -m "JAVA_HOME" "U:\android-studio\jre" 追加临时系统变量
+setx  HTTP_PROXY socks5://127.0.0.1:7890
+setx  HTTPS_PROXY socks5://127.0.0.1:7890
 setx PATH %PATH%;D:\android-sdk\platform-tools
 set DEPOT_TOOLS_UPDATE=0
 set DEPOT_TOOLS_WIN_TOOLCHAIN=0
@@ -2676,6 +2749,490 @@ htop
 --max_batch_size 2 --chunk_size 256 --cache_lens 32768 --max_new_tokens 8192
 平衡配置（通用场景）：
 --max_batch_size 4 --chunk_size 256 --cache_lens 32768 --max_new_tokens 4096
+
+
+Ubuntu22.04系统安装使用Docker
+1.安装Docker
+  本机系统：
+Linux boss-dog 6.8.0-52-generic #53~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Wed Jan 15 19:18:46 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+  Docker 可以安装在 64 位的 x86 平台或 ARM 平台上。Ubuntu 发行版中，LTS（Long-Term-Support）长期支持版本，会获得 5 年的升级维护支持，这样的版本会更稳定，因此在生产环境中推荐使用 LTS 版本。
+Docker官方安装文档：https://docs.docker.com/engine/install/ubuntu/
+1.1 安装步骤
+1.卸载旧版本
+旧版本的 Docker 称为 docker 或者 docker-engine，使用以下命令卸载旧版本：
+sudo apt-get remove docker docker-engine docker.io
+2.由于 apt 源使用 HTTPS 以确保软件下载过程中不被篡改，因此首先需要添加使用 HTTPS 传输的软件包以及 CA 证书
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
+3.为了确认所下载软件包的合法性，需要添加软件源的 GPG 密钥
+curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+4.向 sources.list 中添加 Docker 软件源
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# 以上命令会添加稳定版本的 Docker APT 镜像源，如果需要测试版本的 Docker 请将 stable 改为 test
+5.更新 apt 软件包缓存，并安装 docker-ce
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+6.查看docker是否安装成功，如果是普通用户有些指令可能没有权限，可以将当前用户添加到 Docker 组
+docker -v
+docker info
+# 将当前用户添加到 Docker 组
+sudo usermod -aG docker boss-dog
+newgrp docker
+groups boss-dog
+7.配置镜像加速器
+# 输入docker run --rm hello-world有时会报超时，需要配置镜像加速器
+sudo mkdir -p /etc/docker
+echo '{
+  "registry-mirrors": [
+    "https://docker.m.daocloud.io",
+    "https://szmlw1af.mirror.aliyuncs.com",
+    "https://docker.mirrors.ustc.edu.cn"
+  ]
+}' | sudo tee /etc/docker/daemon.json
+sudo systemctl restart docker
+sudo systemctl restart docker
+2.Docker命令
+2.1 服务相关命令
+启动docker服务
+systemctl start docker
+停止docker服务
+systemctl stop docker
+重启docker服务
+systemctl restart docker
+查看docker服务状态
+systemctl status docker
+设置开机启动docker服务
+systemctl enable docker
+2.2 镜像相关命令
+查看镜像：查看本地所有的镜像
+docker images
+docker images -q # 查看所用镜像的id
+搜索镜像：从网络中查找需要的镜像
+docker search 镜像名称
+拉取镜像：从docker仓库下载镜像到本地，镜像名称格式为名称：版本号，如果版本号不指定则是最新的版本。
+如果不知道镜像版本，可以去 docker hub搜索对应镜像查看。
+docker pull 镜像名称
+拉取指定CPU架构并且指定ubuntu版本的docker：
+# aarch64 (arm v8) CPU架构：
+docker pull --platform=linux/aarch64 ubuntu:22.04
+# x86_64 CPU架构：
+docker pull --platform=linux/x86_64 ubuntu:22.04
+查看镜像的架构：
+docker image inspect ubuntu:22.04 | grep Architecture
+# "Architecture": "arm64",
+查看主机架构：
+arch
+# x86_64
+删除镜像：删除本地镜像
+docker rmi 镜像id # 删除指定本地镜像
+docker rmi `docker images -q`  # 删除所有本地镜像
+2.3 容器相关命令
+查看容器
+docker ps  #查看正在运行的容器
+docker ps -a  #查看所有容器
+创建并启动容器
+docker run 参数
+进入 容器
+docker exec 参数 容器名称/容器id bash
+docker exec -it test bash
+停止容器
+docker stop 容器名称/容器id
+启动容器
+docker start 容器名称/容器id
+删除容器：如果容器是运行状态则删除失败，需要停止容器才能删除。
+docker rm 容器名称/容器id
+查看容器信息
+docker inspect 容器名称/容器id
+3.Docker容器的数据卷
+3.1 数据卷概念
+数据卷
+数据卷是宿主机中的一个目录或文件
+当容器目录和数据卷目录绑定后，对方的修改会立即同步
+一个数据卷可以被多个容器同时挂载
+一个容器也可以挂在多个数据卷
+3.2 数据卷作用
+容器数据持久化
+外部机器和容器间接通信
+容器之间数据交换
+3.3 数据卷配置
+创建启动容器时，使用-v参数设置数据卷
+docker run … -v 宿主机目录（文件）：容器目录（文件）…
+注意事项：
+目录必须是绝对路径（/开头是绝对，./开头是相对)
+如果目录不存在，会自己创建
+可以挂载多个数据卷
+一个容器挂载多个数据卷：
+docker run -it --name=c2 \
+ -v ~/data2:/root/data2 \
+ -v ~/data3:/root/data3 \
+ centos:7
+centos:7表示镜像为centor，版本为7
+一个数据卷挂载多个容器：
+docker run -it --name=c3 -v ~/data:/root/data centos:7
+docker run -it --name=c4 -v ~/data:/root/data centos:7
+3.4 数据卷容器
+多容器进行数据交换：
+1.多个容器挂载同一个数据卷
+2.数据卷容器
+配置数据卷容器
+1.创建启动c3数据卷容器，使用-v参数设置数据卷
+docker run -it --name=c3 -v /volume centos:7 /bin/bash
+​ c3容器的目录是/volume,宿主机目录会自己分配一个，可以使用docker inspect 容器名称/容器id指令进行查看。
+2.创建启动c1，c2容器，使用--volumes-from 参数设置数据卷
+docker run -it --name=c1 --volumes-from c3 centos:7 /bin/bash
+docker run -it --name=c2 --volumes-from c3 centos:7 /bin/bash
+​ c1和c2容器的目录也是/volume，宿主机目录和c3是同一个目录。
+4.常用指令
+docker ps -a
+docker stop 603ff4a03cffe2278b2
+docker rm 603ff4a03cffe2278b2
+# 拷贝本机上的文件到docker环境中
+docker cp test.zip 62471a960847:/root/opencv/lib_cmake
+# 拷贝docker环境中的文件到本机上
+docker cp <容器ID或容器名称>:<容器内路径> <本机路径>
+docker cp my_container:/usr/local/myfolder /home/user/myfolder
+
+
+https://github.com/taisuii/rusda编译
+0x1 frida 编译流程
+建立一个项目目录并拉下frida源码，并进入项目目录
+git clone --recurse-submodules -b 16.2.1 https://github.com/frida/frida
+cd frida
+此时执行ls ，看到的文件应当是如此
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ ls
+BSDmakefile      COPYING     frida-gum     frida.sln    Makefile.freebsd.mk  Makefile.toolchain.mk
+build            frida-clr   frida-node    frida-swift  Makefile.linux.mk    README.md
+config.mk        frida-core  frida-python  frida-tools  Makefile.macos.mk    releng
+CONTRIBUTING.md  frida-go    frida-qml     Makefile     Makefile.sdk.mk
+一键 安装nodejs22
+# 构造下载 URL
+NODE_TAR_URL="https://nodejs.org/dist/v22.12.0/node-v22.12.0-linux-x64.tar.xz"
+wget $NODE_TAR_URL 
+# 解压 Node.js 安装包到用户目录
+tar -xf node-v22.12.0-linux-x64.tar.xz -C $HOME/bin
+rm -r node-v22.12.0-linux-x64.tar.xz
+# 设置 NODE_HOME 和 PATH
+export NODE_HOME=$HOME/bin/node-v22.12.0-linux-x64
+export PATH=${NODE_HOME}/bin:$PATH
+# 打印 Node.js 版本以确认安装成功
+node -v
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ # 构造下载 URL
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ NODE_TAR_URL="https://nodejs.org/dist/v22.12.0/node-v22.12.0-linux-x64.tar.xz"
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ wget $NODE_TAR_URL 
+--2024-12-09 23:31:18--  https://nodejs.org/dist/v22.12.0/node-v22.12.0-linux-x64.tar.xz
+正在解析主机 nodejs.org (nodejs.org)... 198.18.1.205
+正在连接 nodejs.org (nodejs.org)|198.18.1.205|:443... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 29734248 (28M) [application/x-xz]
+正在保存至: “node-v22.12.0-linux-x64.tar.xz”
+node-v22.12.0-linux-x64.tar.xz          100%[============================================================================>]  28.36M  8.89MB/s    用时 3.2s  
+2024-12-09 23:31:21 (8.89 MB/s) - 已保存 “node-v22.12.0-linux-x64.tar.xz” [29734248/29734248])
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ # 解压 Node.js 安装包到用户目录
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ tar -xf node-v22.12.0-linux-x64.tar.xz -C $HOME/bin
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ # 设置 NODE_HOME 和 PATH
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ export NODE_HOME=$HOME/bin/node-v22.12.0-linux-x64
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ export PATH=${NODE_HOME}/bin:$PATH
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ # 打印 Node.js 版本以确认安装成功
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ node -v
+v22.12.0
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ ls
+BSDmakefile      COPYING     frida-go    frida-python  frida-swift  Makefile.freebsd.mk  Makefile.sdk.mk                 README.md
+config.mk        frida-clr   frida-gum   frida-qml     frida-tools  Makefile.linux.mk    Makefile.toolchain.mk           releng
+CONTRIBUTING.md  frida-core  frida-node  frida.sln     Makefile     Makefile.macos.mk    node-v22.12.0-linux-x64.tar.xz
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ rm -r node-v22.12.0-linux-x64.tar.xz
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ 
+再make一下
+make
+安装ndk
+执行以下命令，查看所需要的ndk版本，得到以下输出
+cat releng/setup-env.sh |grep "ndk_required="
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ cat releng/setup-env.sh |grep "ndk_required="
+  ndk_required=25
+一键安装ndk25
+wget https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
+unzip android-ndk-r25c-linux.zip $HOME/bin/
+rm -r android-ndk-r25c-linux.zip
+export ANDROID_NDK_ROOT=$HOME/bin/android-ndk-r25c
+export PATH=$ANDROID_NDK_ROOT:$PATH
+ndk-build -v
+安装依赖
+sudo apt update
+sudo apt-get install build-essential git lib32stdc++-9-dev libc6-dev-i386
+pip3 install lief
+编译
+查看编译选项
+(frida-compile) r@ubuntu20:~/Documents/FRIDA/frida$ make
+make[1]: 进入目录“/home/r/Documents/FRIDA/frida”
+Usage: make TARGET [VARIABLE=value]
+Where TARGET specifies one or more of:
+  /* gum */
+  gum-linux-x86                     Build for Linux/x86
+  gum-linux-x86_64                  Build for Linux/x86-64
+  gum-linux-x86-thin                Build for Linux/x86 without cross-arch support
+  gum-linux-x86_64-thin             Build for Linux/x86-64 without cross-arch support
+  gum-linux-x86_64-gir              Build for Linux/x86-64 with shared GLib and GIR
+  gum-linux-arm                     Build for Linux/arm
+  gum-linux-armbe8                  Build for Linux/armbe8
+  gum-linux-armhf                   Build for Linux/armhf
+......等等
+编译安卓arm64的frida
+make core-android-arm64
+编译完成
+Installing lib/base/libfrida-base-1.0.a to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/lib
+Installing lib/base/frida-base.h to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/include/frida-1.0
+Installing lib/base/frida-base-1.0.vapi to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/share/vala/vapi
+Installing lib/payload/libfrida-payload-1.0.a to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/lib
+Installing lib/payload/frida-payload.h to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/include/frida-1.0
+Installing lib/payload/frida-payload-1.0.vapi to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/share/vala/vapi
+Installing lib/gadget/frida-gadget.so to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/lib/frida/64
+Installing src/api/frida-core.h to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/include/frida-1.0
+Installing src/api/frida-core-1.0.vapi to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/share/vala/vapi
+Installing src/api/frida-core-1.0.deps to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/share/vala/vapi
+Installing src/api/libfrida-core-1.0.a to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/lib
+Installing server/frida-server to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/bin
+Installing portal/frida-portal to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/bin
+Installing inject/frida-inject to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/bin
+Installing /home/r/Documents/FRIDA/frida/frida-core/lib/selinux/frida-selinux.h to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/include/frida-1.0
+Installing /home/r/Documents/FRIDA/frida/build/tmp-android-arm64/frida-core/meson-private/frida-base-1.0.pc to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/lib/pkgconfig
+Installing /home/r/Documents/FRIDA/frida/build/tmp-android-arm64/frida-core/meson-private/frida-payload-1.0.pc to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/lib/pkgconfig
+Installing /home/r/Documents/FRIDA/frida/build/tmp-android-arm64/frida-core/meson-private/frida-core-1.0.pc to /home/r/Documents/FRIDA/frida/build/frida-android-arm64/lib/pkgconfig
+make[1]: 离开目录“/home/r/Documents/FRIDA/frida”
+查看编译后的文件
+cd build/frida-android-arm64/bin && ls
+(frida-compile) r@ubuntu20:~/Documents/FRIDA/frida$ cd build/frida-android-arm64/bin && ls
+frida-inject  frida-portal  frida-server  gum-graft
+(frida-compile) r@ubuntu20:~/Documents/FRIDA/frida/build/frida-android-arm64/bin$ 
+0x2 修改frida
+先把所有的 "frida_agent_main" 换成"main"
+然后打上patch, 如果不会打的话其实一个个改也不费事，字符串的话可以直接替换，我这里把frida改成了rusda，你也可以改成其他的
+github: GitHub - taisuii/rusda: 对frida 16.2.1的patch
+python脚本新建在frida-core/src目录下
+如果你提示No module named 'lief' 说明Python模块没有装好 pip3 install lief
+然后编译，这里可以过滤日志编译，如果编译成功还是有很多特征大部分原因是python脚本没有打上patch
+make core-android-arm64 | grep Patch
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ make core-android-arm64 | grep Patch
+[*] Patch frida-agent: /home/r/Documents/FRIDA/frida/build/tmp-android-arm64/frida-core/src/frida-agent@emb/frida-agent-64.so
+[*] Patch `frida` to `rusda`
+[*] Patching section name=.rodata offset=0x1c4a26 orig:FridaScriptEngine new:enignEtpircSadirF
+[*] Patching section name=.rodata offset=0x1d24db orig:FridaScriptEngine new:enignEtpircSadirF
+[*] Patching section name=.rodata offset=0x1d9472 orig:GLib-GIO new:OIG-biLG
+[*] Patching section name=.rodata offset=0x1959df orig:GDBusProxy new:yxorPsuBDG
+[*] Patching section name=.rodata offset=0x1c4b31 orig:GDBusProxy new:yxorPsuBDG
+[*] Patching section name=.rodata offset=0x1b1746 orig:GumScript new:tpircSmuG
+[*] Patching section name=.rodata offset=0x210bed orig:GumScript new:tpircSmuG
+[*] Patching section name=.rodata offset=0x238393 orig:GumScript new:tpircSmuG
+[*] Patching section name=.rodata offset=0x246184 orig:GumScript new:tpircSmuG
+[*] Patch `gum-js-loop` to `russellloop`
+[*] Patch `gmain` to `rmain`
+[*] Patch `gdbus` to `rubus`
+[*] Patch Finish
+[*] Patch frida-agent: /home/r/Documents/FRIDA/frida/build/tmp-android-arm64/frida-core/src/frida-agent@emb/frida-agent-32.so
+[*] Patch `frida` to `rusda`
+[*] Patching section name=.rodata offset=0xcc3a3 orig:FridaScriptEngine new:enignEtpircSadirF
+[*] Patching section name=.rodata offset=0xd984c orig:FridaScriptEngine new:enignEtpircSadirF
+[*] Patching section name=.rodata offset=0xe066f orig:GLib-GIO new:OIG-biLG
+[*] Patching section name=.rodata offset=0x9e15e orig:GDBusProxy new:yxorPsuBDG
+[*] Patching section name=.rodata offset=0xcc4ae orig:GDBusProxy new:yxorPsuBDG
+[*] Patching section name=.rodata offset=0xb96c5 orig:GumScript new:tpircSmuG
+[*] Patching section name=.rodata offset=0x115e26 orig:GumScript new:tpircSmuG
+[*] Patching section name=.rodata offset=0x13d0a3 orig:GumScript new:tpircSmuG
+[*] Patching section name=.rodata offset=0x14aa2d orig:GumScript new:tpircSmuG
+[*] Patch `gum-js-loop` to `russellloop`
+[*] Patch `gmain` to `rmain`
+[*] Patch `gdbus` to `rubus`
+[*] Patch Finish
+[*] Patch frida-agent: /home/r/Documents/FRIDA/frida/build/tmp-android-arm64/frida-core/src/frida-agent@emb/frida-agent-arm64.so
+[*] Patch `frida` to `rusda`
+[*] Patch frida-agent: /home/r/Documents/FRIDA/frida/build/tmp-android-arm64/frida-core/src/frida-agent@emb/frida-agent-arm.so
+[*] Patch `frida` to `rusda`
+(base) r@ubuntu20:~/Documents/FRIDA/frida$ ls 
+0x3 运行测试
+这里换个端口，就是全绿
+cd build/frida-android-arm64/bin
+adb push frida-server /data/local/tmp
+adb shell
+chmod +x frida-server
+./frida-server -l 127.0.0.1:12345
+frida -H 127.0.0.1:12345 -f com.yimian.envcheck
+0x4 参考
+GitHub - Ylarod/Florida: 基础反检测 frida-server / Basic anti-detection frida-server
+GitHub - hluwa/Patchs: strongR-frida
+
+
+GitHub高级搜索技巧
+本文参考自GitHub官方文档。
+GitHub官方文档：https://docs.github.com/en
+在这里插入图片描述
+本文第3点总结了目前GitHub搜索最常用的技巧，根据我们平时搜索的内容分为了搜索存储库、搜索主题、搜索代码和搜索用户四个小点，你可以根据自己想要的搜索内容定位到每个小点，同时第2点总结了将你搜索到的结果按照什么排序顺序排序，包括交互排序、反应排序、作者日期排序、提交者日期排序、更新日期排序等。
+2. 排序搜索结果
+2.1. 按交互排序
+语法	例子
+org:github sort:interactions	匹配 GitHub 拥有的存储库中的问题，按反应和评论的最高组合数排序
+org:github sort:interactions-asc	匹配 GitHub 拥有的存储库中的问题，按最少的反应和评论组合数排序
+2.2. 按反应排序
+语法	例子
+org:github sort:reactions	匹配 GitHub 拥有的存储库中的问题，按最高反应数排序。
+org:github sort:reactions-asc	匹配 GitHub 拥有的存储库中的问题，按反应数量升序排序（从最少到最多）
+org:github sort:reactions-+1	匹配 GitHub 拥有的存储库中的问题，按最多点赞 (👍) 反应排序
+org:github sort:reactions- -1	匹配 GitHub 拥有的存储库中的问题，按最多 (👎) 反应排序
+org:github sort:reactions-smile	匹配 GitHub 拥有的存储库中的问题，按最多笑 (😄) 反应排序
+org:github sort:reactions-tada	匹配 GitHub 拥有的存储库中的问题，按大多数欢呼 (🎉) 反应排序
+org:github sort:reactions-heart	匹配 GitHub 拥有的存储库中的问题，按大多数心脏 (❤️) 反应排序
+2.3. 按作者日期排序
+语法	例子
+org:github sort:author-date feature	匹配 GitHub 拥有的存储库中包含单词“feature”的提交，按作者日期降序排序
+org:github sort:author-date-asc feature	匹配 GitHub 拥有的存储库中包含单词“feature”的提交，按作者日期升序排序
+2.4. 按提交者日期排序
+语法	例子
+org:github sort:committer-date	匹配 GitHub 拥有的存储库中包含“功能”一词的提交，按提交者日期降序排序
+org:github sort:committer-date-asc	匹配 GitHub 拥有的存储库中包含“功能”一词的提交，按提交者日期升序排序
+2.5. 按更新日期排序
+语法	例子
+sort:updated feature	匹配包含“feature”一词的存储库，按最近更新日期排序
+sort:updated-asc feature	匹配包含单词“feature”的存储库，按最近更新日期排序
+3. 搜索范围
+3.1. 搜索存储库
+3.1.1. 按存储库名称、描述或 README 文件的内容搜索
+语法	例子
+in:name jquery	匹配存储库名称中带有“jquery”的存储库。
+in:description jquery	匹配存储库描述中带有“jquery”的存储库。
+in:readme jquery	匹配存储库的 README 文件中提到“jquery”的存储库。
+3.1.2. 在用户或组织的仓库中搜索
+语法	例子
+user:defunkt forks:>100	匹配用户名为 defunkt 的具有超过 100 个 fork 的存储库。
+3.1.3. 按存储库大小搜索
+语法	例子
+size:1000	匹配大小为 1 MB 的存储库
+size:>=30000	匹配至少 30 MB 的存储库
+size:<50	匹配小于 50 KB 的存储库
+size:50…120	匹配 50 KB 到 120 KB 之间的存储库
+3.1.4. 按分叉数搜索
+语法	例子
+forks:5	匹配只有五个 fork 的存储库
+forks:>=205	匹配至少有 205 个 fork 的仓库
+forks:<90	匹配具有少于 90 个 fork 的存储库
+forks:10…20	匹配具有 10 到 20 个 fork 的存储库
+3.1.5. 按星数搜索
+语法	例子
+stars:500	匹配恰好有 500 颗星的存储库
+stars:10…20	匹配小于 1000 KB 的 10 到 20 星的存储库
+stars:>=500 fork:true language:php	匹配至少 500 个星的存储库，包括分叉的，用 PHP 编写的
+3.1.6. 按创建或上次更新存储库的时间搜索
+语法	例子
+webos created:<2011-01-01	匹配 2011 年之前创建的带有“webos”一词的存储库
+css push:>2013-02-01	匹配 2013 年 1 月之后推送到的带有“css”一词的存储库
+case push:>=2013-03-06 fork:only	匹配 2013 年 3 月 6 日或之后推送到的带有单词“case”的存储库，并且是分叉。
+3.1.7. 按语言搜索
+语法	例子
+rails language:javascript	匹配使用 JavaScript 编写的带有“rails”一词的存储库
+3.1.8. 按主题搜索
+语法	例子
+topic:jekyll	匹配已分类为主题“jekyll”的存储库
+3.1.9. 按主题数量搜索
+语法	例子
+topic:5	匹配具有五个主题的存储库
+topic:> 3	匹配具有三个以上主题的存储库
+3.1.10. 按许可证搜索
+语法	例子
+license:apache-2.0	匹配在 Apache License 2.0 下获得许可的存储库
+3.1.11. 按存储库可见性搜索
+语法	例子
+is:public org:github	匹配 GitHub 拥有的公共存储库
+is:internal test	匹配您可以访问并包含“test”一词的内部存储库
+is:private pages	匹配您可以访问并包含“pages”一词的私有存储库
+3.1.12. 根据仓库是否是镜像进行搜索
+语法	例子
+mirror:true GNOME	匹配作为镜像且包含单词“GNOME”的存储库
+mirror:false GNOME	匹配非镜像且包含“GNOME”一词的存储库
+3.2. 搜索主题
+3.2.1. 使用搜索限定符缩小搜索范围
+语法	例子
+is:curated javascript	匹配经过策划并包含“javascript”一词的主题
+is:featured javascript	匹配https://github.com/topics/上的特色主题并包含“javascript”一词
+is:not-curated javascript	匹配没有额外信息（例如描述或徽标）并包含“javascript”一词的主题
+is:not-featured javascript	匹配https://github.com/topics/上没有特色且包含“javascript”一词的主题
+repositories:>5000	匹配具有超过 5000 个存储库的主题
+3.3. 搜索代码
+序号	代码搜索的注意事项：由于搜索代码的复杂性，对搜索的执行方式有一些限制
+1	必须登录 GitHub 上的用户帐户才能在所有公共存储库中搜索代码
+2	只有当分叉的星数多于父存储库时，分叉中的代码才可搜索。星号少于父存储库的分叉不会为代码搜索编制索引。要在搜索结果中包含星数多于父级的分叉，您需要将fork:true或添加fork:only到您的查询中。有关更多信息，请参阅“在分叉中搜索”
+3	仅对默认分支进行索引以进行代码搜索
+4	只能搜索小于 384 KB 的文。
+5	只能搜索少于 500,000 个文件的存储库
+6	只有在去年有活动或在搜索结果中返回的存储库才可搜索
+7	除了filename搜索之外，在搜索源代码时，您必须始终包含至少一个搜索词。例如，搜索language:javascript无效，而搜索无效amazing language:javascript
+8	搜索结果最多可以显示来自同一个文件的两个片段，但文件中可能会有更多的结果
+9	您不能在搜索查询中使用以下通配符：. , : ; / \ ` ’ " = * ! ? # $ & + ^
+3.3.1. 按文件内容或文件路径搜索
+语法	例子
+octocat in:file	匹配文件内容中出现“octocat”的代码
+octocat in:path	匹配文件路径中出现“octocat”的代码
+3.3.2. 在用户或组织的仓库中搜索
+语法	例子
+user:defunkt extension:rb	匹配来自@defunkt 的以.rb结尾的代码
+org:github extension:js	匹配来自 GitHub 的以.js结尾的代码
+repo:mozilla/shumway extension:as	匹配@mozilla 的 shumway 项目中以.as结尾的代码
+3.3.3. 按语言搜索
+语法	例子
+element language:xml size:100	匹配带有标记为 XML 且正好有 100 个字节的单词“element”的代码
+display language:scss	匹配带有单词“display”的代码，它被标记为 SCSS
+org:mozilla language:markdown	匹配所有@mozilla 存储库中标记为 Markdown 的代码
+
+
+GitHub 高级搜索功能
+1、精准搜索仓库标题、仓库描述、README
+公式：in关键词限制搜索范围：按照项目名/仓库名搜索（大小写不敏感）
+in:name xxx 
+项目名包含xxx
+in:readme xxx
+项目介绍文档里含有xxx
+in:description xxx
+项目描述包含xxx
+2、stars或fork数量去查找
+一个项目 star 数的多少，一般代表该项目的受欢迎程度 越受欢迎的项目，star数和fork数一定也不会少。
+公式：
+stars:>xxx stars
+stars数大于xxx
+stars:xx..xx
+stars数在xx…xx之间
+forks:>xxx 
+forks数大于xxx
+forks:xx..xx
+forks数在xx…xx之间
+3、按照地区和语言进行搜索
+公式：
+location：地区
+language：语言
+4、根据仓库大小搜索
+如果你只是想找一些小型的项目进行个人学习和开发，不想找特别复杂的，那么使用size关键字查找简单的 Demo，就成了你的首选。
+公式：
+size:>= 数字 【注意：100代表100Kb 单位为Kb】
+5、根据仓库是否在更新的搜索
+寻找项目当然是想要找到最新的项目，而不是好久都没有更新的老项目了。
+公式：
+pushed:> YYYY-MM-DD 最后上传日期大于YYYY-MM-DD
+created:> YYYY-MM-DD 创建日期大于YYYY-MM-DD
+6、根据某个人或组织进行搜索
+如果你想在GitHub 上找某个大神是不是提交了新的项目，可以对他们进行精准搜索。
+公式：
+user: name 查找某个用户
+org: name 查找某个组织
+followers:>=xxx 查找关注者数量超过xxx的开发者
+7、 根据仓库的LICENSE搜索
+License是很多人容易忽略的一个问题，开源项目的License（项目授权协议） 有的开源项目作者明确禁止商用了，但是你不知情下载了，并且使用了，这就会很麻烦。
+“非常友好”的协议，比较出名的有这几种：BSD、MPL（Mozilla）、Apache、MIT。这些协议不但允许项目的使用者使用开源库，有些还允许对开源库进行修改并重新分发。
+以下这个网站，详细介绍了各个License的区别。http://choosealicense.com/licenses/
+公式：
+-license:对应协议
+8、awesome加强搜索
+Awesome 似乎已经成为不少 GitHub 项目喜爱的命名之一，Awesome 往往整合了大量的同一领域的资料，让大家可以更好的学习。
+公式：
+awesome 关键字 awesome 系列一般是用来收集学习、工具、书籍类相关的项目
+9、热门搜索（GitHub Trend 和 GitHub Topic）
+GitHub Trend 页面总结了每天/每周/每月周期的热门 Repositories 和 Developers，你可以看到在某个周期处于热门状态的开发项目和开发者。
+网址：https://github.com/trending，
+GitHub Topic 展示了最新和最流行的讨论主题，在这里你不仅能够看到开发项目，还能看到更多非开发技术的讨论主题。
+网址：https://github.com/topics
 
 
 Windows下静态编译Skia

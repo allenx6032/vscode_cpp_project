@@ -1,0 +1,25 @@
+local circles = {}
+
+function setup()
+    size(800, 800, "Benice equation")
+
+    createCircle(width / 2, height / 2, 20, 100, 1)
+end
+
+function render()
+    clear()
+
+    for _, v in pairs(circles) do
+        v:setPos(v.x + v.speed)
+        v:render()
+    end
+end
+
+
+function createCircle(x, y, angle, r, level)
+    if level >= 10 then
+        return
+    end
+    table.insert(circles, ellipseShape:new{ x = (x) -r, y = (y) -r, xradius = r, yradius = r, color = colors.blue, outline_thickness = 0.0, speed = 1})
+    createCircle(x + r*1.5, y, angle, r/2, level+1)
+end

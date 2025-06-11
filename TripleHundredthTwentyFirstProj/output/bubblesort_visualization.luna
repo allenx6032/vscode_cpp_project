@@ -1,0 +1,57 @@
+-- How many numbers we want to sort, you can try with 50 or 500!
+local nnum = 100
+
+-- Width of each rectangle, will be set in setup()
+local xwidth
+
+-- Table for storing our numbers
+local numbers = {}
+
+-- Current number, used for displaying the red rectangle
+local current = 1
+
+function setup()
+    size(1200, 700, "Bubble sort visualization")
+    -- Set xwidth variable, it is the width of each rectangle
+    xwidth = width / nnum
+
+    -- Change the framerate to adjust the speed of the visualization
+    framerate(120)
+
+    -- Set random seed
+    math.randomseed(os.time())
+
+    -- Fill vector of random numbers from 1 to nnum
+    for i = 1, nnum do
+        table.insert(numbers, i)
+    end
+
+    -- Suffle the numbers!
+    for i = nnum, 1, -1 do
+        local rand = math.random(nnum)
+        numbers[i], numbers[rand] = numbers[rand], numbers[i]
+    end
+end
+
+function render(frameTime)
+    clear()
+
+    -- Draw all the rectangles!
+    for k, v in pairs(numbers) do
+        if current == k then
+            color(colors.red)
+        else
+            color(colors.white)
+        end
+        rect(k * xwidth, height, xwidth, -v * (height / nnum))
+    end
+
+    -- Bubble sort, only one for loop is needed, we take advante of the render loop
+    for i = 1, nnum - 1 do
+        if numbers[i] > numbers[i + 1] then
+            numbers[i], numbers[i + 1] = numbers[i + 1], numbers[i]
+            current = i
+            break
+        end
+    end
+end

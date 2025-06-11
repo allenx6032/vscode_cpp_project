@@ -12,8 +12,107 @@
 #define VORBIS_IMPL
 #include "minivorbis.h"
 
+#define MINICORO_IMPL
+#include "minicoro.h"
+
+#define DMON_IMPL
+#include "dmon.h"
+#if DMON_OS_LINUX
+#include "dmon_extra.h"
+#endif
+
 #define LUA_IMPL
 #include "minilua.h"
+
+// #define MINTARO_IMPLEMENTATION
+// #include "mintaro.h"
+// #define SCREEN_MAIN_MENU    0
+// #define SCREEN_IN_GAME      1
+// #define SCREEN_OPTIONS      2
+// int g_CurrentScreen = SCREEN_MAIN_MENU;
+// int g_FocusedMenuItem = 0;
+// float g_PlayerPosX = 0;
+// float g_PlayerPosY = 0;
+// void example1_on_step(mo_context* pContext, double dt)
+// {
+//     int black = mo_find_closest_color(pContext, mo_make_rgb(0, 0, 0));
+//     int white = mo_find_closest_color(pContext, mo_make_rgb(255, 255, 255));
+//     int blue  = mo_find_closest_color(pContext, mo_make_rgb(128, 192, 255));
+//     mo_clear(pContext, black);
+//     switch (g_CurrentScreen)
+//     {
+//         case SCREEN_MAIN_MENU:
+//         {
+//             // Input.
+//             if (mo_was_button_pressed(pContext, MO_BUTTON_DOWN)) {
+//                 g_FocusedMenuItem = (g_FocusedMenuItem + 1) % 3;
+//             }
+//             if (mo_was_button_pressed(pContext, MO_BUTTON_UP)) {
+//                 if (g_FocusedMenuItem == 0) {
+//                     g_FocusedMenuItem = 2;
+//                 } else {
+//                     g_FocusedMenuItem -= 1;
+//                 }
+//             }
+//             if (mo_was_button_pressed(pContext, MO_BUTTON_A) || mo_was_button_pressed(pContext, MO_BUTTON_START)) {
+//                 if (g_FocusedMenuItem == 0) {
+//                     g_PlayerPosX = (float)(pContext->profile.resolutionX/2 - 16);
+//                     g_PlayerPosY = (float)(pContext->profile.resolutionY/2 - 16);
+//                     g_CurrentScreen = SCREEN_IN_GAME;
+//                 } else if (g_FocusedMenuItem == 1) {
+//                     g_CurrentScreen = SCREEN_OPTIONS;
+//                 } else if (g_FocusedMenuItem == 2) {
+//                     mo_close(pContext);
+//                 }
+//             }
+//             // Graphics.
+//             int caretPosX = 4;
+//             int caretPosY = 8 + (12*g_FocusedMenuItem);
+//             mo_draw_text(pContext, caretPosX, caretPosY, white, ">");
+//             mo_draw_text(pContext, 15, 8+12*0, white, "Start Game");
+//             mo_draw_text(pContext, 15, 8+12*1, white, "Options");
+//             mo_draw_text(pContext, 15, 8+12*2, white, "Quit");
+//         } break;
+//         case SCREEN_IN_GAME:
+//         {
+//             // Input.
+//             if (mo_is_button_down(pContext, MO_BUTTON_LEFT)) {
+//                 g_PlayerPosX -= (float)(100 * dt);
+//             }
+//             if (mo_is_button_down(pContext, MO_BUTTON_RIGHT)) {
+//                 g_PlayerPosX += (float)(100 * dt);
+//             }
+//             if (mo_is_button_down(pContext, MO_BUTTON_UP)) {
+//                 g_PlayerPosY -= (float)(100 * dt);
+//             }
+//             if (mo_is_button_down(pContext, MO_BUTTON_DOWN)) {
+//                 g_PlayerPosY += (float)(100 * dt);
+//             }
+//             if (mo_was_button_pressed(pContext, MO_BUTTON_START)) {
+//                 g_CurrentScreen = SCREEN_MAIN_MENU;
+//             }
+//             // Graphics.
+//             mo_draw_quad(pContext, (int)g_PlayerPosX, (int)g_PlayerPosY, 32, 32, blue);
+//             mo_draw_textf(pContext, 4, 4, white, "FPS: %u", (unsigned int)(1/dt));
+//         } break;
+//         case SCREEN_OPTIONS:
+//         {
+//             // Input.
+//             if (mo_was_button_pressed(pContext, MO_BUTTON_B)) {
+//                 g_CurrentScreen = SCREEN_MAIN_MENU;
+//             }
+//             // Graphics.
+//             mo_draw_text(pContext, 8, 8, white, "OPTIONS");
+//             mo_draw_text(pContext, 8, 30, white, "Press 'X' to go");
+//             mo_draw_text(pContext, 8, 39, white, "back");
+//         } break;
+//         default:
+//         {
+//             // Unknown state.
+//         } break;
+//     }
+// }
+
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -24,6 +123,33 @@ void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uin
     MA_ASSERT(pEncoder != NULL);
     ma_encoder_write_pcm_frames(pEncoder, pInput, frameCount);
     (void)pOutput;
+}
+
+// Coroutine entry function.
+void coro_entry(mco_coro* co) {
+  printf("coroutine 1\n");
+  mco_yield(co);
+  printf("coroutine 2\n");
+}
+
+static void watch_callback(dmon_watch_id watch_id, dmon_action action, const char* rootdir, const char* filepath, const char* oldfilepath, void* user)
+{
+    (void)(user);
+    (void)(watch_id);
+    switch (action) {
+    case DMON_ACTION_CREATE:
+        printf("CREATE: [%s]%s\n", rootdir, filepath);
+        break;
+    case DMON_ACTION_DELETE:
+        printf("DELETE: [%s]%s\n", rootdir, filepath);
+        break;
+    case DMON_ACTION_MODIFY:
+        printf("MODIFY: [%s]%s\n", rootdir, filepath);
+        break;
+    case DMON_ACTION_MOVE:
+        printf("MOVE: [%s]%s -> [%s]%s\n", rootdir, oldfilepath, rootdir, filepath);
+        break;
+    }
 }
 
 int main(int argc, char **argv) {
@@ -91,6 +217,47 @@ int main(int argc, char **argv) {
   ma_device_uninit(&device);
   ma_encoder_uninit(&encoder);
   getchar();
+  
+  
+  dmon_init();
+  puts("waiting for changes ..");
+  dmon_watch("./", watch_callback, DMON_WATCHFLAGS_RECURSIVE, NULL);
+  getchar();
+  dmon_deinit();
+  
+  
+  // mintaro example
+  // mo_context* pContext;
+  // if (mo_init(NULL, 160*2, 144*2, "Hello, World!", example1_on_step, NULL, &pContext) != MO_SUCCESS) {
+  //   return -1;
+  // }
+  // int resultmo = mo_run(pContext);
+  // mo_uninit(pContext);
+        
+  
+   // First initialize a `desc` object through `mco_desc_init`.
+  mco_desc desc = mco_desc_init(coro_entry, 0);
+  // Configure `desc` fields when needed (e.g. customize user_data or allocation functions).
+  desc.user_data = NULL;
+  // Call `mco_create` with the output coroutine pointer and `desc` pointer.
+  mco_coro* co;
+  mco_result rescoro = mco_create(&co, &desc);
+  assert(rescoro == MCO_SUCCESS);
+  // The coroutine should be now in suspended state.
+  assert(mco_status(co) == MCO_SUSPENDED);
+  // Call `mco_resume` to start for the first time, switching to its context.
+  rescoro = mco_resume(co); // Should print "coroutine 1".
+  assert(rescoro == MCO_SUCCESS);
+  // We get back from coroutine context in suspended state (because it's unfinished).
+  assert(mco_status(co) == MCO_SUSPENDED);
+  // Call `mco_resume` to resume for a second time.
+  rescoro = mco_resume(co); // Should print "coroutine 2".
+  assert(rescoro == MCO_SUCCESS);
+  // The coroutine finished and should be now dead.
+  assert(mco_status(co) == MCO_DEAD);
+  // Call `mco_destroy` to destroy the coroutine.
+  rescoro = mco_destroy(co);
+  assert(rescoro == MCO_SUCCESS);
   
   
   lua_State *L = luaL_newstate();

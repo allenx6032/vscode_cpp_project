@@ -1,0 +1,23 @@
+local x, y = 0, 0
+local scale = 20
+
+function setup()
+    size(800, 800, "10PRINT")
+end
+
+function render()
+    if math.random() > 0.5 then
+        line(x, y, x + scale, y + scale)
+    else
+        line(x, y + scale, x + scale, y)
+    end
+
+    x = x + scale
+    if x >= width then
+        x, y = 0, y + scale
+    end
+    if y >= height then
+        print("Finished!")
+        noLoop()
+    end
+end

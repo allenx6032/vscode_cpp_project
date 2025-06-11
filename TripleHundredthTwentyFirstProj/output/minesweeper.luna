@@ -1,0 +1,144 @@
+local grid
+
+local scale = 25
+local cols = 20
+local rows = 20
+
+local lost = false
+
+local lastmousestate = nil
+
+local mouseX, mouseY = 0, 0
+
+function setup()
+    size(cols * scale, rows * scale, "Minesweeper")
+    math.randomseed(os.time())
+
+    -- Create 2D array for mine grid
+    grid = {}
+    for i = 1, cols do
+        grid[i] = {}
+    end
+
+    for i = 1, cols do
+        for j = 1, rows do
+            grid[i][j] = cell:new(i, j)
+        end
+    end
+end
+
+function render()
+    clear()
+
+    if not lost then
+        for i = 1, cols do
+            for j = 1, rows do
+                grid[i][j]:render()
+            end
+        end
+    else
+        color(colors.red)
+        text("Game over!", 72, width / 9, 20)
+    end
+end
+
+function input(event)
+    if event.type == events.mouse.button.released then
+        if mousekeys[event.button] == 'Left' then
+            local x, y = math.floor(mouseX / scale) + 1, math.floor(mouseY / scale) + 1
+            grid[x][y]:clicked()
+
+        elseif mousekeys[event.button] == 'Right' then
+            local x, y = math.floor(mouseX / scale) + 1, math.floor(mouseY / scale) + 1
+            grid[x][y]:lock()
+        end
+    elseif event.type == events.mouse.moved then
+        mouseX, mouseY = event.x, event.y
+    end
+end
+
+
+
+--[[ Class cell ]]--
+
+cell = {}
+function cell:new(x, y)
+    self = {}
+    self.x = x
+    self.y = y
+    self.isMine = math.random() > 0.9
+    self.isRevealed = false
+    self.locked = false
+    self.renderer = rectangleShape:new{ x = (x - 1) * scale, y = (y - 1) * scale, width = scale, height = scale, color = colors.black, outline_thickness = 1, outline_color = 0xAAAAAAFF }
+
+    setmetatable(self, { __index = cell })
+    return self
+end
+
+function cell:render()
+    if self.isRevealed then
+        self:neighbors()
+
+        self.renderer:setColor(colors.white)
+        self.renderer:render()
+
+        if self.count and not self.isMine then
+            color(colors.black)
+            text(self.count, math.floor(scale*0.9), (self.x-1) * scale + scale / 5, (self.y-1) * scale)
+        elseif self.isMine then
+            color(colors.black)
+            ellipse((self.x-1) * scale + scale / 7, (self.y-1) * scale + scale / 7, scale*0.35, scale*0.35)
+        end
+
+    elseif self.locked then
+        self.renderer:setColor(colors.red)
+        self.renderer:render()
+    else
+        self.renderer:setColor(colors.black)
+        self.renderer:render()
+    end
+end
+
+function cell:clicked()
+    if not self.locked then
+        self.isRevealed = true
+        if self.isMine then
+            lost = true
+            for i = 1, cols do
+                for j = 1, rows do
+                    grid[i][j].isRevealed = true
+                end
+            end
+            print("You lost!")
+        end
+    end
+end
+
+function cell:lock()
+    self.locked = not self.locked
+end
+
+function cell:neighbors()
+    local count = 0
+    for i = -1, 1 do
+        for j = -1, 1 do
+            if grid[self.x+i] and grid[self.x+i][self.y+j] then
+                if grid[self.x+i][self.y+j].isMine then
+                    count = count + 1
+                end
+            end
+        end
+    end
+
+    if count > 0 then
+        self.count = count
+    else
+        for i = -1, 1 do
+            for j = -1, 1 do
+                if grid[self.x+i] and grid[self.x+i][self.y+j] then
+                    grid[self.x+i][self.y+j].isRevealed = true
+                end
+            end
+        end
+    end
+end

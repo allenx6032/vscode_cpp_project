@@ -1,0 +1,26 @@
+local n = 0
+local c = 5
+local angle = 137.5
+
+function setup()
+    -- size(1920, 1080, "Phyllotaxis")
+    fullscreen()
+    framerate(0)
+end
+
+function render()
+
+    local a = n * angle
+    local radius = c * math.sqrt(n)
+
+    local x = radius * math.cos(a) + width / 2
+    local y = radius * math.sin(a) + height / 2
+
+    n = n + 1
+
+    color(hue( math.abs(math.sin( (x-y) / (x+y) )) ))
+    ellipse(x, y, 4, 4)
+
+    color(colors.white)
+    text("Alt+F4 to exit", 16, 10, 10)
+end
