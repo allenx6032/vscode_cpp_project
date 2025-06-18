@@ -1,0 +1,40 @@
+local isDrawing = false
+
+local points = {}
+local cursor
+
+function setup()
+    size(1280, 720, "Pencil draw")
+    setMouseVisible(false)
+    cursor = customShape:new{ points = { {0,0}, {40,10}, {20, 10}, {40,30}, {30,40}, {10,20}, {10,40} }, color = colors.red, texture = nil }
+end
+
+function render()
+    clear()
+
+    for _, v in pairs(points) do
+        v:render()
+    end
+
+    cursor:render()
+end
+
+function input(event)
+    if event.type == events.mouse.button.pressed then
+        isDrawing = true
+    elseif event.type == events.mouse.button.released then
+        isDrawing = false
+
+    elseif event.type == events.key.pressed or event.type == events.mouse.left then
+        setMouseVisible(true)
+    elseif event.type == events.key.released or event.type == events.mouse.entered then
+        setMouseVisible(false)
+
+    elseif event.type == events.mouse.moved then
+        cursor:setOrigin(-event.x, -event.y)
+        if isDrawing then
+            local newPoint = rectangleShape:new{ x = event.x, y = event.y, width = 4, height = 4, color = colors.white }
+            table.insert(points, newPoint)
+        end
+    end
+end

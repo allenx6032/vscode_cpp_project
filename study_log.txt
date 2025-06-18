@@ -31,6 +31,7 @@ huggingface-cli download --resume-download jingyaogong/minimind-v1 --local-dir m
 huggingface-cli download --resume-download runfuture/MiniCPM3-4B --local-dir MiniCPM3-4B
 git clone --depth=1 https://github.com/allenx6032/vscode_cpp_project VscodiumZone
 git clone --depth=1 https://github.com/
+git clone --depth=1 git@gitlab.com:
 git submodule update --init --recursive --depth=1 --force
 git submodule update --remote  --force <路径/子模块目录>  #强制指定更新某个子模块
 git config --global submodule.fetchJobs 8  # 设置并行下载数
