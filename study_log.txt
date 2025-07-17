@@ -118,13 +118,19 @@ zipStoreBase=GRADLE_USER_HOME
 zipStorePath=wrapper/dists
 
 
-#if LUA_VERSION_NUM < 502
-#define luaL_newlib(L,l) (lua_newtable(L), luaL_register(L,NULL,l))
-#endif
-//#if (LUA_VERSION_NUM == 501)
-//#define luaL_setfuncs(L,f,n) luaL_register(L,NULL,f)
-//#define luaL_newlib(L,f) luaL_register(L,"lpeg",f)
+//#if LUA_VERSION_NUM < 502
+//#define luaL_newlib(L,l) (lua_newtable(L), luaL_register(L,NULL,l))
 //#endif
+#if (LUA_VERSION_NUM == 501)
+#define luaL_setfuncs(L,f,n) luaL_register(L,NULL,f)
+#define luaL_newlib(L,f) luaL_register(L,"lpeg",f)
+#endif
+#if LUA_VERSION_NUM >= 503
+    #define lua_tointegerx lua_tointegerx
+#else
+    #define lua_tointegerx(L,idx,isnum) \
+        (*(isnum) = lua_isnumber(L,idx), lua_tointeger(L,idx))
+#endif
 
 //202002L c++20 201703L c++17 201402L c++14 201103L c++11
 #if __cplusplus >=  201703L //c++17
@@ -158,6 +164,25 @@ make -f Makefile.win32 CFG=debug
 make 2>&1|tee xxx.log  编译日志打印
 gcc/g++ -Wall[打印所有日志] -w[打印警告/错误日志] -fsyntax-only[打印错误日志]
 
+# 设置环境变量（临时生效）
+set PATH=D:\vcpkg;%PATH%
+# 或者永久设置（需要管理员权限）
+setx PATH "D:\vcpkg;%PATH%"
+vcpkg install lua --triplet=x64-windows
+vcpkg install lua --triplet=x64-windows --clean-build
+vcpkg remove lua --triplet=x64-windows 
+vcpkg remove lua --triplet=x64-windows  --recurse
+vcpkg install lua --triplet=x64-mingw-static
+vcpkg install lua --triplet=x64-mingw-static --clean-build
+vcpkg remove lua --triplet=x64-mingw-static 
+vcpkg remove lua --triplet=x64-mingw-static  --recurse
+cmake -DCMAKE_TOOLCHAIN_FILE=D:/vcpkg/scripts/buildsystems/vcpkg.cmake  ..
+cmake -DCMAKE_TOOLCHAIN_FILE=D:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_BUILD_TYPE=debug ..
+cmake -DCMAKE_TOOLCHAIN_FILE=D:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_BUILD_TYPE=debug -DVCPKG_TARGET_TRIPLET=x64-mingw-static ..
+vcpkg list
+vcpkg update
+vcpkg upgrade
+
 set PROMTP=$p$_$+$g /m //缩短cmd路径显示
 set JAVA_HOME=U:\android-studio\jre 临时用户变量
 setx "JAVA_HOME" "U:\android-studio\jre" 临时系统变量
@@ -180,6 +205,12 @@ git config --global http.proxy 127.0.0.1:7897
 git config --global https.proxy 127.0.0.1:7897
 netsh winhttp set proxy 127.0.0.1:7897
 adb connect 127.0.0.1:62001 夜神模拟器
+adb pair 192.168.2.23:38391 
+adb connect 192.168.2.23:38391 
+adb -s 设备号 tcpip 端口号
+adb pair IP:端口号
+adb connect IP:端口号
+
 
 gradlew app:assembleRelease
 gradlew :app:dependencies  > app.txt
@@ -310,6 +341,35 @@ git config --global url."https://ghproxy.net/https://github.com/".insteadOf git@
 git config --global url."https://mirrors.tuna.tsinghua.edu.cn/git/chromiumos".insteadOf https://chromium.googlesource.com
 
 
+ncnn 多平台编译
+Build for Windows
+cd <ncnn-root-dir>
+mkdir build
+cd build
+cmake -DNCNN_VULKAN=ON -G "MinGW Makefiles" .. //cmake -DNCNN_VULKAN=OFF -G "MinGW Makefiles" ..
+cmake --build . --config Release -j 4
+cmake --build . --config Release --target install
+Build for Android
+1.build-android-armv7
+cd <ncnn-root-dir>
+mkdir -p build-android-armv7
+cd build-android-armv7
+cmake -GNinja -DCMAKE_TOOLCHAIN_FILE="D:/Android-SDK/ndk/16.1.4479499/build/cmake/android.toolchain.cmake" -DANDROID_ABI="armeabi-v7a" -DANDROID_ARM_NEON=ON -DANDROID_PLATFORM=android-14 -DNCNN_VULKAN=ON -DCMAKE_BUILD_TYPE=Release .. 
+# If you use cmake >= 3.21 and ndk-r23
+# you need to add -DANDROID_USE_LEGACY_TOOLCHAIN_FILE=False option for working optimization flags
+make -j$(nproc)
+make install
+2.build-android-aarch64
+cd <ncnn-root-dir>
+mkdir -p build-android-aarch64
+cd build-android-aarch64
+cmake -DCMAKE_TOOLCHAIN_FILE="D:/Android-SDK/ndk/16.1.4479499/build/cmake/android.toolchain.cmake"\
+    -DANDROID_ABI="arm64-v8a" \
+    -DANDROID_PLATFORM=android-21 -DNCNN_VULKAN=ON ..
+# If you use cmake >= 3.21 and ndk-r23
+# you need to add -DANDROID_USE_LEGACY_TOOLCHAIN_FILE=False option for working optimization flags
+make -j$(nproc)
+make install
 apk反编译
 java -jar .\apktool_2.9.3.jar d autoHR.apk -o org.example.autostar2048
 新增
@@ -753,6 +813,9 @@ keytool -importkeystore -srckeystore APPkeystore.jks -destkeystore APPkeystore.j
 jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore APPkeystore.jks -storepass 123456 com.immomo.momo_repack.apk key0
 jarsigner -verify com.immomo.momo_repack.apk
 zipalign 4 com.immomo.momo_repack.apk com.immomo.momo_final.apk
+
+ apk生成新签名
+keytool -genkey -alias testalias -keyalg RSA -keysize 2048 -validity 36500 -keystore gdgame.jks -storepass gdgame789123 -keypass gdgame789123 -dname "CN=None, OU=None, O=None, L=None, ST=None, C=None"
 
 查看当前界面Activity
 adb shell "dumpsys activity top | grep ACTIVITY | tail -n 1"
@@ -1859,6 +1922,13 @@ target_link_libraries(your_lib_name curl::curl_static)
  rmdir -f NUL 强制删除文件夹
 del /f/q/s *.* > NUL //强制删除文件 /F：强制删除只读文件 /Q：在模糊文件名匹配删除的时候，不询问是否删除 /S：删除当前目录和子目录中指定文件
 rd /f/s/q   强制删除文件夹
+
+nul 和prn都属于设备名称，等价于一个 DOS 设备，这类文件无法在图形界面删除，因为 Windows 不允许以这种方式删除设备。在系统看来，这个 nul,prn 文件夹就是设备。
+不过可以在MS-DOS下删除它们。
+开始—运行—输入cmd—确定。然后在打开的命令提示符窗口中输入：
+RD/S/Q \\.\“C:\Documents and Settings\Administrator\桌面\Internetexploer\nul ” 回车，再输入
+RD/S/Q \\.\“C:\Documents and Settings\Administrator\桌面\Internetexploer\prn” 回车，再手动删除Internetexploe文件夹即可。（注：RD/S/Q后面是一个空格，\\后面是一个点“.”）。
+del /f /s /q \\.\D:\WorkZone\MyAssist\nelua-lang\NUL
 
 VS 常量$(LatestTargetPlatformVersion)$(DefaultPlatformToolset)$(SolutionDir)$(ProjectDir)$(Configuration)$(OutDir)$(ProjectName)$(Platform)$(IntDir)$(MSBuildProjectName)$(IncludePath)$(LibraryPath)
 VS 链接-> 命令行 ->其他 \verbose:lib查看链接过程 \utf-8编码支持[#pragma warning (disable:4819)]
@@ -3487,6 +3557,23 @@ Android5.0通讯架构大调整后，实现虚拟来电其实更方便了。这�
 </service> -->
 我这里手头上只有mtk的代码，还需要删除一些视频通话相关的代码程序才能跑起来，如果使用原生代码应该只要做上述一处修改就可以实现虚拟来电了。
 
+
+解决: 您目前无法访问 因为此网站使用了 HSTS。网络错误和攻击通常是暂时的，因此，此网页稍后可能会恢复正常
+HSTS：HSTS 是 HTTP 严格传输安全（HTTP Strict Transport Security） 的缩写。 这是一种网站用来声明他们只能使用安全连接（HTTPS）访问的方法。 如果一个网站声明了 HSTS 策略，浏览器必须拒绝所有的 HTTP 连接并阻止用户接受不安全的 SSL 证书。 目前大多数主流浏览器都支持 HSTS (只有一些移动浏览器无法使用它)。
+实际上简单理解就是如果浏览器接收到使用 HTTP 加载资源的请求，则必须尝试使用 HTTPS 请求替代。 如果 HTTPS 不可用，则必须直接终止连接。
+如何解决
+调整键盘为英文输入状态，点击页面内的刷新按钮，刷新一下页面，然后用鼠标点击一下当前页面任意位置，紧接着在当前页面使用键盘直接输入：thisisunsafe 即可（不是在地址栏输入，就直接敲键盘就行了）。按完上面的按键，页面会自动刷新，然后就可以正常访问了。
+其他解决方案：(来源于网络)
+方案一：
+在Chrome的地址栏中输入：chrome://flags/#show-cert-link，选择"启用"，重启Chrome浏览器。
+打开问题网页，点击地址栏左侧的"不安全"图标，选择"证书"下面的"无效"链接，打开查看问题证书。
+如果对该网站足够信任，可以不用理会证书的问题，直接点击下面的"高级"链接，点击"继续前往…(不安全)"链接就可以忽略证书问题，进入到证书有问题的网站。
+方案二：
+打开chrome://flags
+找到“Show in-form warnings for sensitive fields when the top-level page is not HTTPS”设置为 disabled
+找到 “Allow invalid certificates for resources loaded from localhost”设置为 “enabled”
+点启用，然后重启浏览器
+
 window系统
 分割压缩包
 1、安装好 WinRAR 之后，用鼠标右键点击要创建分割压缩包的目标文件。选择‘’添加到压缩文件＂
@@ -3547,6 +3634,7 @@ Windows explorer.exe 无法访问指定设备路径或文件。你可能没有�
 win10 [HKEY_CLASSES_ROOT\PackagedCom\ClassIndex]  win11  [HKEY_CLASSES_ROOT\PackagedCom\TreatAsClassIndex] 
 右键[ClassIndex/TreatAsClassIndex]文件夹，点击权限->添加->输入对象[Users]->检查名称->确认->选择Users勾选[读取]权限
 
+
 Cmake
 # 最低版本要求
 cmake_minimum_required(VERSION 3.10)
@@ -3569,6 +3657,310 @@ link_directories(${CUSTOM_ROOT}/lib)
 find_library(MYLIB_LIB NAMES mylib PATHS ${CUSTOM_ROOT}/lib)
 # 链接MyLib库
 target_link_libraries(MyExecutable ${MYLIB_LIB})
+
+
+cmake 引入第三方库（头文件目录、库目录、库文件）
+一、手动引入
+1、include_directories（引入头文件目录）
+2、link_directories（引入库目录）
+3、link_libraries (引入库文件)
+4、target_link_libraries（引入库文件到子工程）
+5、target_include_directories（引入头文件目录到子工程）
+二、批量引入
+1、find_package（查找 .cmake ）
+2、pkg_check_modules（查找 .pc ）
+一、手动引入
+手动引入需要自己获取到所有头文件路径以及库文件路径，然后再调用函数接口引入。
+1、include_directories（引入头文件目录）
+include_directories表示引入头文件搜索路径，当工程要用到某个头文件的时候，就会去该路径下搜索。一般都是在顶层的CmakeList文件中添加搜索路径。
+include_directories(完整路径)
+# 绝对路径引入
+include_directories("D:\\ProgramFiles\\Qt\\qt5_7_lib_shared_64\\include")
+# 普通变量引入(可以理解为把D:\\ProgramFiles\\Qt\\qt5_7_lib_shared_64放入一个集合INCLUDE_PATH)
+# ${变量名} 可以获取集合内容，允许拼接
+set (INCLUDE_PATH D:\\ProgramFiles\\Qt\\qt5_7_lib_shared_64)
+include_directories(${INCLUDE_PATH}/include)       
+# 环境变量引入
+# 假设环境变量是INCLUDE_PATH = D:\\ProgramFiles\\Qt\\qt5_7_lib_shared_64
+# #ENV{环境变量名} 可以获取环境变量的内容，允许拼接
+include_directories($ENV{INCLUDE_PATH}/include)
+一个cmake总工程可以包含多个子工程，总工程引入的头文件，并不代表子工程就可以用，就好比幼儿园老师（总工程）买来一箱苹果，小朋友（子工程）根据需求拿苹果。
+2、link_directories（引入库目录）
+link_libraries 表示添加第三方 lib 库文件的搜索路径。若工程在编译的时候会需要用到某个第三方库的 lib 文件，此时就可以使用 link_libraries 来添加搜索路径。
+link_libraries(完整路径)
+# 绝对引入
+link_libraries("D:\ProgramFiles\Qt\qt5_7_lib_shared_64\lib")
+# 预定义变量引入
+# PROJECT_SOURCE_DIR 是cmake的预定义变量，表示顶层CmakeList文件所在路径
+link_libraries(${PROJECT_SOURCE_DIR}/ExtLib/ffmpeg/win64/lib)
+# 环境变量引入
+# 环境变量 QT_LIB = D:\\ProgramFiles\\Qt\\qt5_7_lib_shared_64
+link_libraries($ENV{QT_LIB}/lib)
+3、link_libraries (引入库文件)
+link_libraries 表示将具体的库文件引入到当前工程中，所填入的路径必须是全路径。
+# 全路径引入
+LINK_LIBRARIES("/opt/MATLAB/R2012a/bin/glnxa64/libeng.so")
+4、target_link_libraries（引入库文件到子工程）
+target_link_libraries 表示添加第三方 lib 库文件到目标子工程，上面 link_directories 是引入库目录到当前工程，link_libraries 是引入库文件到当前工程，具体是哪个工程并没有指明。就好比，货车把满载的货物运到幼儿园里，但是没分配。
+target_link_libraries 起的作用就是分发工作，分发xx库给指定工程，注意xx库必须是当前工程中有的或者 搜索路径里有的。
+target_link_libraries(子工程名 库文件1 库文件2 ...)     # 注意子工程名和库文件名之间以空格隔开
+add_executable(qt_test ${ALL_SRCS})    # 子工程名是 qt_test 
+# 绝对路径引入
+target_link_libraries(qt_test 
+    D:\\ProgramFiles\\Qt\\qt5_7_lib_shared_64\\lib\\Qt5Core.lib
+    D:\\ProgramFiles\\Qt\\qt5_7_lib_shared_64\\lib\\Qt5Gui.lib
+)
+# 普通变量引入（被打包的lib文件，必须能在搜索路径下找到）
+set (LIB_FFMPEG "avcodec.lib" "avdevice.lib" "avfilter.lib")
+target_link_libraries(qt_test 
+    ${LIB_FFMPEG}
+)
+# 预定义变量引入
+# PROJECT_SOURCE_DIR 是cmake的预定义变量，表示顶层CmakeList文件所在路径
+target_link_libraries(qt_test 
+    ${PROJECT_SOURCE_DIR}/ExtLib/ffmpeg/win64/lib/avcodec.lib
+)
+5、target_include_directories（引入头文件目录到子工程）
+target_include_directories 达到的效果和 target_link_libraries 是类似的，需要注意的是
+include_directories：将头文件目录引入到当前工程
+target_include_directories：将头文件目录针对性的引入到目标子工程（当前工程一般可以包含多个子工程）
+二、批量引入
+一键引入只需提供 .cmake 文件或 .pc 文件的完整搜索路径，若 cmake 生成器能找到对应的库，便会自动将所有的头文件路径和库文件路径分别装填到对应的变量。
+头文件路径装填到变量 XXX_INCLUDE_DIRS
+库文件路径装填到 XXX_LIBRARY_DIRS
+库文件名装填到变量 XXX_LIBRARIES 或 XXX_LIBS （可能包含了全路径）
+注意：这里的 XXX 表示库名，不同库的变量会略微有所不同
+1、find_package（查找 .cmake ）
+find_package 主要用于查找 .cmake 文件（详细使用可以参考：find_package 的详细使用 ）find_package 需要通过 .cmake 为后缀的文件引入，将 .cmake 包含的库和头文件全部引入工程。不同的库的达到的效果不同。有时需要搭配关键字使用：
+REQUIRED：必须找到该库，找不到就报错
+COMPONENTS：从库中找子库（模块）xx，比如COMPONENTS Widget表示找到子模块Widget
+以OpenCV库为例，OpenCV库提供的是 OpenCVConfig.cmake文件，只需引入一次，便可以将OpenCV所有的库文件和头文件引入到当前工程。OpenCVConfig.cmake 也给出了详细的说明。
+find_package(OpenCV REQUIRED)
+# OpenCV_INCLUDE_DIRS 是预定义变量，代表OpenCV库的头文件路径
+include_directories(${OpenCV_INCLUDE_DIRS}) 
+# OpenCV_LIBS 是预定义变量，代表OpenCV库的lib库文件
+target_link_libraries(MY_TARGET_NAME ${OpenCV_LIBS})
+以QT库为例，QT库是一个大型库，内部还包含了许多子库，在引入的时候最好按需引入
+# 含义：必须找到Qt5库的子模块Core，找不到就报错
+find_package(Qt5 COMPONENTS Core REQUIRED)
+# 链接时需要加上前缀Qt::(这里是Qt5的库)
+target_link_libraries(qt_test
+    Qt5::Core
+)
+注意：无论是上面的Widget，还是Core，都是去掉了前缀Qt5。实际上，Qt的子库名字都是有前缀 "Qt5" 的！只不过在引入的时候，要去掉。
+2、pkg_check_modules（查找 .pc ）
+pkg_check_modules 主要通过 .pc 文件引入整个库，该命令会解析指定的 .pc 文件，并将所需的编译和链接信息提取到 CMake 变量中，以便后续使用。
+pkg_check_modules：pkg_check_modules 使用详解
+
+
+Makefile与CMake
+一、Makefile 核心内容
+1. Makefile 基础结构与工作原理
+三要素：
+目标（Target）：要生成的文件或执行的操作（如可执行文件、清理操作）。
+依赖（Dependency）：生成目标所需的文件或其他目标。
+命令（Command）：生成目标的具体指令（需以Tab 键开头）。
+工作原理：
+Make 通过检查依赖文件的修改时间，仅重新编译更新过的文件，提高编译效率。例如：
+simple: main.o foo.o    # 目标：simple，依赖：main.o和foo.o
+    gcc -o simple main.o foo.o  # 命令
+main.o: main.c          # 子目标：main.o依赖main.c
+    gcc -c main.c -o main.o
+2. 关键特性与语法
+伪对象（.PHONY）：
+避免 Make 将目标视为同名文件，强制执行命令。例如：
+.PHONY: clean
+clean:
+    rm simple main.o foo.o
+若不声明.PHONY，当目录存在clean文件时，make clean会认为目标已更新，不执行删除命令。
+变量与自动变量：
+自定义变量：用于存储重复内容（如编译器、文件列表），例：
+CC = gcc
+SRCS = main.c foo.c
+OBJS = $(SRCS:.c=.o)  # 将.c替换为.o
+自动变量：
+$@：当前目标名（如simple）。
+$^：所有依赖文件（如main.o foo.o）。
+$<：第一个依赖文件（如main.c）。
+$(EXE): $(OBJS)
+    $(CC) -o $@ $^  # 等价于gcc -o simple main.o foo.o
+函数与第三方库依赖：
+wildcard：获取指定模式的文件列表，例：SRCS = $(wildcard *.c)。
+patsubst：字符串替换，例：OBJS = $(patsubst %.c, %.o, $(SRCS))。
+第三方库链接：通过-I指定头文件路径，-L指定库路径，-l指定库名，例：
+makefile
+CFLAGS += -I./include
+LDFLAGS += -L./lib -lpthread
+3. 实战范例
+简单示例：
+all: test
+    @echo "hello all"
+test:
+    @echo "hello test"
+make默认执行第一个目标（all），依赖test，因此先执行test再执行all。
+复杂编译流程：
+通过变量和自动变量简化多文件编译，例：
+CC = gcc
+SRCS = main.c foo.c
+OBJS = $(SRCS:.c=.o)
+EXE = simple
+$(EXE): $(OBJS)
+    $(CC) -o $@ $^
+%.o: %.c
+    $(CC) -c $< -o $@
+二、CMake 核心内容
+1. CMake 概述
+定位：跨平台构建工具，通过编写CMakeLists.txt生成 Makefile 或其他项目文件（如 VS 工程），简化多平台编译配置。
+优势：相比 Makefile，语法更简洁，支持模块化设计，适合大型项目。
+2. 基础语法与流程
+核心命令：
+cmake_minimum_required：指定 CMake 最低版本。
+project：定义项目名称和语言（如C、CXX）。
+add_executable：添加可执行文件，关联源文件。
+add_library：生成库文件（SHARED动态库，STATIC静态库）。
+target_link_libraries：链接库文件到可执行文件。
+编译流程：
+在项目根目录创建CMakeLists.txt。
+创建build目录，进入后执行cmake ..生成 Makefile。
+执行make编译。
+3. 实战场景
+单文件编译：
+cmake_minimum_required(VERSION 2.8)
+project(0voice)
+set(SRC_LIST main.c)
+add_executable(0voice ${SRC_LIST})
+多目录与库管理：
+子目录编译为库：
+# 根目录CMakeLists.txt
+add_subdirectory(src/dir1)  # 添加子目录
+add_subdirectory(src/dir2)
+add_executable(main main.c)
+target_link_libraries(main dir1 dir2)  # 链接库
+# src/dir1/CMakeLists.txt
+add_library(dir1 SHARED dir1.c)  # 生成动态库
+强制使用静态库：
+target_link_libraries(main libdir1.a)  # 指定静态库文件名
+安装与编译选项：
+指定安装路径：
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local ..  # 安装到/usr/local
+make install  # 安装库、头文件等到目标路径
+Debug/Release 模式：
+if(${CMAKE_BUILD_TYPE} MATCHES "Release")
+    set(CMAKE_CXX_FLAGS "-O3 -Wall")  #  Release优化
+else()
+    set(CMAKE_CXX_FLAGS "-O0 -g")     # Debug调试符号
+endif()
+特性	Makefile	CMake
+学习难度	较高（语法灵活但复杂）	较低（模块化命令，易上手）
+跨平台支持	依赖平台特定语法（如 GNU Make）	原生支持多平台（生成对应平台构建文件）
+大型项目管理	手动维护依赖关系，易出错	支持子目录、库管理，自动处理依赖
+适用场景	简单项目或需要精细控制编译流程的场景	复杂多模块项目、跨平台开发
+建议：
+小型项目或需要深入理解编译原理时，使用 Makefile。
+中大型项目或跨平台开发时，优先选择 CMake，搭配make执行编译。
+三、Makefile和CMake的具体案例
+案例 1：Makefile 跨目录编译
+项目结构
+project_make/
+├── include/           # 头文件目录
+│   └── utils.h
+├── src/               # 源文件目录
+│   ├── main.c
+│   └── utils/
+│       └── util.c
+├── build/             # 输出目录（存放目标文件和可执行文件）
+└── Makefile
+代码文件内容
+include/utils.h（头文件）
+#ifndef UTILS_H
+#define UTILS_H
+int add(int a, int b);
+#endif
+src/utils/util.c（功能实现）
+#include "utils.h"
+int add(int a, int b) {
+    return a + b;
+}
+src/main.c（主函数）
+#include <stdio.h>
+#include "utils.h"
+int main() {
+    int sum = add(3, 5);
+    printf("3 + 5 = %d\n", sum);
+    return 0;
+}
+Makefile 实现
+# 变量定义
+CC = gcc
+CFLAGS = -Wall -I./include  # -I 指定头文件路径
+SRCS = $(wildcard src/*.c src/utils/*.c)  # 匹配所有源文件
+OBJS = $(patsubst %.c, build/%.o, $(SRCS))  # 目标文件路径（build目录下保持原目录结构）
+EXE = build/app  # 最终可执行文件路径
+# 生成可执行文件（默认目标）
+all: $(EXE)
+# 链接目标文件生成可执行文件
+$(EXE): $(OBJS)
+    @mkdir -p $(dir $@)  # 创建输出目录（若不存在）
+    $(CC) $^ -o $@
+# 模式规则：编译 .c 文件为 .o（保持目录结构）
+build/%.o: %.c
+    @mkdir -p $(dir $@)  # 创建目标文件所在目录（如 build/src/utils/）
+    $(CC) $(CFLAGS) -c $< -o $@
+# 清理生成文件
+.PHONY: clean
+clean:
+    rm -rf build/
+操作说明
+执行 make，会自动：
+在 build 目录下生成 src/main.o、src/utils/util.o 目标文件。
+链接生成可执行文件 build/app。
+运行 ./build/app，输出 3 + 5 = 8。
+案例 2：CMake 跨目录编译
+项目结构
+project_cmake/
+├── include/           # 头文件目录
+│   └── utils.h
+├── src/               # 源文件目录
+│   ├── main.c
+│   └── utils/
+│       ├── util.c
+│       └── CMakeLists.txt  # 子目录 CMake 配置
+├── build/             # 编译目录（手动创建）
+└── CMakeLists.txt     # 根目录 CMake 配置
+代码文件内容
+头文件 include/utils.h、src/utils/util.c、src/main.c 与 Makefile 案例完全相同。
+CMake 配置文件
+根目录 CMakeLists.txt：
+cmake_minimum_required(VERSION 3.10)
+project(MyProject)
+# 指定 C 标准（可选）
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+# 包含头文件目录（全局生效）
+include_directories(include)
+# 添加子目录（会执行 src/utils/CMakeLists.txt）
+add_subdirectory(src/utils)
+# 定义主程序源文件（仅主函数）
+set(MAIN_SRC src/main.c)
+# 生成可执行文件（链接子目录生成的库）
+add_executable(app ${MAIN_SRC})
+target_link_libraries(app utils)  # 链接子目录生成的库
+子目录 src/utils/CMakeLists.txt：
+# 定义当前目录的源文件（仅功能实现）
+set(UTIL_SRC util.c)
+# 生成静态库（库名：utils）
+add_library(utils STATIC ${UTIL_SRC})
+# 可选：设置库的输出目录（例如放到 build/lib）
+set_target_properties(utils PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+操作说明
+进入 build 目录（需手动创建）：
+mkdir build && cd build
+执行 cmake .. 生成构建文件（会自动处理跨目录依赖）。
+执行 make 编译，生成：
+静态库 build/lib/libutils.a（子目录生成）。
+可执行文件 build/app（根目录生成）。
+运行 ./app，输出 3 + 5 = 8。
+
 
 Chocolatey
 CMD：set http_proxy=http://127.0.0.1:7890
@@ -3708,6 +4100,430 @@ set X_VCPKG_ASSET_SOURCES="x-azurl,http://106.15.181.5/" /m
 set VCPKG_DEFAULT_TRIPLET="x86-windows" /m
 setx X_VCPKG_ASSET_SOURCES "x-azurl,http://106.15.181.5/" /m
 setx VCPKG_DEFAULT_TRIPLET "x86-windows" /m
+
+VCPKG全套教程
+1.下载安装： git clone https://github.com/microsoft/vcpkg
+2.运行bootstrap-vcpkg.bat下载vcpkg.exe
+、运行验证：在当前页面下 按住shift打开powershell终端
+然后输入 ./vcpkg（也可以直接vcpkg）(如果是cmd就是输入vcpkg cmd不要./)
+4、进行测试 是否成功安装（安装OPENSSL测试）
+./vcpkg install openssl:x64-windows 或者是
+./vcpkg install openssl --triplet=x64-windows 两者等价一样
+配置变量名称 VCPKG_DEFAULT_TRIPLET  值是 x64-windows
+用了这个之后 我们写代码就是直接可以 vcpkg install zlib 不需要：x64-windows
+易错点
+我写这样的代码 是不可以运行的 需要对所有以后的代码进行修改
+vcpkg install zlib：x64-windows # 不可以
+vcpkg install zlib --triplet=x64-windows # 可以
+补充知识：
+①Vcpkg可以用国内源，但是我没用，我有vpn，不过不连接网络似乎也可以下载包，只要网速快就行。
+②用“vcpkg install name（包名）”默认下载的是x86包，在x64系统上不能运行，因此需要三元指定--triplet=x64-windows
+③查看已经下载的库 vcpkg list
+④搜索网上的这个库 这样还可以看看版本号 比如下面的vcpkg search opencv
+那么怎么指定呢 这个详细见vcpkg.json 这里告诉了我们怎么操作
+⑤删除已经下载的库 vcpkg remove xx --triplet=x64-windows （还得加上三元，要不然又报错，但是假如系统重指定了x64-windows的，可以不用加上--triple=x64-windows或者是：x64-windows）然后这个命令删除的时候 由于很多库之间有依赖 因此这样的话其实会报错不让你删掉，报错如下：
+因此我们需要改为 vcpkg remove zlib --triplet=x64-windows --recurse
+加上 --recurse 选项来递归删除这些库及其依赖项,但实际上我们可能是只想删这个，因此其他的我还要下载回来，比如opencv4，所以删除了包之后，我需要再下回来
+vcpkg install libpng opencv4 tiff --triplet=x64-windows
+这种方法可以让你删除 zlib，而不会影响其他已安装的库（remove的移除也只是移除了二进制程序库而已，源码包和解压缩的源码并没有删除 因此上图重新安装非常快）
+1、首先建议每次使用vcpkg都先初始化一下（作为更新）：
+./bootstrap-vcpkg.bat或者双击两下
+2、查看opencv版本 选择安装
+3、安装opencv4
+vcpkg install opencv4
+（这里非常值得注意:由于opencv4或者opencv3 他的结构目录是opencv4/opencv2/opencv.hpp）
+因此我们需要看一下他的地址，这是因为后续使用这个vcpkg的包的时候，我们应用的头文件路径是vcpkg-master\installed\x64-windows\include，因此这个opencv4反倒是累赘，在代码里只会使引用路径为#include <opencv2/opencv.hpp> 所以我们需要将其opencv2整个文件目录复制到include文件目录下，然后后续代码引用就没问题（opencv4就不删了，也许以后用opencv3呢对吧，到时候再把3的拿出来，直接把opencv2的删掉，用3里的cv2代替
+4、关联vcpkg安装好的OpenCV到Visual Studio
+方法1：针对个体，不常用
+vcpkg integrate project # 生成配置
+此时会在“D:\appset\vcpkg\vcpkg-master\vcpkg.D.appset.vcpkg.vcpkgmaster.1.0.0.nupkg”下，生成nuget配置文件
+打开Visual Studio，点击菜单“工具->NuGet包管理器->程序包管理器设置”，进入设置界面，点击“程序包源”。
+这个地址是对应的那个nuget包生成的地址使用的，所以是在vcpkg下，有的说是在buildsystem中是不对的，得具体分析。
+工程配置：打开Visual Studio 后右键点击需要设置的工程，选择“管理NuGet程序包”。
+这个版本是1.0.0 这个就是我们生成的，然后就可以用代码进行测试了
+#include <iostream>
+#include <opencv2/opencv.hpp>
+using namespace std; // 常规名称空间
+using namespace cv; // 应用Opencv名称空间
+int main() // 主函数
+{
+Mat img; //
+img = imread("1.jpg"); // 以绝对地址导入图片，图片路径是自己设置的
+if (img.empty()) // 判断是否导入图片
+{
+cout << "请确认图片正确位置！" << endl;
+return -1; // 返回-1
+}
+namedWindow("test", WINDOW_NORMAL); // 创建一个常规窗口
+resizeWindow("test", 1080, 960); // 设置窗口大小
+imshow("test", img); // 展示图片
+waitKey(100000);
+auto key = waitKey(0); // 获取键盘按键响应
+if (key == 'q') // 判断案件是否为q
+{
+cout << "\n销毁窗口。\n";
+destroyAllWindows(); // 销毁所有窗口
+}
+return 0; // 主函数结束
+}
+然后可能识别慢，重新生成就好了！（build ctrl+b的生成，也可以关闭vs再打开）
+如果此时新加了库 那么我们需要重新生成一下nuget的包 但是VS中不需要重新安装了，介绍的时候说了，只是给路径依赖，不包含包的
+方法2：针对整个环境，可以搭配vcpkg.json,cmake，常用
+使用 vcpkg integrate install #这样不会生成nuget文件 也无需使用nuget，直接就可以将目前vcpkg下载的所有包链接到了当前的工程下，可以随意#include库的头文件，编译时dll也会自动拷贝到目标目录。这里的头文件和目录是在下图所示文件夹下：
+然后我们直接打开vs就可以运行了，前提是比如opencv的路径是对的，否则会是这样：
+但是此种方法要是库进行了修改，比如增添些新的头文件，那么就需要把当前集成的这个删去： vcpkg integrate remove # 取消全局集成
+但是这并没有结束，针对方法2的做法，我们会接下来做更多的讲解，阐述vcpkg.json和cmakelists在这里的使用方法。
+3：详细Vcpkg和VS与VSCODE的集成（vcpkg.json与cmake）
+常规情况下，我们需要设置include目录、lib目录等。Vcpkg提供了一套机制，可以全自动的适配目录，而开发者不需要关心已安装的库的目录在哪里，也不需要设置。这是Vcpkg的一大优势。
+3.1 集成到工程
+上面已经可以集成到全局，为什么还要“集成到工程”呢？因为在大部分情况下，我们不希望集成到全局，毕竟有很多第三方库我们希望自定义处理一下，或者干脆不想集成第三方库。那么集成到工程是最灵活的处理方式。也是工程级项目推荐的处理方式
+1：windows下vs使用：
+方法1：第二章的方法2，vcpkg integrate install
+方法2：在其方法1基础上使用manifest（原因是这样可以方便第三者使用）（也叫使用MSBuild安装和管理包，manifest叫启用清单模式）
+manifest配置需要我们使用vcpkg.json文件，他实际上是已经开启了vcpkg integrate install 或者vcpkg integrate project+安装了nuget，因此才会有这个界面可供我们选择开启是否使用manifest。
+vcpkg.json的目的是什么，这个其实就跟github中的environments.txt文件夹一模一样，指定了当前项目需要什么依赖，然后我们根据这个依赖，下载需要的头文件，就和pip install environments.txt一样。通常是有了这个明确规定，我们指定了需要哪些库，因此给别人用的时候别人也知道到底需要哪个，而不是全部下载了。此外，vcpkg.json的权限高于全局的vcpkg integrate install 的权限，因此，假如在vcpkg.json中指定了一个版本，但电脑上有这个库单不是这个版本的，也会将其vcpkg install下载，然后使用他，具体操作为：
+首先测试的代码为：filename.cpp
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <json/json.h>
+#define JSON_PATH "./" // 这里值的注意，如果filename.cpp和vcpkg.json 同级目录，那么这样是对的
+using namespace std;
+int main()
+{
+ifstream fs;
+string jsonPath = JSON_PATH;
+jsonPath.append("vcpkg.json");
+fs.open(jsonPath);
+if (!fs.is_open())
+return -1;
+ostringstream ss;
+ss << fs.rdbuf();
+fs.close();
+string rawJson = ss.str();
+JSONCPP_STRING err;
+Json::CharReaderBuilder builder;
+const std::unique_ptr<Json::CharReader> reader(builder.newCharReader());
+Json::Value root;
+if (!reader->parse(rawJson.c_str(), rawJson.c_str() + static_cast<int>(rawJson.length()), &root, &err))
+{
+return -1;
+}
+if (root["name"].isString())
+cout << "project name: " << root["name"].asString() << endl;
+return 0;
+}
+在sln同级目录下创建清单文件vcpkg.json并填入以下代码：
+{
+"name": "test1",
+"version-string": "0.0.1",
+"dependencies": [
+"jsoncpp"
+]
+}
+其中test1是随便起的名字，和sln以及cpp命名均无关，唯一有关的就是dependencies，这里存放着依赖的库
+然后启用manifest功能
+生成项目
+此时我会发现，他下面会自动下载
+然后在当前工程下，也会有相应的vcpkg专门存储（这个不是存储到系统当中的那个vcpkg，所以这个还是有点优势的，存在当前项目下的）
+然后我又测试了opencv的代码，同样，也会有下载了opencv4的问题，opencv4/opencv2/opencv.hpp，解决方法是，先让他下载opencv4，然后将里面的opencv2复制到同样的路径下，就可以。
+#include <iostream>
+#include <opencv2/opencv.hpp>
+using namespace std; // 常规名称空间
+using namespace cv; // 应用Opencv名称空间
+int main() // 主函数
+{
+Mat img; //
+img = imread("1.jpg"); // 以绝对地址导入图片，图片路径是自己设置的
+if (img.empty()) // 判断是否导入图片
+{
+cout << "请确认图片正确位置！" << endl;
+return -1; // 返回-1
+}
+namedWindow("test", WINDOW_NORMAL); // 创建一个常规窗口
+resizeWindow("test", 1080, 960); // 设置窗口大小
+imshow("test", img); // 展示图片
+waitKey(100000);
+auto key = waitKey(0); // 获取键盘按键响应
+if (key == 'q') // 判断案件是否为q
+{
+cout << "\n销毁窗口。\n";
+destroyAllWindows(); // 销毁所有窗口
+}
+return 0; // 主函数结束
+}
+但是这里还有一个问题，也是manifest的缺点，我们此时ctrl+点击opencv是进不去的，但是他能找到路径，因此manifest是我们做完这个项目，给别人交付的时候写的，要不然自己进入不了其中的头文件，有些东西看起来非常麻烦（怎么看头文件呢，去vcpkg设置那里使用manifest改为否就行
+）
+附表修改vcpkg中的参数：
+方法2的官方做法：https://learn.microsoft.com/zh-cn/vcpkg/get_started/get-started-msbuild?pivots=shell-powershell
+稍微有点区别的就是，官方文档中生成vcpkg.json不是这么生成的，而是使用代码如下：
+创建vcpkg清单文件 (vcpkg.json)：
+vcpkg new --application
+生成一个一个vcpkg.json文件和一个vcpkg-configuration.json文件
+添加jsoncpp包作为依赖项：
+vcpkg add port jsoncpp
+此时vcpkg.json文件包含：
+这是清单文件。vcpkg 读取清单文件，以了解要安装和与MSBuild集成的依赖项，从而提供项目所需的依赖项。
+生成的vcpkg-configuration.json文件引入了一个基线，用于对项目的依赖项设置最低版本约束。修改此文件超出了本教程的范围。虽然在本教程中不适用，但建议将vcpkg-configuration.json文件保留在源代码管理之下，以确保不同开发环境中的版本一致性。
+方法3：vcpkg.json+cmake+vs2022 这里库并没有提前下载好，是现场下载，这就是vcpkg.json的作用：vcpkg会自动检测您的项目中是否包含vcpkg.json（与最顶级的CMakeLists.txt同级目录）从而自动激活manifest模式。vcpkg将在您的项目配置时自动将所有依赖库编译并安装至您的本地编译目录下(${CMAKE_BINARY_DIR}/vcpkg_installed)
+第一步：
+cmake.exe -G "Visual Studio 17 2022" -T v143 -A x64 -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_BUILD_TYPE=debug -DCMAKE_TOOLCHAIN_FILE:STRING="D:/appset/vcpkg/vcpkg-master/scripts/buildsystems/vcpkg.cmake" .
+这里面-T v143是指定msvc版本 但其实假如使用的VS版本对应的上msvc的，不用写这句话，这是为了不同版本准备的。Cmake
+注意，这里结尾有一个点，意思是告诉源代码目录：CMake需要知道项目的源代码位置，主要是包含CMakeLists.txt文件的路径。当然，也可以不加，因为就在当前目录下，所以无所谓。
+因此精简修改版本是：cmake -G "Visual Studio 17 2022" -A x64 -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_BUILD_TYPE=debug -DCMAKE_TOOLCHAIN_FILE:STRING="D:/appset/vcpkg/vcpkg-master/scripts/buildsystems/vcpkg.cmake" -B build
+-B build这样会非常好看，将结果存在build文件中
+第二步：
+cmake.exe --build .
+用来构建项目的命令，告诉CMake使用当前目录（.）下的构建系统文件（如Makefile或.sln文件）来进行编译、链接，生成目标文件，我们也对其进行修改
+cmake --build build
+这样就指定了刚才修剪过的build文件夹作为编译的地方。
+第三步：
+此时进入到Debug下，运行最后生成的项目
+这里的代码为：
+Cmakelists：
+cmake_minimum_required(VERSION 3.10)
+project(HelloWorld)
+add_executable (test "test.cpp")
+find_package(jsoncpp CONFIG REQUIRED)
+target_link_libraries(test PRIVATE jsoncpp_lib)
+target_compile_definitions(test PRIVATE -DJSON_PATH="${CMAKE_CURRENT_LIST_DIR}/")
+Test.Cpp：
+// 打印清单文件中的项目名称
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <json/json.h>
+#ifndef JSON_PATH
+#define JSON_PATH
+#endif
+using namespace std;
+int main()
+{
+ifstream fs;
+string jsonPath = JSON_PATH;
+jsonPath.append("vcpkg.json");
+fs.open(jsonPath);
+if (!fs.is_open())
+return -1;
+ostringstream ss;
+ss << fs.rdbuf();
+fs.close();
+string rawJson = ss.str();
+JSONCPP_STRING err;
+Json::CharReaderBuilder builder;
+const std::unique_ptr<Json::CharReader> reader(builder.newCharReader());
+Json::Value root;
+if (!reader->parse(rawJson.c_str(), rawJson.c_str() + static_cast<int>(rawJson.length()), &root, &err))
+{
+return -1;
+}
+if (root["name"].isString())
+cout << "project name: " << root["name"].asString() << endl;
+return 0;
+}
+Vcpkg.Json：
+{
+"name": "test",
+"dependencies": [
+"jsoncpp"
+]
+}
+方法4：cmake界面版本（不用vcpkj.json 但是需要的库提前安装好）
+首先在helloword文件夹下写好cmakelists和.cpp
+cmake_minimum_required(VERSION 3.10)
+project(HelloWorld)
+find_package(fmt CONFIG REQUIRED)
+add_executable(HelloWorld helloworld.cpp)
+target_link_libraries(HelloWorld PRIVATE fmt::fmt)
+#include <fmt/core.h>
+int main()
+{
+fmt::print("Hello World!\n");
+return 0;
+}
+然后再③这里改变量为：
+然后点击④（注意，点击前建议清空cache，防止上个项目干扰，我之间命令行出错很大原因就是因为这个cache残留导致我出错）
+然后再点击⑤和⑥，就自动帮我们打开vs2022，此时我们打开之后，应该怎么操作呢：
+方法5：使用vs2022创建cmake工程，但是这个我没成功，详细链接在这，我始终找不到CMakeSettings.json
+https://www.cnblogs.com/vcpkg/p/14550478.html
+2：windows下vscode使用：
+类似于上面的方法3一样：vcpkg.json+cmake+vscode
+首先有这三个文件，代码和方法3一模一样
+打开settings.json文件，进行文本添加
+添加的代码为：
+"cmake.configureSettings": {"CMAKE_TOOLCHAIN_FILE":"D:\\appset\\vcpkg\\vcpkg-master\\scripts\\buildsystems\\vcpkg.cmake"}
+然后生成，接着运行代码：
+拓展：如何指定使用版本
+在vcpkg.json文件中 我们加入这两行代码，
+"builtin-baseline":"dbdc9b3b8253dc9ba82df547c431eb52e5e3dafc",
+"overrides":[{"name":"jsoncpp","version":"1.9.1"}]
+·其中 dbdc9b3b8253dc9ba82df547c431eb52e5e3dafc指的是vcpkg仓库中的一个commit版本，而不是jsoncpp的commit版本。
+builtin-baseline设定了vcpkg使用的基准commit版本。这意味着vcpkg会从这个版本开始处理包的版本控制。
+overrides字段则用于手动覆盖某些包的版本，比如jsoncpp，允许你指定一个不同的版本（如1.9.1）（不用担心版本找不到，如果写错版本，他会提示错误说明没有这个版本）
+这里的commit是指如下操作：
+但是如果要使用这个功能，我们vcpkg是要用git clone 下载的，而不是zip，否则管理不了包，没有.git文件，然后报错如下：
+解决方法就是用git clone下载vcpkg才行，但是我下不下来，算了以后碰到再说。
+PS:额外参数详细介绍：
+0：我们如何知道在cmakelists中怎样用find_package和traget_link_libraries来指定库呢：
+当我们下载这个包的时候，他有使用提示的，照这个改就行了。
+1、在cmake文件中加入下面这句话即可集成动态库
+cmake -DCMAKE_TOOLCHAIN_FILE=<vcpkg_dir>/scripts/buildsystems/vcpkg.cmake
+其中<vcpkg_dir>是指vcpkg实际所在目录,要自己动手改
+在 CMake 中集成静态库，需要额外指令：
+cmake .. -DCMAKE_TOOLCHAIN_FILE=<vcpkg_dir>/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static
+这个我还没试过，不知道怎么操作
+https://blog.csdn.net/qq_58515541/article/details/139921345
+4:添加 vcpkg 路径（正常按照操作不会来到这一步）
+如果 vcpkg 没有被正确识别，可以手动添加 vcpkg 的库路径。在 Visual Studio 中：
+1）右键点击你的项目，选择 Properties。
+2）在左侧菜单中，找到 VC++ Directories，在 Include Directories 和 Library Directories 中添加 vcpkg 的路径，通常是在 vcpkg\installed\x64-windows\include 和 vcpkg\installed\x64-windows\lib。
+5:使用 VS 内置的命令提示符
+打开 Visual Studio 2022。
+在菜单栏中，选择 Tools（工具）。
+然后选择 Command Line（命令行），你可以看到几个选项：
+）Developer Command Prompt：用于执行与 Visual Studio 相关的命令。
+）PowerShell：打开 Windows PowerShell。
+或者是：
+5.1 更新已经安装的开源库
+一般有两种更新方式。一个是update指令，可以显示可以升级的开源库的列表。另一个是upgrade的指令，会重新编译所有需要更新的包。
+5.2 导出已经安装的开源库
+有的时候，一个项目组中有很多人，不需要每个人都参与编译。一个人编译好所有开源库后到处给别人即可。有的时候也是出于备份的目的，也会导出已经安装的开源库。导出可以执行export指令。例如，我要导出opencv4 库，那么执行：
+vcpkg export opencv4 --7zip --triplet=x64-windows (加不加triple都行)
+如果不加--7zip 那么就是生成文件夹
+注意，导出时必须指定导出的包格式。vcpkg支持5种导出包格式，有
+默认情况下只会导出x86-windows的包（我已经改成默认64），如果要导出所有包，那需要制定相应的triplet。比如，如果同时导出x86和x64版本的opencv4 ，那执行命令：
+vcpkg export opencv4 opencv4 :x64-windows --7zip
+这个命令等价于：
+vcpkg export opencv4 :x86-windows opencv4 :x64-windows --7zip
+如果要指定输出目录和特定文件名，需使用"–-output="参数
+vcpkg export opencv4 --7zip --triplet=x64-windows --output=/path/to/your/folder
+各种依赖都在这里
+5.3 导入备份的开源库（尚未尝试）
+导入比较简单，执行import指令即可。例如：
+vcpkg import xxx.7z
+5.4 vcpkg本地组成
+：下载工具和下载的源代码包
+：所有vcpkg支持的库的配置，假如想知道自己的库是否被vcpkg支持，来到这个目录里看看有没有相应的目录即可。
+：源码被展开编译的地方，存着部分编译的中间结果，debug版本的库在调试的时候，用的是这里的PDB文件和代码
+6:未来实现：
+https://blog.csdn.net/tanmx219/article/details/123938447 如何真正卸载掉坏包，安装新包而不走缓存
+
+
+vcpkg 配置clang编译
+在使用vcpkg配置并使用clang编译器进行编译时，你需要确保你的环境配置正确，并正确设置vcpkg以使用clang。以下是一些步骤和提示，帮助你完成这一过程：
+1. 安装必要的工具
+确保你的系统中安装了clang编译器。在大多数Linux发行版中，你可以通过包管理器安装clang。例如，在Ubuntu上，你可以使用以下命令：
+sudo apt update
+sudo apt install clang
+对于Windows，你可能需要安装LLVM，可以从LLVM官网下载预编译的二进制文件，或者使用如Chocolatey的包管理器：
+choco install llvm
+2. 配置vcpkg以使用Clang
+在配置vcpkg时，你需要指定编译器。你可以通过设置VCPKG_CXX_COMPILER环境变量来指定使用clang++作为C++编译器。例如，在Unix-like系统（包括MacOS和Linux）上，你可以在终端中这样设置：
+export VCPKG_CXX_COMPILER=clang++
+在Windows上，你可以在命令提示符中使用：
+set VCPKG_CXX_COMPILER=clang++
+3. 安装库并指定生成器
+当你使用vcpkg install命令安装库时，可以通过--triplet参数指定一个生成器（通常是针对特定编译器的预设配置）。例如，如果你想为使用clang的x64平台安装一个库，你可以使用：
+vcpkg install <library-name>:x64-clang
+如果你没有特定的生成器需求，也可以直接使用：
+vcpkg install <library-name> --triplet x64-windows-static-md
+确保你的项目配置文件（如CMake的CMakeLists.txt）正确设置了编译器路径。对于CMake，你可以在CMake缓存中设置：
+set(CMAKE_C_COMPILER clang)
+set(CMAKE_CXX_COMPILER clang++)
+4. 编译项目
+一旦库被安装并且项目配置正确，你就可以使用CMake或其他构建系统来编译你的项目了。例如，使用CMake时：
+cmake .. -B build -DCMAKE_TOOLCHAIN_FILE=<path-to-vcpkg>/scripts/buildsystems/vcpkg.cmake
+cmake --build build --config Release
+确保替换<path-to-vcpkg>为你的vcpkg实际路径。
+5. 测试和调试
+最后，确保运行和测试你的应用程序以验证一切是否正常工作。如果遇到任何链接错误或编译问题，检查编译器和链接器的路径设置是否正确，以及是否所有依赖都已正确安装。
+通过以上步骤，你应该能够成功配置vcpkg以使用clang编译器进行编译。如果遇到具体问题，检查错误信息并根据需要进行调整。
+Built-in Triplets:
+  arm-neon-android
+  arm64-android
+  arm64-osx
+  arm64-uwp
+  arm64-windows-static-md
+  arm64-windows
+  x64-android
+  x64-linux
+  x64-osx
+  x64-uwp
+  x64-windows-release
+  x64-windows-static-md
+  x64-windows-static
+  x64-windows
+  x86-windows
+Community Triplets:
+  arm-android
+  arm-ios
+  arm-linux-release
+  arm-linux
+  arm-mingw-dynamic
+  arm-mingw-static
+  arm-uwp-static-md
+  arm-uwp
+  arm-windows-static
+  arm-windows
+  arm64-ios-release
+  arm64-ios-simulator-release
+  arm64-ios-simulator
+  arm64-ios
+  arm64-linux-dynamic
+  arm64-linux-release
+  arm64-linux
+  arm64-mingw-dynamic
+  arm64-mingw-static
+  arm64-osx-dynamic
+  arm64-osx-release
+  arm64-uwp-static-md
+  arm64-visionos
+  arm64-windows-static-release
+  arm64-windows-static
+  arm64ec-windows
+  armv6-android
+  loongarch32-linux-release
+  loongarch32-linux
+  loongarch64-linux-release
+  loongarch64-linux
+  mips64-linux
+  ppc64le-linux-release
+  ppc64le-linux
+  riscv32-linux-release
+  riscv32-linux
+  riscv64-linux-release
+  riscv64-linux
+  s390x-linux-release
+  s390x-linux
+  wasm32-emscripten
+  x64-freebsd
+  x64-ios
+  x64-linux-dynamic
+  x64-linux-release
+  x64-mingw-dynamic
+  x64-mingw-static
+  x64-openbsd
+  x64-osx-dynamic
+  x64-osx-release
+  x64-uwp-static-md
+  x64-windows-static-md-release
+  x64-windows-static-release
+  x64-xbox-scarlett-static
+  x64-xbox-scarlett
+  x64-xbox-xboxone-static
+  x64-xbox-xboxone
+  x86-android
+  x86-freebsd
+  x86-ios
+  x86-linux
+  x86-mingw-dynamic
+  x86-mingw-static
+  x86-uwp-static-md
+  x86-uwp
+  x86-windows-static-md
+  x86-windows-static
+  x86-windows-v120
+  
 
 npm config set registry https://registry.npmmirror.com  切换淘宝NPM镜像站
 npm config get registry 查看镜像状态
@@ -6908,6 +7724,7 @@ https://blog.csdn.net/cpp_learner/article/details/142345860[Windows环境 源码
 cast from pointer to smaller type 'XX' (aka 'XX') loses information 
 (XX)(size_t)?
 
+
 VS2015下解决:无法解析的外部符号 __imp___vsnprintf 及__iob_func
 1、解决:无法解析的外部符号 __imp___vsnprintf
 在 vs2015 工程选项，链接器附加依赖项里面添加 legacy_stdio_definitions.lib 即可。
@@ -6937,7 +7754,17 @@ extern "C"
 FILE* __cdecl __iob_func(unsigned i) { 
     return __acrt_iob_func(i); 
 }
+
+snprintf重定义
 #endif /* _MSC_VER>=1900 */
+#if _MSC_VER>=1900
+#  define STDC99
+#endif
+#if defined(_MSC_VER)&& _MSC_VER <1500
+#ifndef snprintf
+#define snprintf _snprintf
+#endif
+#endif
 
 sol2 no member named 'construct' in 'optional<type-parameter-0-0 &>'
 // this->construct(std::forward<Args>(args)...);
@@ -7277,6 +8104,1326 @@ llm.set_cache(
 )
 建议根据具体硬件配置调整参数，使用nvidia-smi和htop实时监控资源使用情况。不同量化版本（Q2_K, Q4_0, Q5_K_M）需进行精度-速度权衡测试。
 
+
+BlackDex大法，是如何运作的？
+0x1 前言
+在现阶段Android环境下，开发者为了保护自身APP不被反编译以及逻辑的解读、应用重打包，许多开发者都会选择对APP进行加固，APP经过加固，一定程度上保护了APP，使APP没那么容易被反编译。当然，有加固技术的出现，也会有反加固技术的出现，即本文要分析的一种反加固的原理。
+0x2 BlackDex
+BlackDex是一个运行在Android手机上的脱壳工具，支持5.0～12，无需依赖任何环境任何手机都可以使用，包括模拟器。只需几秒，即可对已安装包括未安装的APK进行脱壳。
+项目开源地址：https://github.com/CodingGay/BlackDex
+本项目现仅供参考，因开源的原因，已经被许多加固厂商Anti，点到为止，现已停止维护。
+0x3 前置知识
+本项目涉及知识点，按照重要程度排序
+Android 虚拟化技术
+Android Dex加载原理
+Android DexFile结构
+Android Hook
+总结
+BlackDex核心原理是利用虚拟化技术，使APP进程运行，让加固壳进行自解密，最后完成DexFile的Dump，得益于依赖于虚拟化技术，不需要任何手机拥有任何逆向环境，甚至连APP都不用安装到手机上就可以进行脱壳。
+BlackDex大法，是如何运作的？启动篇
+0x1 前言
+前篇 说到，BlackDex是基于虚拟化技术进行的，本项目实际上是基于 BlackBox 的基础下进行开发，很可惜的是由于某些原因此项目没能继续下去。
+本系列将选定发表时最后的提交，朋友们可以Clone下来跟着本文走：https://github.com/CodingGay/BlackDex/tree/5580fa8f5d658afae4eb667f8c8d6632be5b9aaf
+0x2 启动
+本文主要分析如何从点击BlackDex图标之后，是如何进行启动APP的进程，此处不会过度深究虚拟化的实现过程，有机会更完这个系列之后会再出一系列虚拟化技术的文章。
+核心启动dump方法：top.niunaijun.blackbox.BlackDexCore#dumpDex(java.lang.String)
+public InstallResult dumpDex(String packageName) {
+        // 将软件安装至BlackBox中
+        InstallResult installResult = BlackBoxCore.get().installPackage(packageName);
+        if (installResult.success) {
+            // 安装成功则启动，否则卸载并且返回失败。
+            boolean b = BlackBoxCore.get().launchApk(packageName);
+            if (!b) {
+                BlackBoxCore.get().uninstallPackage(installResult.packageName);
+                return null;
+            }
+            return installResult;
+        } else {
+            return null;
+        }
+    }
+两步事情：
+将软件安装至BlackBox
+如果安装成功则启动，不成功则返回失败
+内部实现原理涉及虚拟化相关知识，此处不多深究，应用启动时，程序感知到的第一个方法就是Application#attachBaseContext，在虚拟环境内也是一样的，在经过一系列调度后。我们直接跟进到虚拟化进程的启动的方法：top.niunaijun.blackbox.app.BActivityThread#handleBindApplication
+此函数比较长，代码内注释逐步解析
+    private synchronized void handleBindApplication(String packageName, String processName) {
+        // 初始化Dump的返回的信息
+        DumpResult result = new DumpResult();
+        result.packageName = packageName;
+        result.dir = new File(BlackBoxCore.get().getDexDumpDir(), packageName).getAbsolutePath();
+        try {
+            // 以下是获取需要多开应用的信息，然后对当前进程进行重新设置，因为本进程信息是宿主的。
+            PackageInfo packageInfo = BlackBoxCore.getBPackageManager().getPackageInfo(packageName, PackageManager.GET_PROVIDERS, BActivityThread.getUserId());
+            if (packageInfo == null)
+                return;
+            .........
+            // 以上省略部分虚拟化的代码。
+            // 此处清除dump目录，防止多次脱壳的dex文件乱窜
+            // clear dump file
+            FileUtils.deleteDir(new File(BlackBoxCore.get().getDexDumpDir(), packageName));
+            // 初始化native层代码
+            VMCore.init(Build.VERSION.SDK_INT);
+            // 启用IO重定向，支持虚拟应用运行环境
+            IOCore.get().enableRedirect(packageContext);
+            ......
+            // 以上省略部分虚拟化代码
+            // 反射LoadedApk获取多开应用的classloader，并且反射LoadedApk#makeApplication函数，makeApplication中会初始化Application，调用其attachBaseContext、onCreate函数，完成Application的初始化。
+            try {
+                ClassLoader call = LoadedApk.getClassloader.call(loadedApk);
+                application = LoadedApk.makeApplication.call(loadedApk, false, null);
+            } catch (Throwable e) {
+                Slog.e(TAG, "Unable to makeApplication");
+                e.printStackTrace();
+            }
+            // 如果走到此处没有发生异常，说明Application已经完成启动，一般在这种时候从理论上来说，应用已经运行起来了，那么自然加固也已经解密完成，我们接下来进行核心的dex的dump工作。
+            if (Objects.equals(packageName, processName)) {
+                ClassLoader loader;
+                // 此处获取需要脱壳的app的classloader
+                if (application == null) {
+                    loader = LoadedApk.getClassloader.call(loadedApk);
+                } else {
+                    // 实际上走到这里，理论是启动失败了。不过还可以挣扎一下。
+                    loader = application.getClassLoader();
+                }
+                // 调用核心DumpDex方法，进行dex的dump工作
+                handleDumpDex(packageName, result, loader);
+            }
+        } catch (Throwable e) {
+            // 如果发生异常，通知UI并且从BlackBox中卸载该应用
+            e.printStackTrace();
+            mAppConfig = null;
+            BlackBoxCore.getBDumpManager().noticeMonitor(result.dumpError(e.getMessage()));
+            BlackBoxCore.get().uninstallPackage(packageName);
+        }
+    }
+其实从上述代码分析下来，整体的流程已经非常的顺畅了，汇总整理一下
+使用虚拟化技术将应用运行起来，初始化Application。
+一般来说，基本上99%的加固整体工作在Application已经完成，所以此时应用真实的Dex文件已经被解密释放并且加载到内存中。
+在启动成功后，调用handleDumpDex核心方法进行dex的dump工作，即可达到脱壳的目的。
+本系列将慢慢梳理每一个流程，本篇讲了BlackDex是如何启动且执行脱壳的，剩下的在后续的文章內继续深扒。
+BlackDex大法，是如何运作的？Dump
+书接上回
+想要了解如何dump出Dex，就要先了解Dex文件是如何加载进内存的。上文说到Application是通过LoadedApk#makeApplication完成的，那么我们看下相关实现。
+本文源码为：android11_r1
+系统源码：android.app.LoadedApk#makeApplication
+    @UnsupportedAppUsage
+    public Application makeApplication(boolean forceDefaultAppClass,
+            Instrumentation instrumentation) {
+        if (mApplication != null) {
+            return mApplication;
+        }
+        Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, "makeApplication");
+        Application app = null;
+        String appClass = mApplicationInfo.className;
+        if (forceDefaultAppClass || (appClass == null)) {
+            appClass = "android.app.Application";
+        }
+        try {
+            // 获取App的classloader
+            final java.lang.ClassLoader cl = getClassLoader();
+            if (!mPackageName.equals("android")) {
+                Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER,
+                        "initializeJavaContextClassLoader");
+                initializeJavaContextClassLoader();
+                Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+            }
+            .........省略
+            // 内部通过classloader.findClass(appClass)，并且进行实例化Application。
+            app = mActivityThread.mInstrumentation.newApplication(
+                    cl, appClass, appContext);
+        } catch (Exception e) {
+            if (!mActivityThread.mInstrumentation.onException(app, e)) {
+                Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+                throw new RuntimeException(
+                    "Unable to instantiate application " + appClass
+                    + ": " + e.toString(), e);
+            }
+        }
+        .........省略
+        return app;
+    }
+getClassLoader内部流程过于复杂，感兴趣的自己去跟一下，简单点概括：根据ApplicationInfo中的信息，最终生成并返回PathClassloader
+通过Classloader可以findClass我们Dex中的方法，由此可以看出，Classloader跟我们Dex是存在某种关系的。我们看一下PathClassloader是如何对Dex文件进行加载的。
+源码：dalvik.system.PathClassLoader
+public class PathClassLoader extends BaseDexClassLoader {
+    public PathClassLoader(String dexPath, ClassLoader parent) {
+        super(dexPath, null, null, parent);
+    }
+    public PathClassLoader(String dexPath, String librarySearchPath, ClassLoader parent) {
+        super(dexPath, null, librarySearchPath, parent);
+    }
+    public PathClassLoader(
+            String dexPath, String librarySearchPath, ClassLoader parent,
+            ClassLoader[] sharedLibraryLoaders) {
+        super(dexPath, librarySearchPath, parent, sharedLibraryLoaders);
+    }
+}
+可以看到都是调用父类BaseClassloader的构造方法，我们主要关注参数dexPath参数，看他是如何打开我们的Dex文件。
+源码：dalvik.system.BaseDexClassLoader
+    public BaseDexClassLoader(String dexPath,
+            String librarySearchPath, ClassLoader parent, ClassLoader[] sharedLibraryLoaders,
+            boolean isTrusted) {
+        super(parent);
+        // Setup shared libraries before creating the path list. ART relies on the class loader
+        // hierarchy being finalized before loading dex files.
+        this.sharedLibraryLoaders = sharedLibraryLoaders == null
+                ? null
+                : Arrays.copyOf(sharedLibraryLoaders, sharedLibraryLoaders.length);
+        this.pathList = new DexPathList(this, dexPath, librarySearchPath, null, isTrusted);
+        reportClassLoaderChain();
+    }
+继续跟进DexPathList，源码：dalvik.system.DexPathList
+DexPathList(ClassLoader definingContext, String dexPath,
+            String librarySearchPath, File optimizedDirectory, boolean isTrusted) {
+        if (definingContext == null) {
+            throw new NullPointerException("definingContext == null");
+        }
+        if (dexPath == null) {
+            throw new NullPointerException("dexPath == null");
+        }
+        ........省略
+        this.definingContext = definingContext;
+        ArrayList<IOException> suppressedExceptions = new ArrayList<IOException>();
+        // save dexPath for BaseDexClassLoader
+        this.dexElements = makeDexElements(splitDexPath(dexPath), optimizedDirectory,
+                                           suppressedExceptions, definingContext, isTrusted);
+        ........省略
+    }
+splitDexPath主要做的是检查dexPath是否合规，以及加载DEX，ZIP，JAR的不同处理方法，最后返回一个List，里面装载着Dex文件File对象，继续跟进makeDexElements
+private static Element[] makeDexElements(List<File> files, File optimizedDirectory,
+            List<IOException> suppressedExceptions, ClassLoader loader, boolean isTrusted) {
+      Element[] elements = new Element[files.size()];
+      int elementsPos = 0;
+      for (File file : files) {
+          if (file.isDirectory()) {
+              elements[elementsPos++] = new Element(file);
+          } else if (file.isFile()) {
+              String name = file.getName();
+              DexFile dex = null;
+              // 判断是否.dex结尾
+              if (name.endsWith(DEX_SUFFIX)) {
+                  try {
+                      dex = loadDexFile(file, optimizedDirectory, loader, elements);
+                      if (dex != null) {
+                          elements[elementsPos++] = new Element(dex, null);
+                      }
+                  } catch (IOException suppressed) {
+                      System.logE("Unable to load dex file: " + file, suppressed);
+                      suppressedExceptions.add(suppressed);
+                  }
+              } else {
+                  try {
+                      dex = loadDexFile(file, optimizedDirectory, loader, elements);
+                  } catch (IOException suppressed) {
+                      ........省略
+                  }
+                  if (dex == null) {
+                      elements[elementsPos++] = new Element(file);
+                  } else {
+                      elements[elementsPos++] = new Element(dex, file);
+                  }
+              }
+          } else {
+              System.logW("ClassLoader referenced unknown path: " + file);
+          }
+      }
+      if (elementsPos != elements.length) {
+          elements = Arrays.copyOf(elements, elementsPos);
+      }
+      return elements;
+    }
+以上可以看出，dexFile最终通过loadDexFile函数打开，返回dalvik.system.DexFile对象，最终通过dalvik.system.DexFile作为参数，new Element，然后返回Element[]。
+继续跟进
+    private static DexFile loadDexFile(File file, File optimizedDirectory, ClassLoader loader,
+                                       Element[] elements)
+            throws IOException {
+        if (optimizedDirectory == null) {
+            return new DexFile(file, loader, elements);
+        } else {
+            String optimizedPath = optimizedPathFor(file, optimizedDirectory);
+            return DexFile.loadDex(file.getPath(), optimizedPath, 0, loader, elements);
+        }
+    }
+源码：dalvik.system.DexFile
+    DexFile(String fileName, ClassLoader loader, DexPathList.Element[] elements)
+            throws IOException {
+        mCookie = openDexFile(fileName, null, 0, loader, elements);
+        mInternalCookie = mCookie;
+        mFileName = fileName;
+        //System.out.println("DEX FILE cookie is " + mCookie + " fileName=" + fileName);
+    }
+此处可以看出，通过openDexFile，最终返回mCookie，在Android 5.0的时候类型是long，6.0开始为Object，其实际内容是long[]，此处了解即可。
+继续跟进
+    private static native Object openDexFileNative(String sourceName, String outputName, int flags,
+            ClassLoader loader, DexPathList.Element[] elements);
+最终调用native中的openDexFileNative方法。
+下面进入native的源码
+源码：art/runtime/native/dalvik_system_DexFile.cc
+static jobject DexFile_openDexFileNative(JNIEnv* env,
+                                         jclass,
+                                         jstring javaSourceName,
+                                         jstring javaOutputName ATTRIBUTE_UNUSED,
+                                         jint flags ATTRIBUTE_UNUSED,
+                                         jobject class_loader,
+                                         jobjectArray dex_elements) {
+  ScopedUtfChars sourceName(env, javaSourceName);
+  if (sourceName.c_str() == nullptr) {
+    return nullptr;
+  }
+  std::vector<std::string> error_msgs;
+  const OatFile* oat_file = nullptr;
+  std::vector<std::unique_ptr<const DexFile>> dex_files =
+      Runtime::Current()->GetOatFileManager().OpenDexFilesFromOat(sourceName.c_str(),
+                                                                  class_loader,
+                                                                  dex_elements,
+                                                                  /*out*/ &oat_file,
+                                                                  /*out*/ &error_msgs);
+  return CreateCookieFromOatFileManagerResult(env, dex_files, oat_file, error_msgs);
+}
+最终是通过Runtime::Current()->GetOatFileManager().OpenDexFilesFromOat，打开了Dex，返回了Native中的DexFile，通过CreateCookieFromOatFileManagerResult返回到Java，也就是mCookie。
+如果想进一步了解，可以看下其他博文：ClassLoader--02基于Android5.0的openDexFileNative
+继续跟进
+static jobject CreateCookieFromOatFileManagerResult(
+    JNIEnv* env,
+    std::vector<std::unique_ptr<const DexFile>>& dex_files,
+    const OatFile* oat_file,
+    const std::vector<std::string>& error_msgs) {
+  .......省略
+  jlongArray array = ConvertDexFilesToJavaArray(env, oat_file, dex_files);
+  if (array == nullptr) {
+    ScopedObjectAccess soa(env);
+    for (auto& dex_file : dex_files) {
+      if (linker->IsDexFileRegistered(soa.Self(), *dex_file)) {
+        dex_file.release();  // NOLINT
+      }
+    }
+  }
+  return array;
+}
+继续跟进
+static jlongArray ConvertDexFilesToJavaArray(JNIEnv* env,
+                                             const OatFile* oat_file,
+                                             std::vector<std::unique_ptr<const DexFile>>& vec) {
+  // Add one for the oat file.
+  jlongArray long_array = env->NewLongArray(static_cast<jsize>(kDexFileIndexStart + vec.size()));
+  if (env->ExceptionCheck() == JNI_TRUE) {
+    return nullptr;
+  }
+  jboolean is_long_data_copied;
+  jlong* long_data = env->GetLongArrayElements(long_array, &is_long_data_copied);
+  if (env->ExceptionCheck() == JNI_TRUE) {
+    return nullptr;
+  }
+  // 此处为核心转换
+  long_data[kOatFileIndex] = reinterpret_cast64<jlong>(oat_file);
+  for (size_t i = 0; i < vec.size(); ++i) {
+    // 将每个DexFile对象地址强转为long型，放入long_data中
+    long_data[kDexFileIndexStart + i] = reinterpret_cast64<jlong>(vec[i].get());
+  }
+  env->ReleaseLongArrayElements(long_array, long_data, 0);
+  if (env->ExceptionCheck() == JNI_TRUE) {
+    return nullptr;
+  }
+  // Now release all the unique_ptrs.
+  for (auto& dex_file : vec) {
+    dex_file.release();  // NOLINT
+  }
+  // 最终返回
+  return long_array;
+}
+以上可以看出来，art将dexfiles遍历，将dexfile强转为long型地址，最终返回到Java中。
+所以可以这样认为，mCookie装载的，是art中的DexFile的对象的内存地址。
+所以这跟脱壳有什么关系呢？让我们来看一下DexFile中的构造函数
+源码：art/libdexfile/dex/dex_file.cc
+DexFile::DexFile(const uint8_t* base,
+                 size_t size,
+                 const uint8_t* data_begin,
+                 size_t data_size,
+                 const std::string& location,
+                 uint32_t location_checksum,
+                 const OatDexFile* oat_dex_file,
+                 std::unique_ptr<DexFileContainer> container,
+                 bool is_compact_dex)
+    : begin_(base),
+      size_(size),
+      data_begin_(data_begin),
+      data_size_(data_size),
+      location_(location),
+      location_checksum_(location_checksum),
+      header_(reinterpret_cast<const Header*>(base)),
+      string_ids_(reinterpret_cast<const StringId*>(base + header_->string_ids_off_)),
+      type_ids_(reinterpret_cast<const TypeId*>(base + header_->type_ids_off_)),
+      field_ids_(reinterpret_cast<const FieldId*>(base + header_->field_ids_off_)),
+      method_ids_(reinterpret_cast<const MethodId*>(base + header_->method_ids_off_)),
+      proto_ids_(reinterpret_cast<const ProtoId*>(base + header_->proto_ids_off_)),
+      class_defs_(reinterpret_cast<const ClassDef*>(base + header_->class_defs_off_)),
+      method_handles_(nullptr),
+      num_method_handles_(0),
+      call_site_ids_(nullptr),
+      num_call_site_ids_(0),
+      hiddenapi_class_data_(nullptr),
+      oat_dex_file_(oat_dex_file),
+      container_(std::move(container)),
+      is_compact_dex_(is_compact_dex),
+      hiddenapi_domain_(hiddenapi::Domain::kApplication) {
+  CHECK(begin_ != nullptr) << GetLocation();
+  CHECK_GT(size_, 0U) << GetLocation();
+  // Check base (=header) alignment.
+  // Must be 4-byte aligned to avoid undefined behavior when accessing
+  // any of the sections via a pointer.
+  CHECK_ALIGNED(begin_, alignof(Header));
+  InitializeSectionsFromMapList();
+}
+源码：art/libdexfile/dex/dex_file.h
+  ........省略
+  // The base address of the memory mapping.
+  const uint8_t* const begin_;
+  // The size of the underlying memory allocation in bytes.
+  const size_t size_;
+  // The base address of the data section (same as Begin() for standard dex).
+  const uint8_t* const data_begin_;
+  // The size of the data section.
+  const size_t data_size_;
+  // Typically the dex file name when available, alternatively some identifying string.
+  //
+  // The ClassLinker will use this to match DexFiles the boot class
+  // path to DexCache::GetLocation when loading from an image.
+  const std::string location_;
+  const uint32_t location_checksum_;
+  // Points to the header section.
+  const Header* const header_;
+  // Points to the base of the string identifier list.
+  const dex::StringId* const string_ids_;
+  // Points to the base of the type identifier list.
+  const dex::TypeId* const type_ids_;
+  // Points to the base of the field identifier list.
+  const dex::FieldId* const field_ids_;
+  // Points to the base of the method identifier list.
+  const dex::MethodId* const method_ids_;
+  // Points to the base of the prototype identifier list.
+  const dex::ProtoId* const proto_ids_;
+  // Points to the base of the class definition list.
+  const dex::ClassDef* const class_defs_;
+  // Points to the base of the method handles list.
+  const dex::MethodHandleItem* method_handles_;
+  // Number of elements in the method handles list.
+  size_t num_method_handles_;
+  // Points to the base of the call sites id list.
+  const dex::CallSiteIdItem* call_site_ids_;
+  // Number of elements in the call sites list.
+  size_t num_call_site_ids_;
+  ........省略
+通过源码中的注释我们可以得知，Dex文件在内存中的映射地址是位于：begin_ ，Dex文件的大小：size_，后来实践中也证实了确实是这么回事。
+知道DexFile对象与Dex文件的关系，这样一来就好办了，我们只要拿到所有的mCookie，就等于获取到了所有的DexFile，我们可以将其进行Dump，完成我们的脱壳。
+0x2 流程简单梳理
+PathClassloader -> BaseClassloader -> DexPathList
+DexPathList里面通过 makeDexElements 获得Element[]
+Element[]是通过 loadDexFile返回的dalvik.system.DexFile对象创建的
+dalvik.system.DexFile最终通过openDexFileNative返回mCookie
+反过来，即可得知获取mCookie的线路
+先获取PathClassloader中的DexPathList对象
+再获取DexPathList中的dexElements，也就是Element[]
+再获取每个Element中的dexFile对象
+再获取dexFile中的mCookie值
+通过以上路线，即可获取到该Classloader中的所有mCookie
+0x3 逻辑梳理
+加固应用需要在最早的流程中进行解密并且加载Dex文件，否则应用将无法运行。
+由于应用的Class被加固隐藏、保护起来了，如果不解密加载，应用会出现ClassNotFoundException。
+既然我们应用能运行后，代表findClass可以找到该应用所需的Class，也同时代表了Classloader已经加载进内存了。
+我们既然知道了Classloader与DexFile的关系，那么我们就可以根据Classloader，使用以上梳理的点获取该Classloader中的所有mCookie。
+大体逻辑就如上面所说，我们再回头看看BlackDex时如何处理的。
+0x4 BlackDex
+书接上回
+    private void handleDumpDex(String packageName, DumpResult result, ClassLoader classLoader) {
+        new Thread(() -> {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignored) {
+            }
+            try {
+                VMCore.cookieDumpDex(classLoader, packageName);
+            } finally {
+                mAppConfig = null;
+                File dir = new File(result.dir);
+                if (!dir.exists() || dir.listFiles().length == 0) {
+                    BlackBoxCore.getBDumpManager().noticeMonitor(result.dumpError("not found dex file"));
+                } else {
+                    BlackBoxCore.getBDumpManager().noticeMonitor(result.dumpSuccess());
+                }
+                BlackBoxCore.get().uninstallPackage(packageName);
+            }
+        }).start();
+    }
+此处主要的工作是call
+VMCore.cookieDumpDex(classLoader, packageName);
+如果发生异常，则通知UI脱壳失败
+继续跟进，一个大方法，我们逐步分析
+public static void cookieDumpDex(ClassLoader classLoader, String packageName) {
+        // 核心：根据Classloader获取当前Classloader中所有的Cookie
+        List<Long> cookies = DexFileCompat.getCookies(classLoader);
+        File file = new File(BlackBoxCore.get().getDexDumpDir(), packageName);
+        DumpResult result = new DumpResult();
+        result.dir = file.getAbsolutePath();
+        result.packageName = packageName;
+        // 此处跟开启多线程进行脱壳
+        int availableProcessors = Runtime.getRuntime().availableProcessors();
+        ExecutorService executorService = Executors.newFixedThreadPool(availableProcessors <= 0 ? 1 : availableProcessors);
+        CountDownLatch countDownLatch = new CountDownLatch(cookies.size());
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        BlackBoxCore.getBDumpManager().noticeMonitor(result.dumpProcess(cookies.size(), atomicInteger.getAndIncrement()));
+        // 此处遍历每一个cookie
+        for (int i = 0; i < cookies.size(); i++) {
+            long cookie = cookies.get(i);
+            ........省略通知UI操作
+            executorService.execute(() -> {
+                // 调用native方法进行真正脱壳
+                cookieDumpDex(cookie, file.getAbsolutePath(), BlackBoxCore.get().isFixCodeItem());
+                ........省略通知UI操作
+            });
+        }
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (File dex : files) {
+                if (dex.isFile() && dex.getAbsolutePath().endsWith(".dex")) {
+                    // 如果脱壳成功，修复Dex的signature与checksum
+                    DexUtils.fixDex(dex);
+                }
+            }
+        }
+    }
+使用方法
+List<Long> cookies = DexFileCompat.getCookies(classLoader);
+获取Classloader所有的Cookie，原理我们上面也讲过，感兴趣的可以自行查看代码，此处不再细说。
+以下是最核心的脱壳操作，我们逐步分析
+void DexDump::cookieDumpDex(JNIEnv *env, jlong cookie, jstring dir, jboolean fix) {
+    // 如果环境没有初始化则去初始化，初始化内容我们后续分析
+    if (beginOffset == -2) {
+        init(env);
+    }
+    // 如果初始化失败，我们则无法脱壳
+    if (beginOffset == -1) {
+        ALOGD("dumpDex not support!");
+        return;
+    }
+    // 以上初始化核心工作为：获取DexFile->begin_的偏移量，知道了begin_我们才知道Dex在内存中的什么位置，才可以将它Dump出来，否则将无法脱壳。
+    // Dex magic，某数字加固为了防止内存搜索脱壳，会将Dex magic抹除变成00 00 00 00 00 00 00，使得内存扫描无法找到Dex文件从而无法脱壳，BlackDex脱壳后会将此修复。
+    char magic[8] = {0x64, 0x65, 0x78, 0x0a, 0x30, 0x33, 0x35, 0x00};
+    // 将cookie转换成内存地址
+    auto base = reinterpret_cast<char *>(cookie);
+    // 根据初始化beginOffset，通过base + 偏移，得知begin_所在的位置
+    auto begin = *(size_t *) (base + beginOffset * sizeof(size_t));
+    // 此处经常会出现bad point，所以检查一下是否野指针
+    if (!PointerCheck::check(reinterpret_cast<void *>(begin))) {
+        return;
+    }
+    auto dirC = env->GetStringUTFChars(dir, 0);
+    // 此处根据Dex + 0x20获取Dex文件的总大小，方便我们对Dex进行Dump
+    auto dexSizeOffset = ((unsigned long) begin) + 0x20;
+    int size = *(size_t *) dexSizeOffset;
+    void *buffer = malloc(size);
+    if (buffer) {
+        // 将内存中的Dex复制出来
+        memcpy(buffer, reinterpret_cast<const void *>(begin), size);
+        // 修复 magic
+        memcpy(buffer, magic, sizeof(magic));
+        // 以下是检验Dex是否完整，符合格式
+        const bool kVerifyChecksum = false;
+        const bool kVerify = true;
+        const art_lkchan::DexFileLoader dex_file_loader;
+        std::string error_msg;
+        std::vector<std::unique_ptr<const art_lkchan::DexFile>> dex_files;
+        if (!dex_file_loader.OpenAll(reinterpret_cast<const uint8_t *>(buffer),
+                                     size,
+                                     "",
+                                     kVerify,
+                                     kVerifyChecksum,
+                                     &error_msg,
+                                     &dex_files)) {
+            // Display returned error message to user. Note that this error behavior
+            // differs from the error messages shown by the original Dalvik dexdump.
+            ALOGE("Open dex error %s", error_msg.c_str());
+            return;
+        }
+        // 是否需要深度修复，此处下文再讲。
+        if (fix) {
+            fixCodeItem(env, dex_files[0].get(), begin);
+        }
+        // 最终我们将Dex写出到指定的目录
+        char path[1024];
+        sprintf(path, "%s/cookie_%d.dex", dirC, size);
+        auto fd = open(path, O_CREAT | O_WRONLY, 0600);
+        ssize_t w = write(fd, buffer, size);
+        fsync(fd);
+        if (w > 0) {
+            ALOGE("cookie dump dex ======> %s", path);
+        } else {
+            remove(path);
+        }
+        close(fd);
+        free(buffer);
+        env->ReleaseStringUTFChars(dir, dirC);
+    }
+}
+我们分析一下init方法，看看BlackDex是如何获取begin_偏移量的
+void init(JNIEnv *env) {
+    // 此处使用PLT HOOK处理掉kill、killpg方法，避免在脱壳过程中应用kill掉自己。
+    const char *soName = ".*\\.so$";
+    xhook_register(soName, "kill", (void *) new_kill,
+                   (void **) (&orig_kill));
+    xhook_register(soName, "killpg", (void *) new_killpg,
+                   (void **) (&orig_killpg));
+    xhook_refresh(0);
+    // 此处出现了一个loadEmptyDex方法
+    jlongArray emptyCookie = VmCore::loadEmptyDex(env);
+    .......省略
+}
+我们脱壳的第一步就是想要获取begin_的偏移量，但是偏偏这个begin_在DexFile中不一定是固定的位置，如果我们根据AOSP的代码，根据每个Android版本区分写死也没有问题，但是如果说某个手机厂商中间加了一个字段，减了一个字段。那么这里必定出现脱壳失败，此处我使用了一个 预测法 ，这种方法在许多Hook框架上也是常见的，比如需要预测ArtMethod的flags偏移的。
+下面将说一下是怎么进行预测，首先我们观察每个Android版本的，可以发现。
+  // The base address of the memory mapping.
+  const uint8_t* const begin_;
+  // The size of the underlying memory allocation in bytes.
+  const size_t size_;
+begin_与size_都是保持相对位置的，我们可以先这样决定，我们就认为在实际情况中，他们两个的值就是保持相对位置。
+既然这样的话，我们不知道begin_，那么size_，也就是Dex文件的大小，我们是肯定能知道的，我们根据这个大小，来获取size_，然后通过 begin_与size_都是保持相对位置 这个特性，我们减去一个uint8_t的大小，那就能获取到begin_的偏移量。
+继续看代码是如何操作的
+void init(JNIEnv *env) {
+    // 此处loadEmptyDex方法，就是加载一个我们指定的Dex文件，这个Dex文件是BlackDex里面准备好的，我已经知道了这个Dex的大小，此处我们加载这个Dex并且获取他的Cookie
+    jlongArray emptyCookie = VmCore::loadEmptyDex(env);
+    jsize arrSize = env->GetArrayLength(emptyCookie);
+    if (env->ExceptionCheck() == JNI_TRUE) {
+        return;
+    }
+    jlong *long_data = env->GetLongArrayElements(emptyCookie, nullptr);
+    // 此处遍历cookie
+    for (int i = 0; i < arrSize; ++i) {
+        jlong cookie = long_data[i];
+        if (cookie == 0) {
+            continue;
+        }
+        // 此处我们从cookie的内存地址，也就是DexFile的内存地址，开始往下搜索。
+        // 最多搜索10个size_t的大小
+        auto dex = reinterpret_cast<char *>(cookie);
+        for (int ii = 0; ii < 10; ++ii) {
+            auto value = *(size_t *) (dex + ii * sizeof(size_t));
+            // 如果此时，搜索到值等于1872，我们的Dex文件大小也是1872，那么可以确定这个内存地址为size_
+            if (value == 1872) {
+                // 那么我们将size_的偏移 - 1，就取得了begin_的所在内存地址。
+                beginOffset = ii - 1;
+                env->ReleaseLongArrayElements(emptyCookie, long_data, 0);
+                return;
+            }
+        }
+    }
+    env->ReleaseLongArrayElements(emptyCookie, long_data, 0);
+    beginOffset = -1;
+}
+这样，我们就可以获取到begin_与size_的偏移量，就可以配合cookieDumpDex进行Dex的Dump操作。至此，BlackDex的脱壳工作就此结束。但是想要真正了解BlackDex的还远远不够，更核心提供脱壳能力的还是虚拟化技术。
+BlackDex还有一项加强功能为深度修复，此模式下可以对抗一些指令抽取壳，详情可见Github，有空之后将继续分析是如何对抗指令抽取壳并且实现指令还原。
+
+
+ncnn编译与安装
+ncnn 是由腾讯开发一个跨平台的神经网络前向计算框架，为手机端推理提供了极致优化的高性能。其源码编译可参考官方教程Building。这里记录一下编译安装流程（Windows/Linux）。
+一、安装所需依赖
+git
+g++
+cmake
+Protobuf
+GLslang
+Vulkan（可选，GPU推理）
+opencv (可选，编译例子需要)
+其中git、g++、cmake是编译所需的工具。Protobuf(protocol buffers)是一种语言无关、平台无关、可扩展的序列化结构数据的方法，它可用于（数据）通信协议、数据存储等。GLslang(GLSL - OpenGL Shading Language)是一个以C语言为基础的高阶着色语言，它是由 OpenGL ARB 所建立，提供开发者对绘图管线更多的直接控制，而无需使用汇编语言或硬件规格语言。Vulkan是一个低开销、跨平台的二维、三维图形与计算的应用程序接口（API）。
+二、编译安装Protobuf
+2.1 下载
+下载Protobuf-3.11.2: https://github.com/google/protobuf/archive/v3.11.2.zip 。
+下载后解压。
+2.2 编译安装
+windows
+我windows安装了Visual Studio 2019，因此直接用其自带的cmake，也可以单独安装cmake，然后利用cmake.gui。
+在开始菜单找到Visual Studio 2019然后找到x64 Native Tools Command Prompt for VS 2019右击，点击更多，以管理员身份运行以下命令，以下命令是安装Release版本，如果安装Debug版本需把以下命令中的Release修改为Debug
+cd <protobuf-root-dir>
+mkdir build
+cd build
+cmake -A x64 -DCMAKE_INSTALL_PREFIX=%cd%/install -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF ../cmake
+cmake --build . --config Release -j 2
+cmake --build . --config Release --target install
+Linux则执行以下命令进行安装
+sudo apt install libprotobuf-dev protobuf-compiler
+三、编译安装vulkan
+3.1 下载
+进入官网：https://vulkan.lunarg.com/sdk/home 下载相应版本
+3.2 编译安装
+windows
+windows下载相应的exe文件直接进行安装即可，另外还需安装vulkan_intel驱动和vulkan_NVIDIA驱动。vulkan_intel驱动在 https://downloadcenter.intel.com/zh-cn/product/80939/- 找到与本机相应的驱动。安装vulkan_NVIDIA驱动先在 https://developer.nvidia.com/vulkan-driver 中选择显卡对应的驱动。
+windows下修改CMakeLists.txt，相应的更改为vulkan的安装路径 ncnn/src/CMAKELists.txt
+if(NCNN VULKAN)
+    set (Vulkan_INCLUDE_DIR "D: /ncnn/VulkanSDK-1.3.216/ Include") 
+    set (Vulkan LIBRARY "D: /ncnn/VulkanSDK-1.3.216/Lib/Vulkan-1.lib") 
+    set (VULKAN_ SDK "D: /ncnn/VulkanSDK-1.3.216")
+if (NCNN VULKAN)
+    if (NOT Vulkan_ FOUND)
+        find_ package (Vulkan QUIET)
+    endif ()
+    message ("Vulkan_ FOUND ”${Vulkan_ FOUND})
+    if (NOT Vulkan_ FOUND)
+        message (STATUS "=== CMAKE_ SYSTEM_ NAME is: $ {CMARE_ SYSTEM NAME}")
+        if (DEFINED ENV{VULKAN_ _SDK} )
+            if (CMAKE_ SYSTEM NAME MATCHES "Linux")
+                list (APPEND CMAKE_ MODULE_ PATH "SENV{VULKAN_ SDK}/ 。./ source/VulkanTools/ cmake")
+            elseif (CMAKE_ SYSTEM_ NAME MATCHES "Windows")
+                list (APPEND CMAKE_ MODULE_ PATH "SENV{VULKAN_ SDK} / Samples/ cmake")
+            elseif (CMAKE_ SYSTEM NAME MATCHES "Darwin")
+                message (WARNING "Failed to find vulkan since cmake too o1d\n"  "cmake >= 3.7 required. Consider、 brew upgrade cmake “")
+            endif ()
+        else()
+            message (FATAL_ ERROR "! ! CMake didn't find Vulkan. Please set VULKAN_ SDK env var, e.g. :\n" "Linux: export VULKAN_ _SDK=~/ soft/Vulkansdk/1.2.148.0/x86_ 64\n" "Windows: set VULKAN_ SDK=E:/lib/VulkanSDK/1.2.148.0\n" "MacOS: export VULKAN SDK=~/ soft/vulkansdk/1.2.148.0/macOS\n")
+         endif ()
+         find_ package (Vulkan REQUIRED)
+  endif ()         
+Linux下执行以下命令进行安装
+sudo apt install libvulkan-dev vulkan-utils
+四、编译安装openCV
+参考 https://www.cnblogs.com/xiaxuexiaoab/p/15894993.html
+五、编译安装ncnn
+Windows
+前面步骤执行完后，可安装ncnn，执行以下命令进行安装。注意如果编译Release，则对应的依赖如：Protobuf也需要编译成Release版本
+cd <ncnn-root-dir>
+mkdir -p build
+cd build
+cmake -A x64 -DCMAKE_INSTALL_PREFIX=%cd%/install -DProtobuf_INCLUDE_DIR=<protobuf-root-dir>/build/install/include -DProtobuf_LIBRARIES=<protobuf-root-dir>/build/install/lib/libprotobuf.lib -DProtobuf_PROTOC_EXECUTABLE=<protobuf-root-dir>/build/install/bin/protoc.exe -DNCNN_VULKAN=ON ..
+cmake --build . --config Release -j 2
+cmake --build . --config Release --target install
+Linux
+cd <ncnn-root-dir>
+mkdir -p build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DNCNN_VULKAN=ON -DNCNN_BUILD_EXAMPLES=ON ..
+make -j4
+make install
+六、使用ncnn
+在CMakeLists.txt里面指定ncnn安装路径以及VulKan库路径
+set(USE_VULKAN ON)
+# Ncnn
+if(WIN32)
+    if (USE_VULKAN)
+        set(NCNN_ROOT "D:/ncnn/ncnn_install/Release/ncnn_install_vulkan")
+        set(NCNN_ROOT_DEBUG "D:/ncnn/ncnn_install/Debug/ncnn_install_vulkan")
+        set(NCNN_LIBRARIES 
+            "${NCNN_ROOT}/lib/ncnn.lib"
+            "${NCNN_ROOT}/lib/SPIRV.lib"
+            "${NCNN_ROOT}/lib/glslang.lib"
+            "${NCNN_ROOT}/lib/GenericCodeGen.lib"
+            "${NCNN_ROOT}/lib/MachineIndependent.lib"
+            "${NCNN_ROOT}/lib/OGLCompiler.lib"
+            "${NCNN_ROOT}/lib/OSDependent.lib"
+        CACHE INTERNAL "")
+        set(NCNN_LIBRARIES_DEBUG
+            "${NCNN_ROOT_DEBUG}/lib/ncnnd.lib"
+            "${NCNN_ROOT}/lib/SPIRVd.lib"
+            "${NCNN_ROOT}/lib/glslangd.lib"
+            "${NCNN_ROOT}/lib/GenericCodeGend.lib"
+            "${NCNN_ROOT}/lib/MachineIndependentd.lib"
+            "${NCNN_ROOT}/lib/OGLCompilerd.lib"
+            "${NCNN_ROOT}/lib/OSDependentd.lib"
+        CACHE INTERNAL "")
+    else()
+        set(NCNN_ROOT "D:/ncnn/ncnn_install/Release/ncnn_install_no_vulkan")
+        set(NCNN_ROOT_DEBUG "D:/ncnn/ncnn_install/Debug/ncnn_install_no_vulkan")
+        set(NCNN_LIBRARIES 
+            "${NCNN_ROOT}/lib/ncnn.lib"
+        CACHE INTERNAL "")
+        set(NCNN_LIBRARIES_DEBUG
+            "${NCNN_ROOT_DEBUG}/lib/ncnnd.lib"
+        CACHE INTERNAL "")
+    endif()
+	set(NCNN_INCLUDE_PATH "${NCNN_ROOT_DEBUG}/include" CACHE INTERNAL "")
+elseif(UNIX)
+endif()
+if (USE_VULKAN)
+    # Vulkan
+    if(WIN32)
+        set(VULKAN_ROOT "D:/ncnn/VulkanSDK-1.3.216")
+        set(VULKAN_LIBRARIES
+            "${VULKAN_ROOT}/Lib/vulkan-1.lib"
+            "${VULKAN_ROOT}/Lib/shaderc_combined.lib"
+        CACHE INTERNAL "")
+        set(VULKAN_LIBRARIES_DEBUG 
+            "${VULKAN_ROOT}/Lib/vulkan-1.lib"
+            "${VULKAN_ROOT}/Lib/shaderc_combinedd.lib"
+        CACHE INTERNAL "")
+	    set(VULKAN_INCLUDE_PATH "${VULKAN_ROOT}/Include" CACHE INTERNAL "")
+        message("vulkan " ${VULKAN_INCLUDE_PATH})
+    elseif(UNIX)
+    endif()
+endif()
+if (USE_VULKAN)
+    target_link_libraries(${PROJECT_NAME} 
+    PUBLIC
+        # debug ${NCNN_LIBRARIES_DEBUG}
+	    # optimized ${NCNN_LIBRARIES}
+        "$<IF:$<CONFIG:Debug>,${NCNN_LIBRARIES_DEBUG},${NCNN_LIBRARIES}>"
+        debug ${OPENCV_LIBRARIES_DEBUG}
+	    optimized ${OPENCV_LIBRARIES}
+        # debug ${VULKAN_LIBRARIES_DEBUG}
+        # optimized ${VULKAN_LIBRARIES}
+        "$<IF:$<CONFIG:Debug>,${VULKAN_LIBRARIES_DEBUG},${VULKAN_LIBRARIES}>"
+    ) 
+else()
+    target_link_libraries(${PROJECT_NAME} 
+    PUBLIC
+	    debug ${NCNN_LIBRARIES_DEBUG}
+	    optimized ${NCNN_LIBRARIES}
+        debug ${OPENCV_LIBRARIES_DEBUG}
+	    optimized ${OPENCV_LIBRARIES}
+    ) 
+endif()
+
+Tencent/ncnn/wiki/how-to-build[https://github.com/Tencent/ncnn/wiki/how-to-build]
+Git clone ncnn repo with submodule
+git clone https://github.com/Tencent/ncnn.git
+cd ncnn
+git submodule update --init
+Build for Linux
+Install required build dependencies:
+git
+g++
+cmake
+protocol buffer (protobuf) headers files and protobuf compiler
+(optional) LLVM OpenMP header files # If building with Clang, and multithreaded CPU inference is desired
+(optional) opencv # For building examples
+Generally if you have Intel, AMD or Nvidia GPU from last 10 years, Vulkan can be easily used.
+On some systems there are no Vulkan drivers easily available at the moment (October 2020), so you might need to disable use of Vulkan on them. This applies to Raspberry Pi 3 (but there is experimental open source Vulkan driver in the works, which is not ready yet). Nvidia Tegra series devices (like Nvidia Jetson) should support Vulkan. Ensure you have most recent software installed for best experience.
+On Debian, Ubuntu, or Raspberry Pi OS, you can install all required dependencies using:
+sudo apt install build-essential git cmake libprotobuf-dev protobuf-compiler libomp-dev libopencv-dev
+On Redhat or Centos, you can install all required dependencies using:
+sudo yum install build-essential git cmake libprotobuf-dev protobuf-compiler libopencv-dev
+To use Vulkan after building ncnn later, you will also need to have Vulkan driver for your GPU. For AMD and Intel GPUs these can be found in Mesa graphics driver, which usually is installed by default on all distros (i.e. sudo apt install mesa-vulkan-drivers on Debian/Ubuntu). For Nvidia GPUs the proprietary Nvidia driver must be downloaded and installed (some distros will allow easier installation in some way). After installing Vulkan driver, confirm Vulkan libraries and driver are working, by using vulkaninfo or vulkaninfo | grep deviceType, it should list GPU device type. If there are more than one GPU installed (including the case of integrated GPU and discrete GPU, commonly found in laptops), you might need to note the order of devices to use later on.
+Nvidia Jetson
+The Vulkan driver is a default component of the Linux For Tegra BSP release, check the device list.
+cd ncnn
+mkdir -p build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../toolchains/jetson.toolchain.cmake -DNCNN_VULKAN=ON -DNCNN_BUILD_EXAMPLES=ON ..
+make -j$(nproc)
+Raspberry Pi
+Vulkan drivers do exists, but are not mature. You are free to experiment at your own discretion, and report results and performance.
+cd ncnn
+mkdir -p build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DNCNN_VULKAN=ON -DNCNN_BUILD_EXAMPLES=ON ..
+make -j$(nproc)
+You can add -GNinja to cmake above to use Ninja build system (invoke build using ninja or cmake --build .).
+For Raspberry Pi 3 on 32bit OS, add -DCMAKE_TOOLCHAIN_FILE=../toolchains/pi3.toolchain.cmake to cmake. You can also consider disabling Vulkan support as the Vulkan drivers for Raspberry Pi are still not mature, but it doesn't hurt to build the support in, but not use it.
+POWER
+For POWER9 with Clang:
+cd ncnn
+mkdir -p build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../toolchains/power9le-linux-gnu-vsx.clang.toolchain.cmake -DNCNN_VULKAN=ON -DNCNN_BUILD_EXAMPLES=ON ..
+make -j$(nproc)
+To use GCC instead, use the power9le-linux-gnu-vsx.toolchain.cmake toolchain file instead. Note that according to benchmarks, Clang appears to produce noticeably faster CPU inference than GCC for POWER9 targets. For fastest inference, use Clang 18 or higher; earlier versions of Clang may have impaired inference speed due to Bug 49864 and Bug 64664.
+For POWER8 instead of POWER9, use the power8le-linux-gnu-vsx.clang.toolchain.cmake or power8le-linux-gnu-vsx.toolchain.cmake toolchain file instead. POWER8 will be slower than POWER9.
+Note that the POWER toolchain files only support little-endian mode.
+Intel oneAPI
+Besides the prerequests in this section, Intel oneAPI BaseKit and HPCKit should be installed. They are available from https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit.html and https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit.html freely.
+Intel oneAPI offers two kinds of compilers, the classic icc/icpc and the LLVM based icx/icpx. To build with these compilers, add CC=icc CXX=icpc or CC=icx CXX=icpx before the cmake command. When compiling with icc/icpc, cmake will warn that xop, avx512, and bf16 extensions are not supported by the compiler, while icx/icpx works well.
+Both of these compilers have been tested and passed the ncnn benchmark successfully. The results have been included in ncnn benchmark readme. Generally, icx/icpx are likely to show better performance than icc/icpc and the quantized models can benefit from the extensions icx/icpx supports.
+Cross compile: Riscv-gnu-toolchain
+Before compiling the whole project, toolchain must be installed. Reference: Riscv-gnu-toolchain build guide
+# configure with vector extension.
+./configure --prefix=/opt/riscv --enable-multilib --with-arch=rv64gcv
+# configure without vector extension.
+./configure --prefix=/opt/riscv --enable-multilib --with-arch=rv64gc
+# it takes quite a long time:(
+sudo make linux
+Now you can build the project:
+mkdir build-riscv
+cd build-riscv
+cmake -DDCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../toolchains/riscv64-unknown-linux-gnu.toolchain.cmake -DNCNN_BUILD_EXAMPLES=ON ..
+make -j$(nproc) # or `make -j2` if your cpu isn't powerful enough.
+Verification
+Verify build by running some examples:
+cd ../examples
+../build/examples/squeezenet ../images/256-ncnn.png
+[0 AMD RADV FIJI (LLVM 10.0.1)]  queueC=1[4]  queueG=0[1]  queueT=0[1]
+[0 AMD RADV FIJI (LLVM 10.0.1)]  bugsbn1=0  buglbia=0  bugcopc=0  bugihfa=0
+[0 AMD RADV FIJI (LLVM 10.0.1)]  fp16p=1  fp16s=1  fp16a=0  int8s=1  int8a=1
+532 = 0.163452
+920 = 0.093140
+716 = 0.061584
+You can also run benchmarks (the 4th argument is a GPU device index to use, refer to vulkaninfo, if you have more than one GPU):
+cd ../benchmark
+../build/benchmark/benchncnn 10 $(nproc) 0 0
+[0 AMD RADV FIJI (LLVM 10.0.1)]  queueC=1[4]  queueG=0[1]  queueT=0[1]
+[0 AMD RADV FIJI (LLVM 10.0.1)]  bugsbn1=0  buglbia=0  bugcopc=0  bugihfa=0
+[0 AMD RADV FIJI (LLVM 10.0.1)]  fp16p=1  fp16s=1  fp16a=0  int8s=1  int8a=1
+num_threads = 4
+powersave = 0
+gpu_device = 0
+cooling_down = 1
+          squeezenet  min =    4.68  max =    4.99  avg =    4.85
+     squeezenet_int8  min =   38.52  max =   66.90  avg =   48.52
+...
+To run benchmarks on a CPU, set the 5th argument to -1.
+Build for Windows x64 using Visual Studio Community 2017
+Download and Install Visual Studio Community 2017 from https://visualstudio.microsoft.com/vs/community/
+Start the command prompt: Start → Programs → Visual Studio 2017 → Visual Studio Tools → x64 Native Tools Command Prompt for VS 2017
+You can also search x64 Native Tools Command Prompt for VS 2017 directly.
+Download protobuf-3.11.2 from https://github.com/google/protobuf/archive/v3.11.2.zip
+Build protobuf library:
+cd <protobuf-root-dir>
+mkdir protobuf_build
+cd protobuf_build
+cmake -A x64 -DCMAKE_INSTALL_PREFIX=%cd%/install -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF ../cmake
+cmake --build . --config Release -j 2
+cmake --build . --config Release --target install
+Build ncnn library (replace <protobuf-root-dir> with a proper path):
+cd <ncnn-root-dir>
+mkdir -p protobuf_build
+cd protobuf_build
+cmake -A x64 -DCMAKE_INSTALL_PREFIX=%cd%/install -Dprotobuf_DIR=<protobuf-root-dir>/protobuf_build/install/cmake -DNCNN_VULKAN=ON ..
+cmake --build . --config Release -j 2
+cmake --build . --config Release --target install
+Note: To speed up compilation process on multi core machines, configuring cmake to use jom or ninja using -G flag is recommended.
+Note: For protobuf >=22.0 (Take v25.3 for example):
+Build zlib:
+git clone -b -v1.3.1 https://github.com/madler/zlib.git
+cd zlib
+mkdir build
+cd build
+cmake -A x64 -DCMAKE_INSTALL_PREFIX=%cd%/install ..
+cmake --build . --config Release -j 2
+cmake --build . --config Release --target install
+Build protobuf library (replace <zlib-root-dir> with a proper path):
+git clone -b v25.3 https://github.com/protocolbuffers/protobuf.git
+cd protobuf
+git submodule update --init --recursive
+mkdir protobuf_build
+cd protobuf_build
+cmake -A x64 -DCMAKE_INSTALL_PREFIX=%cd%/install -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -DZLIB_INCLUDE_DIR=<zlib-root-dir>\build\install\include -DZLIB_LIBRARY=<zlib-root-dir>\build\install\lib\zlib.lib -DABSL_PROPAGATE_CXX_STD=ON ../cmake
+cmake --build . --config Release -j 2
+cmake --build . --config Release --target install
+Build ncnn library (replace <zlib-root-dir> and <protobuf-root-dir> with a proper path):
+cd <ncnn-root-dir>
+mkdir -p build
+cd build
+cmake -A x64 -DCMAKE_INSTALL_PREFIX=%cd%/install -DCMAKE_PREFIX_PATH=<protobuf-root-dir>/protobuf_build\install\cmake -DZLIB_INCLUDE_DIR=<zlib-root-dir>\build\install\include -DZLIB_LIBRARY=<zlib-root-dir>\build\install\lib\zlib.lib -Dabsl_DIR=<protobuf-root-dir>/protobuf_build\install\lib\cmake\absl -Dutf8_range_DIR=<protobuf-root-dir>/protobuf_build\install\lib\cmake\utf8_range -DNCNN_VULKAN=ON ..
+cmake --build . --config Release -j 2
+cmake --build . --config Release --target install
+Build for Windows x64 using MinGW-w64
+Download MinGW-w64 toolchain from winlibs or w64devkit, add bin folder to environment variables.
+Build ncnn library:
+cd <ncnn-root-dir>
+mkdir build
+cd build
+cmake -DNCNN_VULKAN=ON -G "MinGW Makefiles" ..
+cmake --build . --config Release -j 4
+cmake --build . --config Release --target install
+Build for macOS
+We've published ncnn to brew now, you can just use following method to install ncnn if you have the Xcode Command Line Tools installed.
+brew update
+brew install ncnn
+Or if you want to compile and build ncnn locally, first install Xcode or Xcode Command Line Tools according to your needs.
+Then install protobuf and libomp via homebrew
+brew install protobuf libomp
+Download and install Vulkan SDK from https://vulkan.lunarg.com/sdk/home
+wget https://sdk.lunarg.com/sdk/download/1.3.280.1/mac/vulkansdk-macos-1.3.280.1.dmg -O vulkansdk-macos-1.3.280.1.dmg
+hdiutil attach vulkansdk-macos-1.3.280.1.dmg
+sudo /Volumes/vulkansdk-macos-1.3.280.1/InstallVulkan.app/Contents/MacOS/InstallVulkan --root `pwd`/vulkansdk-macos-1.3.280.1 --accept-licenses --default-answer --confirm-command install
+hdiutil detach /Volumes/vulkansdk-macos-1.3.280.1
+# setup env
+export VULKAN_SDK=`pwd`/vulkansdk-macos-1.3.280.1/macOS
+cd <ncnn-root-dir>
+mkdir -p build
+cd build
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/ios.toolchain.cmake -DPLATFORM=MAC -DARCHS="x86_64;arm64" \
+    -DVulkan_LIBRARY=`pwd`/../vulkansdk-macos-1.3.280.1/macOS/lib/libMoltenVK.dylib \
+    -DNCNN_VULKAN=ON -DNCNN_BUILD_EXAMPLES=ON ..
+cmake --build . -j 4
+cmake --build . --target install
+Note: If you encounter libomp related errors during installation, you can also check our GitHub Actions at here to install and use openmp.
+Build for ARM Cortex-A family with cross-compiling
+Download ARM toolchain from https://developer.arm.com/open-source/gnu-toolchain/gnu-a/downloads
+export PATH="<your-toolchain-compiler-path>:${PATH}"
+Alternatively install a cross-compiler provided by the distribution (i.e. on Debian / Ubuntu, you can do sudo apt install g++-arm-linux-gnueabi g++-arm-linux-gnueabihf g++-aarch64-linux-gnu).
+Depending on your needs build one or more of the below targets.
+AArch32 target with soft float (arm-linux-gnueabi)
+cd <ncnn-root-dir>
+mkdir -p build-arm-linux-gnueabi
+cd build-arm-linux-gnueabi
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/arm-linux-gnueabi.toolchain.cmake ..
+make -j$(nproc)
+AArch32 target with hard float (arm-linux-gnueabihf)
+cd <ncnn-root-dir>
+mkdir -p build-arm-linux-gnueabihf
+cd build-arm-linux-gnueabihf
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/arm-linux-gnueabihf.toolchain.cmake ..
+make -j$(nproc)
+AArch64 GNU/Linux target (aarch64-linux-gnu)
+cd <ncnn-root-dir>
+mkdir -p build-aarch64-linux-gnu
+cd build-aarch64-linux-gnu
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/aarch64-linux-gnu.toolchain.cmake ..
+make -j$(nproc)
+Build for Hisilicon platform with cross-compiling
+Download and install Hisilicon SDK. The toolchain should be in /opt/hisi-linux/x86-arm
+cd <ncnn-root-dir>
+mkdir -p build
+cd build
+# Choose one cmake toolchain file depends on your target platform
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/hisiv300.toolchain.cmake ..
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/hisiv500.toolchain.cmake ..
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/himix100.toolchain.cmake ..
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/himix200.toolchain.cmake ..
+make -j$(nproc)
+make install
+Build for Android
+You can use the pre-build ncnn-android-lib.zip from https://github.com/Tencent/ncnn/releases
+Download Android NDK from http://developer.android.com/ndk/downloads/index.html and install it, for example:
+unzip android-ndk-r21d-linux-x86_64.zip
+export ANDROID_NDK=<your-ndk-root-path>
+(optional) remove the hardcoded debug flag in Android NDK android-ndk issue
+# open $ANDROID_NDK/build/cmake/android.toolchain.cmake for ndk < r23
+# or $ANDROID_NDK/build/cmake/android-legacy.toolchain.cmake for ndk >= r23
+# delete "-g" line
+list(APPEND ANDROID_COMPILER_FLAGS
+  -g
+  -DANDROID
+Build armv7 library
+cd <ncnn-root-dir>
+mkdir -p build-android-armv7
+cd build-android-armv7
+cmake -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK/build/cmake/android.toolchain.cmake" \
+    -DANDROID_ABI="armeabi-v7a" -DANDROID_ARM_NEON=ON \
+    -DANDROID_PLATFORM=android-14 -DNCNN_VULKAN=ON ..
+# If you use cmake >= 3.21 and ndk-r23
+# you need to add -DANDROID_USE_LEGACY_TOOLCHAIN_FILE=False option for working optimization flags
+make -j$(nproc)
+make install
+Pick build-android-armv7/install folder for further JNI usage.
+Build aarch64 library:
+cd <ncnn-root-dir>
+mkdir -p build-android-aarch64
+cd build-android-aarch64
+cmake -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK/build/cmake/android.toolchain.cmake"\
+    -DANDROID_ABI="arm64-v8a" \
+    -DANDROID_PLATFORM=android-21 -DNCNN_VULKAN=ON ..
+# If you use cmake >= 3.21 and ndk-r23
+# you need to add -DANDROID_USE_LEGACY_TOOLCHAIN_FILE=False option for working optimization flags
+make -j$(nproc)
+make install
+Pick build-android-aarch64/install folder for further JNI usage.
+Build for iOS on macOS with xcode
+You can use the pre-build ncnn.framework glslang.framework and openmp.framework from https://github.com/Tencent/ncnn/releases
+Install xcode
+You can replace -DENABLE_BITCODE=0 to -DENABLE_BITCODE=1 in the following cmake arguments if you want to build bitcode enabled libraries.
+Download and install openmp for multithreading inference feature on iPhoneOS
+wget https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/openmp-11.0.0.src.tar.xz
+tar -xf openmp-11.0.0.src.tar.xz
+cd openmp-11.0.0.src
+# apply some compilation fix
+sed -i'' -e '/.size __kmp_unnamed_critical_addr/d' runtime/src/z_Linux_asm.S
+sed -i'' -e 's/__kmp_unnamed_critical_addr/___kmp_unnamed_critical_addr/g' runtime/src/z_Linux_asm.S
+mkdir -p build-ios
+cd build-ios
+cmake -DCMAKE_TOOLCHAIN_FILE=<ncnn-root-dir>/toolchains/ios.toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=install \
+    -DPLATFORM=OS64 -DENABLE_BITCODE=0 -DENABLE_ARC=0 -DENABLE_VISIBILITY=0 -DARCHS="arm64;arm64e" \
+    -DPERL_EXECUTABLE=/usr/local/bin/perl \
+    -DLIBOMP_ENABLE_SHARED=OFF -DLIBOMP_OMPT_SUPPORT=OFF -DLIBOMP_USE_HWLOC=OFF ..
+cmake --build . -j 4
+cmake --build . --target install
+# copy openmp library and header files to xcode toolchain sysroot
+# <xcode-dir> is usually /Applications/Xcode.app or /Applications/Xcode-beta.app depends on your Xcode version
+sudo cp install/include/* <xcode-dir>/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include
+sudo cp install/lib/libomp.a <xcode-dir>/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib
+Download and install openmp for multithreading inference feature on iPhoneSimulator
+wget https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/openmp-11.0.0.src.tar.xz
+tar -xf openmp-11.0.0.src.tar.xz
+cd openmp-11.0.0.src
+# apply some compilation fix
+sed -i'' -e '/.size __kmp_unnamed_critical_addr/d' runtime/src/z_Linux_asm.S
+sed -i'' -e 's/__kmp_unnamed_critical_addr/___kmp_unnamed_critical_addr/g' runtime/src/z_Linux_asm.S
+mkdir -p build-ios-sim
+cd build-ios-sim
+cmake -DCMAKE_TOOLCHAIN_FILE=<ncnn-root-dir>/toolchains/ios.toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=install \
+    -DPLATFORM=SIMULATORARM64 -DENABLE_BITCODE=0 -DENABLE_ARC=0 -DENABLE_VISIBILITY=0 -DARCHS="x86_64;arm64" \
+    -DPERL_EXECUTABLE=/usr/local/bin/perl \
+    -DLIBOMP_ENABLE_SHARED=OFF -DLIBOMP_OMPT_SUPPORT=OFF -DLIBOMP_USE_HWLOC=OFF ..
+cmake --build . -j 4
+cmake --build . --target install
+# copy openmp library and header files to xcode toolchain sysroot
+# <xcode-dir> is usually /Applications/Xcode.app or /Applications/Xcode-beta.app depends on your Xcode version
+sudo cp install/include/* <xcode-dir>/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/include
+sudo cp install/lib/libomp.a <xcode-dir>/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib
+Package openmp framework:
+cd <openmp-root-dir>
+mkdir -p openmp.framework/Versions/A/Headers
+mkdir -p openmp.framework/Versions/A/Resources
+ln -s A openmp.framework/Versions/Current
+ln -s Versions/Current/Headers openmp.framework/Headers
+ln -s Versions/Current/Resources openmp.framework/Resources
+ln -s Versions/Current/openmp openmp.framework/openmp
+lipo -create build-ios/install/lib/libomp.a build-ios-sim/install/lib/libomp.a -o openmp.framework/Versions/A/openmp
+cp -r build-ios/install/include/* openmp.framework/Versions/A/Headers/
+sed -e 's/__NAME__/openmp/g' -e 's/__IDENTIFIER__/org.llvm.openmp/g' -e 's/__VERSION__/11.0/g' <ncnn-root-dir>/Info.plist > openmp.framework/Versions/A/Resources/Info.plist
+Download and install Vulkan SDK from https://vulkan.lunarg.com/sdk/home
+wget https://sdk.lunarg.com/sdk/download/1.2.189.0/mac/vulkansdk-macos-1.2.189.0.dmg?Human=true -O vulkansdk-macos-1.2.189.0.dmg
+hdiutil attach vulkansdk-macos-1.2.189.0.dmg
+sudo /Volumes/vulkansdk-macos-1.2.189.0/InstallVulkan.app/Contents/MacOS/InstallVulkan --root `pwd`/vulkansdk-macos-1.2.189.0 --accept-licenses --default-answer --confirm-command install
+hdiutil detach /Volumes/vulkansdk-macos-1.2.189.0
+# setup env
+export VULKAN_SDK=`pwd`/vulkansdk-macos-1.2.189.0/macOS
+Build library for iPhoneOS:
+cd <ncnn-root-dir>
+git submodule update --init
+mkdir -p build-ios
+cd build-ios
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/ios.toolchain.cmake -DPLATFORM=OS64 -DARCHS="arm64;arm64e" \
+    -DENABLE_BITCODE=0 -DENABLE_ARC=0 -DENABLE_VISIBILITY=0 \
+    -DOpenMP_C_FLAGS="-Xclang -fopenmp" -DOpenMP_CXX_FLAGS="-Xclang -fopenmp" \
+    -DOpenMP_C_LIB_NAMES="libomp" -DOpenMP_CXX_LIB_NAMES="libomp" \
+    -DOpenMP_libomp_LIBRARY="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libomp.a" \
+    -DNCNN_VULKAN=ON -DNCNN_BUILD_BENCHMARK=OFF ..
+cmake --build . -j 4
+cmake --build . --target install
+Build library for iPhoneSimulator:
+cd <ncnn-root-dir>
+mkdir -p build-ios-sim
+cd build-ios-sim
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/ios.toolchain.cmake -DPLATFORM=SIMULATORARM64 -DARCHS="x86_64;arm64" \
+    -DENABLE_BITCODE=0 -DENABLE_ARC=0 -DENABLE_VISIBILITY=0 \
+    -DOpenMP_C_FLAGS="-Xclang -fopenmp" -DOpenMP_CXX_FLAGS="-Xclang -fopenmp" \
+    -DOpenMP_C_LIB_NAMES="libomp" -DOpenMP_CXX_LIB_NAMES="libomp" \
+    -DOpenMP_libomp_LIBRARY="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/libomp.a" \
+    -DNCNN_BUILD_BENCHMARK=OFF ..
+cmake --build . -j 4
+cmake --build . --target install
+Package glslang framework for iPhoneOS:
+cd <ncnn-root-dir>
+mkdir -p glslang.framework/Versions/A/Headers
+mkdir -p glslang.framework/Versions/A/Resources
+ln -s A glslang.framework/Versions/Current
+ln -s Versions/Current/Headers glslang.framework/Headers
+ln -s Versions/Current/Resources glslang.framework/Resources
+ln -s Versions/Current/glslang glslang.framework/glslang
+libtool -static build-ios/install/lib/libglslang.a build-ios/install/lib/libSPIRV.a -o build-ios/install/lib/libglslang_combined.a
+lipo -create build-ios/install/lib/libglslang_combined.a -o glslang.framework/Versions/A/glslang
+cp -r build/install/include/glslang glslang.framework/Versions/A/Headers/
+sed -e 's/__NAME__/glslang/g' -e 's/__IDENTIFIER__/org.khronos.glslang/g' -e 's/__VERSION__/1.0/g' Info.plist > glslang.framework/Versions/A/Resources/Info.plist
+Package ncnn framework for iPhoneOS:
+cd <ncnn-root-dir>
+mkdir -p ncnn.framework/Versions/A/Headers
+mkdir -p ncnn.framework/Versions/A/Resources
+ln -s A ncnn.framework/Versions/Current
+ln -s Versions/Current/Headers ncnn.framework/Headers
+ln -s Versions/Current/Resources ncnn.framework/Resources
+ln -s Versions/Current/ncnn ncnn.framework/ncnn
+lipo -create build-ios/install/lib/libncnn.a -o ncnn.framework/Versions/A/ncnn
+cp -r build-ios/install/include/* ncnn.framework/Versions/A/Headers/
+sed -e 's/__NAME__/ncnn/g' -e 's/__IDENTIFIER__/com.tencent.ncnn/g' -e 's/__VERSION__/1.0/g' Info.plist > ncnn.framework/Versions/A/Resources/Info.plist
+Pick ncnn.framework glslang.framework and openmp.framework folder for app development.
+Build for WebAssembly
+Install Emscripten
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+./emsdk install 3.1.28
+./emsdk activate 3.1.28
+source emsdk_env.sh
+Build without any extension for general compatibility:
+mkdir -p build
+cd build
+cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+    -DNCNN_THREADS=OFF -DNCNN_OPENMP=OFF -DNCNN_SIMPLEOMP=OFF -DNCNN_SIMPLEOCV=ON -DNCNN_RUNTIME_CPU=OFF -DNCNN_SSE2=OFF -DNCNN_AVX2=OFF -DNCNN_AVX=OFF \
+    -DNCNN_BUILD_TOOLS=OFF -DNCNN_BUILD_EXAMPLES=OFF -DNCNN_BUILD_BENCHMARK=OFF ..
+cmake --build . -j 4
+cmake --build . --target install
+Build with WASM SIMD extension:
+mkdir -p build-simd
+cd build-simd
+cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+    -DNCNN_THREADS=OFF -DNCNN_OPENMP=OFF -DNCNN_SIMPLEOMP=OFF -DNCNN_SIMPLEOCV=ON -DNCNN_RUNTIME_CPU=OFF -DNCNN_SSE2=ON -DNCNN_AVX2=OFF -DNCNN_AVX=OFF \
+    -DNCNN_BUILD_TOOLS=OFF -DNCNN_BUILD_EXAMPLES=OFF -DNCNN_BUILD_BENCHMARK=OFF ..
+cmake --build . -j 4
+cmake --build . --target install
+Build with WASM Thread extension:
+mkdir -p build-threads
+cd build-threads
+cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+    -DNCNN_THREADS=ON -DNCNN_OPENMP=ON -DNCNN_SIMPLEOMP=ON -DNCNN_SIMPLEOCV=ON -DNCNN_RUNTIME_CPU=OFF -DNCNN_SSE2=OFF -DNCNN_AVX2=OFF -DNCNN_AVX=OFF \
+    -DNCNN_BUILD_TOOLS=OFF -DNCNN_BUILD_EXAMPLES=OFF -DNCNN_BUILD_BENCHMARK=OFF ..
+cmake --build . -j 4
+cmake --build . --target install
+Build with WASM SIMD and Thread extension:
+mkdir -p build-simd-threads
+cd build-simd-threads
+cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+    -DNCNN_THREADS=ON -DNCNN_OPENMP=ON -DNCNN_SIMPLEOMP=ON -DNCNN_SIMPLEOCV=ON -DNCNN_RUNTIME_CPU=OFF -DNCNN_SSE2=ON -DNCNN_AVX2=OFF -DNCNN_AVX=OFF \
+    -DNCNN_BUILD_TOOLS=OFF -DNCNN_BUILD_EXAMPLES=OFF -DNCNN_BUILD_BENCHMARK=OFF ..
+cmake --build . -j 4
+cmake --build . --target install
+Pick build-XYZ/install folder for further usage.
+Build for AllWinner D1
+Download c906 toolchain package from https://www.xrvm.cn/community/download?id=4453617141140230144
+tar -xf Xuantie-900-gcc-linux-6.6.0-glibc-x86_64-V3.1.0-20250522.tar.gz
+export RISCV_ROOT_PATH=/home/nihui/osd/Xuantie-900-gcc-linux-6.6.0-glibc-x86_64-V3.1.0
+Build ncnn with riscv-v vector and simpleocv enabled:
+mkdir -p build-c906
+cd build-c906
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/c906-v310.toolchain.cmake \
+    -DCMAKE_BUILD_TYPE=release -DNCNN_OPENMP=OFF -DNCNN_THREADS=OFF -DNCNN_RUNTIME_CPU=OFF -DNCNN_RVV=OFF -DNCNN_XTHEADVECTOR=ON -DNCNN_ZFH=ON -DNCNN_ZVFH=OFF \
+    -DNCNN_SIMPLEOCV=ON -DNCNN_BUILD_EXAMPLES=ON ..
+cmake --build . -j 4
+cmake --build . --target install
+Pick build-c906/install folder for further usage.
+You can upload binary inside build-c906/examples folder and run on D1 board for testing.
+Build for Loongson 2K1000
+For gcc version < 8.5, you need to fix msa.h header for workaround msa fmadd/fmsub/maddv/msubv bug.
+Open /usr/lib/gcc/mips64el-linux-gnuabi64/8/include/msa.h, find __msa_fmadd and __msa_fmsub and apply changes as the following
+// #define __msa_fmadd_w __builtin_msa_fmadd_w
+// #define __msa_fmadd_d __builtin_msa_fmadd_d
+// #define __msa_fmsub_w __builtin_msa_fmsub_w
+// #define __msa_fmsub_d __builtin_msa_fmsub_d
+#define __msa_fmadd_w(a, b, c) __builtin_msa_fmadd_w(c, b, a)
+#define __msa_fmadd_d(a, b, c) __builtin_msa_fmadd_d(c, b, a)
+#define __msa_fmsub_w(a, b, c) __builtin_msa_fmsub_w(c, b, a)
+#define __msa_fmsub_d(a, b, c) __builtin_msa_fmsub_d(c, b, a)
+find __msa_maddv and __msa_msubv and apply changes as the following
+// #define __msa_maddv_b __builtin_msa_maddv_b
+// #define __msa_maddv_h __builtin_msa_maddv_h
+// #define __msa_maddv_w __builtin_msa_maddv_w
+// #define __msa_maddv_d __builtin_msa_maddv_d
+// #define __msa_msubv_b __builtin_msa_msubv_b
+// #define __msa_msubv_h __builtin_msa_msubv_h
+// #define __msa_msubv_w __builtin_msa_msubv_w
+// #define __msa_msubv_d __builtin_msa_msubv_d
+#define __msa_maddv_b(a, b, c) __builtin_msa_maddv_b(c, b, a)
+#define __msa_maddv_h(a, b, c) __builtin_msa_maddv_h(c, b, a)
+#define __msa_maddv_w(a, b, c) __builtin_msa_maddv_w(c, b, a)
+#define __msa_maddv_d(a, b, c) __builtin_msa_maddv_d(c, b, a)
+#define __msa_msubv_b(a, b, c) __builtin_msa_msubv_b(c, b, a)
+#define __msa_msubv_h(a, b, c) __builtin_msa_msubv_h(c, b, a)
+#define __msa_msubv_w(a, b, c) __builtin_msa_msubv_w(c, b, a)
+#define __msa_msubv_d(a, b, c) __builtin_msa_msubv_d(c, b, a)
+Build ncnn with mips msa and simpleocv enabled:
+mkdir -p build
+cd build
+cmake -DNCNN_DISABLE_RTTI=ON -DNCNN_DISABLE_EXCEPTION=ON -DNCNN_RUNTIME_CPU=OFF -DNCNN_MSA=ON -DNCNN_MMI=ON -DNCNN_SIMPLEOCV=ON ..
+cmake --build . -j 2
+cmake --build . --target install
+Pick build/install folder for further usage.
+You can run binary inside build/examples folder for testing.
+Build for Termux on Android
+Install app Termux on your phone,and install Ubuntu in Termux.
+If you want use ssh, just install openssh in Termux
+pkg install proot-distro
+proot-distro install ubuntu
+or you can see what system can be installed using proot-distro list
+while you install ubuntu successfully, using proot-distro login ubuntu to login Ubuntu.
+Then make ncnn,no need to install any other dependencies.
+git clone https://github.com/Tencent/ncnn.git
+cd ncnn
+git submodule update --init
+mkdir -p build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DNCNN_BUILD_EXAMPLES=ON -DNCNN_PLATFORM_API=OFF -DNCNN_SIMPLEOCV=ON ..
+make -j$(nproc)
+Then you can run a test
+on my Pixel 3 XL using Qualcomm 845,cant load 256-ncnn.png
+cd ../examples
+../build/examples/squeezenet ../images/128-ncnn.png
+Build for QNX
+Request license and download SDP from QNX Software Center: https://www.qnx.com/products/everywhere/ .
+Setup QNX environment by invoking SDP's bundled script:
+on Windows, open cmd and run
+call C:\Users\zz\qnx800\qnxsdp-env.bat
+on Linux, use /bin/bash and run
+source /home/zz/qnx800/qnxsdp-env.sh
+If it gives error cannot find ld on Linux, solve it by creaing link file:
+cd ${QNX_HOST}/usr/bin/
+ln -s aarch64-unknown-nto-qnx7.1.0-ld ld
+Build ncnn with cmake in same shell:
+git clone https://github.com/Tencent/ncnn.git
+cd ncnn
+git submodule update --init
+mkdir -p build-qnx
+cd build-qnx
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../toolchains/aarch64-qnx.toolchain.cmake ..
+make -j$(nproc)
+make install
+Pick build-qnx/install folder for further usage.
+Build for Nintendo 3DS Homebrew Launcher
+Install DevkitPRO toolchains
+If you are working on windows, download DevkitPro installer from DevkitPro.
+If you are using Ubuntu, the official guidelines from DevkitPro might not work for you. Try using the lines below to install
+sudo apt-get update
+sudo apt-get upgrade
+wget https://apt.devkitpro.org/install-devkitpro-pacman
+chmod +x ./install-devkitpro-pacman
+sudo ./install-devkitpro-pacman
+export DEVKITPRO=/opt/devkitpro
+export DEVKITARM=/opt/devkitpro/devkitARM
+export DEVKITPPC=/opt/devkitpro/devkitPPC
+export export PATH=$/opt/devkitpro/tools/bin:$PATH
+source ~/.profile
+sudo dkp-pacman -Sy
+sudo dkp-pacman -Syu
+sudo dkp-pacman -S 3ds-dev
+Copy the toolchain files from 3DS-cmake(DevitARM3DS.cmake and the cmake folder) to NCNN's toolchains folder.
+├── toolchains
+│   ├── cmake
+│   │   ├── bin2s_header.h.in
+│   │   ├── FindCITRO3D.cmake
+│   │   ├── FindCTRULIB.cmake
+│   │   ├── FindFreetype.cmake
+│   │   ├── FindJPEG.cmake
+│   │   ├── FindPNG.cmake
+│   │   ├── FindSF2D.cmake
+│   │   ├── FindSFIL.cmake
+│   │   ├── FindSFTD.cmake
+│   │   ├── FindZLIB.cmake
+│   │   ├── LibFindMacros.cmake
+│   │   ├── Tools3DS.cmake
+│   │   ├── ToolsGBA.cmake
+│   │   └── try_add_imported_target.cmake
+│   ├── DevkitArm3DS.cmake
+...
+Build with:
+cd ncnn
+mkdir build && cd build
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/DevkitArm3DS.cmake .. -DNCNN_SIMPLEOCV=ON -DNCNN_OPENMP=OFF -DNCNN_VFPV4=OFF ..
+make -j4
+make install
+Modify the Makefile in Homebrew example to link and use NCNN in your 3DS Homebrew app.
+Build for HarmonyOS with cross-compiling
+Download and install HarmonyOS SDK. The sdk installation directory is /opt/ohos-sdk/linux
+cd <ncnn-root-dir>
+mkdir -p build
+cd build
+export HM_SDK=/opt/ohos-sdk/linux
+# Choose HarmonyOS sdk cmake toolchain file.
+# If you want to enable vulkan, set -DNCNN_VULKAN=ON
+# The HarmonyOS sdk does not support openmp, use ncnn simpleomp instead.
+# Cross-compiling with CMake must use the one provided by the HarmonyOS SDK; otherwise, it won't recognize parameters like OHOS_PLATFORM, leading to compilation errors.
+${HM_SDK}/native/build-tools/cmake/bin/cmake -DOHOS_STL=c++_static -DOHOS_ARCH=arm64-v8a -DOHOS_PLATFORM=OHOS -DCMAKE_TOOLCHAIN_FILE=${HM_SDK}/native/build/cmake/ohos.toolchain.cmake -DNCNN_VULKAN=ON -DNCNN_SIMPLEOMP=ON ..
+make -j$(nproc)
+make install
+Build for ESP32 with cross-compiling
+Download esp-idf sdk
+git clone https://github.com/espressif/esp-idf
+cd esp-idf
+git submodule update --init --recursive
+Install esp-idf sdk and configure the environment
+sudo sh install.sh
+source export.sh
+Note: python>=3.8, cmake>=3.24.0
+Build ncnn library:
+mkdir build-esp32
+cd build-esp32
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/esp32.toolchain.cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j 4
+make install
+Note: Make sure to compile in esp-idf environment.
+The compiled ncnn library and headers can be put to the esp32 project to test.
 
 smali文件语法手册
 0.类型
@@ -9237,6 +11384,9 @@ smali中的函数和成员变量也分为两种，分别为 direct 和 virtual
 #include <unordered_set>
 #endif
 
+
+1.小红书，密码为xhsdev，选择sqlcipher3直接解密
+2.微信的imei，现在可以通过files/KeyInfo.bin获取了，需要解密文件，算法为RC4，密钥为_wEcHAT_
 
 常用网站
 https://www.iopq.net/forum.php?mod=forumdisplay&fid=79&filter=author&orderby=dateline
